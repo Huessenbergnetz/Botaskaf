@@ -1,0 +1,103 @@
+# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de>
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+cmake_minimum_required(VERSION 3.20)
+
+project(Botaskaf
+  VERSION 0.0.1
+  DESCRIPTION "Cutelyst based endpoint for contact forms on static websites."
+  HOMEPAGE_URL https://github.com/Huessenbergnetz/Botaskaf
+  LANGUAGES CXX
+)
+
+find_package(Qt6 COMPONENTS Core Network REQUIRED)
+find_package(Cutelyst4Qt6 REQUIRED)
+find_package(Cutelee6Qt6 REQUIRED)
+# find_package(Cutelyst4Qt6Forms REQUIRED)
+# find_package(Cutelyst4Qt6Botan REQUIRED)
+find_package(FirfuoridaQt6 REQUIRED)
+find_package(SimpleMail2Qt6 REQUIRED)
+
+# Auto generate moc files
+set(CMAKE_AUTOMOC ON)
+
+# As moc files are generated in the binary dir, tell CMake
+# to always look for includes there:
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+include(GNUInstallDirs)
+
+option(BUILD_SHARED_LIBS "Build in shared lib mode" ON)
+option(ENABLE_MAINTAINER_CFLAGS "Enable maintainer CFlags" OFF)
+option(BUILD_TESTS "Build the Botaskaf tests" OFF)
+
+set(HBNBOTA_APPDIR ${CMAKE_INSTALL_DATADIR}/botaskaf CACHE PATH "Directory to install Botaskaf data files into")
+set(HBNBOTA_TEMPLATESDIR ${HBNBOTA_APPDIR}/templates CACHE PATH "Directory to install Botaskaf template files into")
+set(HBNBOTA_TRANSLATIONSDIR ${HBNBOTA_APPDIR}/translations CACHE PATH "Directory to install Botaskaf translation files into")
+set(HBNBOTA_CONFFILE ${CMAKE_INSTALL_SYSCONFDIR}/botaskaf.ini CACHE FILEPATH "Path to the main configuration file")
+
+GNUInstallDirs_get_absolute_install_dir(HBNBOTA_FULL_TRANSLATIONSDIR HBNBOTA_TRANSLATIONSDIR DATADIR)
+GNUInstallDirs_get_absolute_install_dir(HBNBOTA_FULL_TEMPLATESDIR HBNBOTA_TEMPLATESDIR DATADIR)
+
+add_compile_definitions(
+    QT_NO_CAST_TO_ASCII
+    QT_NO_CAST_FROM_ASCII
+    QT_STRICT_ITERATORS
+    QT_NO_URL_CAST_FROM_STRING
+    QT_NO_CAST_FROM_BYTEARRAY
+    QT_USE_QSTRINGBUILDER
+    HBNBOTA_VERSION="${PROJECT_VERSION}"
+    HBNBOTA_TRANSLATIONSDIR="${HBNBOTA_FULL_TRANSLATIONSDIR}"
+    HBNBOTA_TEMPLATESDIR="${HBNBOTA_FULL_TEMPLATESDIR}"
+)
+
+if(WIN32)
+    if(MSVC)
+        add_compile_definitions(
+            _SCL_SECURE_NO_WARNINGS
+            _CRT_SECURE_NO_DEPRECATE
+        )
+    endif()
+endif()
+
+if(ENABLE_MAINTAINER_CFLAGS)
+    add_compile_definitions(QT_DEPRECATED_WARNINGS)
+
+    if(NOT MSVC)
+        add_compile_options(
+            -Wall
+            -Wextra
+            -Wcast-align
+            -Wno-uninitialized
+            -Wempty-body
+            -Wformat-security
+            -Wformat
+            -Winit-self
+            -Wunused-variable
+        )
+    endif()
+
+    if(APPLE)
+        add_compile_options(-Wweak-vtables)
+    endif()
+endif()
+
+# Enable -Werror
+if(NOT MSVC OR IS_CLANG_BUILD) # clang-cl accepts these too
+    add_compile_options(-Werror -Wundef -Wno-error=deprecated-declarations)
+endif()
+
+option(BUILD_TESTS "Build the tests" OFF)
+if (BUILD_TESTS)
+    find_package(Qt6 COMPONENTS Test REQUIRED)
+    enable_testing()
+endif (BUILD_TESTS)
+
+add_subdirectory(app)
+if (BUILD_TESTS)
+    add_subdirectory(tests)
+endif (BUILD_TESTS)

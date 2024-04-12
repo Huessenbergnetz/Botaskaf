@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de>
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+add_library(Botaskaf SHARED)
+
+target_sources(Botaskaf
+    PRIVATE
+        botaskaf.cpp
+        botaskaf.h
+)
+
+add_subdirectory(controllers)
+
+target_link_libraries(Botaskaf
+    PRIVATE
+        Qt::Core
+        Qt::Network
+        Qt::Sql
+        SimpleMail::Core
+        Cutelyst::Core
+        Cutelyst::Session
+        Cutelyst::Authentication
+        Cutelyst::StatusMessage
+        Cutelyst::View::Cutelee
+        Cutelyst::StaticSimple
+        Cutelyst::StaticCompressed
+        Cutelyst::Utils::Validator
+        Cutelyst::Utils::Sql
+        Cutelyst::Utils::Pagination
+        Cutelyst::Utils::LangSelect
+        Cutelyst::Memcached
+        Cutelyst::MemcachedSessionStore
+        Cutelyst::CSRFProtection
+        Cutelee::Templates
+)
+
+install(TARGETS Botaskaf DESTINATION ${CMAKE_INSTALL_LIBDIR}/cutelyst${Cutelyst3Qt6_VERSION_MAJOR}-qt6-apps)
