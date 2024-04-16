@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de>
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+QT_LOGGING_RULES="*.debug=false;cutelyst.*.debug=true;hbnbota.*.debug=true;simplemail.*.debug=true" /usr/bin/cutelystd4-qt6 --ini @HBNBOTA_FULL_CONFFILE@ -a @CMAKE_CURRENT_BINARY_DIR@/app/libBotaskaf.so -r -M --lazy --h1 localhost:3000
