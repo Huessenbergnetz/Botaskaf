@@ -32,8 +32,8 @@ Q_LOGGING_CATEGORY(HBNBOTA_CORE, "hbnbota.core", QtInfoMsg)
 
 using namespace Qt::Literals::StringLiterals;
 
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 static QMutex mutex; // clazy:exclude=non-pod-global-static
-                     // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
 Botaskaf::Botaskaf(QObject *parent)
     : Application(parent)
