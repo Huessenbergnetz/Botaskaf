@@ -14,6 +14,7 @@ target_sources(Botaskaf
 )
 
 add_subdirectory(controllers)
+add_subdirectory(objects)
 add_subdirectory(migrations)
 
 target_link_libraries(Botaskaf
