@@ -7,9 +7,14 @@ target_sources(Botaskaf
     PRIVATE
         botaskaf.cpp
         botaskaf.h
+        logging.h
+        confignames.h.in
+        settings.h
+        settings.cpp
 )
 
 add_subdirectory(controllers)
+add_subdirectory(migrations)
 
 target_link_libraries(Botaskaf
     PRIVATE
@@ -17,6 +22,7 @@ target_link_libraries(Botaskaf
         Qt::Network
         Qt::Sql
         SimpleMail::Core
+        FirfuoridaQt6::Core
         Cutelyst::Core
         Cutelyst::Session
         Cutelyst::Authentication
@@ -33,5 +39,7 @@ target_link_libraries(Botaskaf
         Cutelyst::CSRFProtection
         Cutelee::Templates
 )
+
+configure_file(confignames.h.in confignames.h)
 
 install(TARGETS Botaskaf DESTINATION ${CMAKE_INSTALL_LIBDIR}/cutelyst${Cutelyst3Qt6_VERSION_MAJOR}-qt6-apps)

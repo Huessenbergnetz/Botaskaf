@@ -10,11 +10,11 @@ project(Botaskaf
   LANGUAGES CXX
 )
 
-find_package(Qt6 COMPONENTS Core Network REQUIRED)
+find_package(Qt6 6.4.0 COMPONENTS Core Network REQUIRED)
 find_package(Cutelyst4Qt6 REQUIRED)
 find_package(Cutelee6Qt6 REQUIRED)
-# find_package(Cutelyst4Qt6Forms REQUIRED)
-# find_package(Cutelyst4Qt6Botan REQUIRED)
+find_package(Cutelyst4Qt6Forms REQUIRED)
+find_package(Cutelyst4Qt6Botan REQUIRED)
 find_package(FirfuoridaQt6 REQUIRED)
 find_package(SimpleMail2Qt6 REQUIRED)
 
@@ -96,6 +96,21 @@ endif()
 if(NOT MSVC OR IS_CLANG_BUILD) # clang-cl accepts these too
     add_compile_options(-Werror -Wundef -Wno-error=deprecated-declarations)
 endif()
+
+# Set configuration key names and default values
+
+set(HBNBOTA_CONF_DB "database")
+set(HBNBOTA_CONF_DB_TYPE "type")
+set(HBNBOTA_CONF_DB_TYPE_DEFVAL "QSQLITE")
+set(HBNBOTA_CONF_DB_HOST "host")
+set(HBNBOTA_CONF_DB_HOST_DEFVAL "localhost")
+set(HBNBOTA_CONF_DB_USER "user")
+set(HBNBOTA_CONF_DB_USER_DEFVAL "botaskaf")
+set(HBNBOTA_CONF_DB_PASS "password")
+set(HBNBOTA_CONF_DB_NAME "name")
+set(HBNBOTA_CONF_DB_NAME_DEFVAL "")
+set(HBNBOTA_CONF_DB_PORT "port")
+set(HBNBOTA_CONF_DB_PORT_DEFVAL 3306)
 
 option(BUILD_TESTS "Build the tests" OFF)
 if (BUILD_TESTS)

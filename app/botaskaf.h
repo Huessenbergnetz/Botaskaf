@@ -10,15 +10,22 @@
 
 using namespace Cutelyst;
 
-class Botaskaf : public Application
+class Botaskaf final : public Application
 {
     Q_OBJECT
     CUTELYST_APPLICATION(IID "Botaskaf")
+    Q_DISABLE_COPY(Botaskaf)
 public:
     Q_INVOKABLE explicit Botaskaf(QObject *parent = nullptr);
-    ~Botaskaf();
+    ~Botaskaf() override = default;
 
-    bool init();
+    bool init() override;
+
+    bool postFork() override;
+
+private:
+    [[nodiscard]] bool connectDb(const QString &conName = QString()) const;
+    [[nodiscard]] bool initializeDb(const QString &conName) const;
 };
 
 #endif // HBNBOTA_BOTASKAF_H
