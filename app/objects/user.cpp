@@ -163,6 +163,16 @@ QVariant User::setting(const QString &key, const QVariant &defValue) const
     return data ? data->settings.value(key, defValue) : QVariant();
 }
 
+QString User::timezone() const
+{
+    return setting(u"timezone"_s, u"UTC"_s).toString();
+}
+
+QString User::locale() const
+{
+    return setting(u"locale"_s, u"en_US"_s).toString();
+}
+
 bool User::isAdmin() const noexcept
 {
     return data && data->type >= Administrator;

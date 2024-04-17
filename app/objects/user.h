@@ -72,6 +72,14 @@ class User
      */
     Q_PROPERTY(QVariantMap settings READ settings CONSTANT)
     /*!
+     * \brief IANA time zone ID the user uses.
+     */
+    Q_PROPERTY(QString timezone READ timezone CONSTANT)
+    /*!
+     * \brief Locale of the user in the form language_TERRITORY.
+     */
+    Q_PROPERTY(QString locale READ locale CONSTANT)
+    /*!
      * \brief \c true if this user is an administrator, otherwise \c false.
      */
     Q_PROPERTY(bool isAdmin READ isAdmin CONSTANT)
@@ -221,9 +229,24 @@ public:
      * \brief Returns a specific settings value for this user identified by \a key.
      *
      * If \a key is not present in the settings and \a defValue is given, this will
-     * be returned instead.
+     * be returned instead. If this user object is a null object, an invalid variant
+     * will be returned.
      */
     [[nodiscard]] QVariant setting(const QString &key, const QVariant &defValue = QVariant()) const;
+
+    /*!
+     * \brief Returns the time zone the user uses as IANA time zone ID.
+     *
+     * Defaults to \c 'UTC'. On a null user an empty string will be returned.
+     */
+    [[nodiscard]] QString timezone() const;
+
+    /*!
+     * \brief Returns the locale the user uses in the form of \c language_TERRITORY.
+     *
+     * Defaults to \c 'en_US'. On a null user an empty string will be returned.
+     */
+    [[nodiscard]] QString locale() const;
 
     /*!
      * \brief Returns \c true if this user is of type Administrator or higher.
