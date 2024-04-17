@@ -112,13 +112,10 @@ set(HBNBOTA_CONF_DB_NAME_DEFVAL "")
 set(HBNBOTA_CONF_DB_PORT "port")
 set(HBNBOTA_CONF_DB_PORT_DEFVAL 3306)
 
-option(BUILD_TESTS "Build the tests" OFF)
+add_subdirectory(app)
+
 if (BUILD_TESTS)
     find_package(Qt6 COMPONENTS Test REQUIRED)
     enable_testing()
-endif (BUILD_TESTS)
-
-add_subdirectory(app)
-if (BUILD_TESTS)
     add_subdirectory(tests)
 endif (BUILD_TESTS)
