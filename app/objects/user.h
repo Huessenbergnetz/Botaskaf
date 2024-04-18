@@ -302,7 +302,7 @@ public:
     /*!
      * \brief Converts \a str to enum Type.
      */
-    static Type typeStringToEnum(const QString &str);
+    static Type typeStringToEnum(QStringView str);
 
     /*!
      * \brief Converts enum \y type to a string.
@@ -349,16 +349,6 @@ public:
      * and success by setting \a *ok to \c true.
      */
     static dbid_t toDbId(const QVariant &var, bool *ok = nullptr);
-
-    /*!
-     * \brief Returns \a str converted to dbid_t.
-     *
-     * Returns \c 0 if the conversion fails.
-     *
-     * If \a ok is not \c nullptr, failure is reported by setting \a *ok to \c false,
-     * and success by setting \a *ok to \c true.
-     */
-    static dbid_t toDbId(const QString &str, bool *ok = nullptr);
 
 private:
     QSharedDataPointer<UserData> data;

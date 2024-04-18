@@ -258,17 +258,17 @@ bool User::operator==(const User &other) const noexcept
     return true;
 }
 
-User::Type User::typeStringToEnum(const QString &str)
+User::Type User::typeStringToEnum(QStringView str)
 {
-    if (str.compare("disabled"_L1, Qt::CaseInsensitive) == 0) {
+    if (str.compare(u"disabled", Qt::CaseInsensitive) == 0) {
         return User::Disabled;
-    } else if (str.compare("registered"_L1, Qt::CaseInsensitive) == 0) {
+    } else if (str.compare(u"registered", Qt::CaseInsensitive) == 0) {
         return User::Registered;
-    } else if (str.compare("manager"_L1, Qt::CaseInsensitive) == 0) {
+    } else if (str.compare(u"manager", Qt::CaseInsensitive) == 0) {
         return User::Manager;
-    } else if (str.compare("administrator"_L1, Qt::CaseInsensitive) == 0) {
+    } else if (str.compare(u"administrator", Qt::CaseInsensitive) == 0) {
         return User::Administrator;
-    } else if (str.compare("superuser"_L1, Qt::CaseInsensitive) == 0) {
+    } else if (str.compare(u"superuser", Qt::CaseInsensitive) == 0) {
         return User::SuperUser;
     } else {
         return User::Invalid;
@@ -357,22 +357,6 @@ User::dbid_t User::toDbId(const QVariant &var, bool *ok)
 {
     bool _ok      = false;
     const auto id = var.toULongLong(&_ok);
-
-    if (_ok) {
-        return toDbId(id, ok);
-    }
-
-    if (ok) {
-        *ok = false;
-    }
-
-    return 0;
-}
-
-User::dbid_t User::toDbId(const QString &str, bool *ok)
-{
-    bool _ok      = false;
-    const auto id = str.toULongLong(&_ok);
 
     if (_ok) {
         return toDbId(id, ok);
