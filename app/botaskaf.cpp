@@ -9,6 +9,7 @@
 #include "controllers/login.h"
 #include "controllers/logout.h"
 #include "controllers/root.h"
+#include "controllers/setup.h"
 #include "logging.h"
 #include "migrations/m0001_create_users_table.h"
 #include "settings.h"
@@ -30,6 +31,7 @@
 #include <Cutelyst/Plugins/Utils/Validator>
 #include <Cutelyst/Plugins/View/Cutelee/cuteleeview.h>
 #include <CutelystBotan/credentialbotan.h>
+#include <CutelystForms/forms.h>
 #include <Firfuorida/Migrator>
 #include <cutelee/engine.h>
 
@@ -64,7 +66,7 @@ bool Botaskaf::init()
     const auto supportedLocals =
         loadTranslationsFromDir(u"botaskaf"_s, QStringLiteral(HBNBOTA_TRANSLATIONSDIR));
 
-    if (Q_UNLIKELY(!Settings::load())) {
+    if (Q_UNLIKELY(!Settings::load(engine()->config(QStringLiteral(HBNBOTA_CONF_CORE))))) {
         return false;
     }
 
@@ -88,14 +90,34 @@ bool Botaskaf::init()
 #endif
     qCDebug(HBNBOTA_CORE) << "View cache enabled:" << viewCache;
 
-    new Root(this);
-    new Login(this);
-    new Logout(this);
+    auto view = new CuteleeView(this);
+    view->setCache(viewCache);
+    view->setWrapper(u"wrapper.html"_s);
+    view->setIncludePaths({Settings::tmplPath(u"site"_s)});
+    view->engine()->addDefaultLibrary(u"cutelee_i18ntags"_s);
+    qCDebug(HBNBOTA_CORE) << "Template include paths:" << view->includePaths();
+
+    if (!Settings::setupToken().isEmpty()) {
+        new Setup(this);
+    } else {
+        new Root(this);
+        new Login(this);
+        new Logout(this);
+    }
+
+    auto stat = new StaticSimple(this); // NOLINT(cppcoreguidelines-owning-memory)
+    stat->setIncludePaths({Settings::tmplPath(u"static"_s)});
+    stat->setDirs({u"css"_s, u"js"_s, u"fonts"_s});
+    stat->setServeDirsOnly(true);
+    qCDebug(HBNBOTA_CORE) << "Static file paths:" << Settings::tmplPath(u"static"_s);
 
     auto sess = new Session(this); // NOLINT(cppcoreguidelines-owning-memory)
     sess->setStorage(std::make_unique<SessionStoreFile>(sess));
 
     new StatusMessage(this);
+
+    auto forms = new CutelystForms::Forms(this);
+    forms->setIncludePaths({QStringLiteral(HBNBOTA_FORMSDIR)});
 
     auto authn = new Authentication(this);
     authn->addRealm(std::make_shared<UserAuthStoreSql>(),

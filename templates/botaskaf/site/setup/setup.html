@@ -1,0 +1,38 @@
+{# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de> #}
+{# SPDX-License-Identifier: AGPL-3.0-or-later #}
+
+{% include "header.html" %}
+
+<body>
+    <main class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8 offset-lg-2 mt-5">
+
+                <div class="card">
+                    <h1 class="card-header h3">{{ translations.title }}</h1>
+                    <div class="card-body">
+                        <p class="card-text">{{ translations.description }}</p>
+                        <form method="post">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">{{ translations.form.emailLabel }}</label>
+                                <input type="email" id="email" class="form-control" aria-describedby="emailHelpBlock" required autocomplete="email">
+                                <div id="emailHelpBlock" class="form-text">{{ translations.form.emailDesc }}</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label">{{ translations.form.passwordLabel }}</label>
+                                <input type="password" id="password" class="form-control" aria-describedby="passwordHelpBlock" required autocomplete="new-password">
+                                <div id="passwordHelpBlock" class="form-text">{{ translations.form.passwordDesc }}</div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">{{ translations.form.button }}</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div> <!-- col -->
+        </div> <!-- row -->
+    </main>
+</body>
+
+{% include  "footer.html" %}

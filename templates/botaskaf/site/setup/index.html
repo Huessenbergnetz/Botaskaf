@@ -1,0 +1,29 @@
+{# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de> #}
+{# SPDX-License-Identifier: AGPL-3.0-or-later #}
+
+{% include "header.html" %}
+
+<body>
+    <main class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8 offset-lg-2 mt-5">
+
+                <div class="card">
+                    <h1 class="card-header h3">{{ form.label }}</h1>
+                    <div class="card-body">
+                        <p class="card-text">{{ form.description }}</p>
+                        <form method="post">
+                            {% with form.fieldById.setuptoken as field %}
+                            <input class="form-control mb-4" type="{{ field.typeString }}" placeholder="{{ field.label }}" aria-label="{{ field.label }}" required autocomplete="off" name="setuptoken">
+                            {% endwith %}
+                            <button type="submit" class="btn btn-primary">{{ form.buttonById.submitBtn.text }}</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div> <!-- col -->
+        </div> <!-- row -->
+    </main>
+</body>
+
+{% include  "footer.html" %}

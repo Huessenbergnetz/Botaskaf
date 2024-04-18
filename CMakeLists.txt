@@ -38,10 +38,12 @@ option(BUILD_TESTS "Build the Botaskaf tests" OFF)
 set(HBNBOTA_APPDIR ${CMAKE_INSTALL_DATADIR}/botaskaf CACHE PATH "Directory to install Botaskaf data files into")
 set(HBNBOTA_TEMPLATESDIR ${HBNBOTA_APPDIR}/templates CACHE PATH "Directory to install Botaskaf template files into")
 set(HBNBOTA_TRANSLATIONSDIR ${HBNBOTA_APPDIR}/translations CACHE PATH "Directory to install Botaskaf translation files into")
+set(HBNBOTA_FORMSDIR ${HBNBOTA_APPDIR}/forms CACHE PATH "Directory to install Botaskaf form files into")
 set(HBNBOTA_CONFFILE ${CMAKE_INSTALL_SYSCONFDIR}/botaskaf.ini CACHE FILEPATH "Path to the main configuration file")
 
 GNUInstallDirs_get_absolute_install_dir(HBNBOTA_FULL_TRANSLATIONSDIR HBNBOTA_TRANSLATIONSDIR DATADIR)
 GNUInstallDirs_get_absolute_install_dir(HBNBOTA_FULL_TEMPLATESDIR HBNBOTA_TEMPLATESDIR DATADIR)
+GNUInstallDirs_get_absolute_install_dir(HBNBOTA_FULL_FORMSDIR HBNBOTA_FORMSDIR DATADIR)
 GNUInstallDirs_get_absolute_install_dir(HBNBOTA_FULL_CONFFILE HBNBOTA_CONFFILE DATADIR)
 
 configure_file(testApp.sh.in testApp.sh
@@ -59,6 +61,7 @@ add_compile_definitions(
     HBNBOTA_VERSION="${PROJECT_VERSION}"
     HBNBOTA_TRANSLATIONSDIR="${HBNBOTA_FULL_TRANSLATIONSDIR}"
     HBNBOTA_TEMPLATESDIR="${HBNBOTA_FULL_TEMPLATESDIR}"
+    HBNBOTA_FORMSDIR="${HBNBOTA_FULL_FORMSDIR}"
 )
 
 if(WIN32)
@@ -112,7 +115,14 @@ set(HBNBOTA_CONF_DB_NAME_DEFVAL "")
 set(HBNBOTA_CONF_DB_PORT "port")
 set(HBNBOTA_CONF_DB_PORT_DEFVAL 3306)
 
+set(HBNBOTA_CONF_CORE "core")
+set(HBNBOTA_CONF_CORE_SETUPTOKEN "setuptoken")
+set(HBNBOTA_CONF_CORE_TEMPLATE "template")
+set(HBNBOTA_CONF_CORE_TEMPLATE_DEFVAL "botaskaf")
+
 add_subdirectory(app)
+add_subdirectory(templates)
+add_subdirectory(forms)
 
 if (BUILD_TESTS)
     find_package(Qt6 COMPONENTS Test REQUIRED)

@@ -1,0 +1,7 @@
+# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+static/
+node_modules/
+mix-manifest.json

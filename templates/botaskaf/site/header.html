@@ -1,0 +1,20 @@
+{# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de> #}
+{# SPDX-License-Identifier: AGPL-3.0-or-later #}
+<!DOCTYPE html>
+<html lang="{{ c_langselect_lang }}" data-timezone="{{ user.timezone|default:default_timezone }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% if site_subtitle %}{{ site_subtitle }} – {% endif %}{{ site_title }} – {{ site_name }}</title>
+
+        <link href="/css/style.css" rel="stylesheet">
+        <script async src="/js/es-module-shims.js"></script>
+        <script type="importmap">
+        {
+            "imports": {
+                "@popperjs/core": "/js/popper/popper.js?v=2.11.8"
+            }
+        }
+        </script>
+    </head>
