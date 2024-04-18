@@ -7,4 +7,6 @@ target_sources(Botaskaf
         root.h
         login.cpp
         login.h
+        logout.cpp
+        logout.h
 )

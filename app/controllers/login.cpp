@@ -14,3 +14,5 @@ void Login::index(Context *c)
 {
     c->response()->body() = "Login to Botaskaf!";
 }
+
+#include "moc_login.cpp"

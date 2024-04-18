@@ -7,6 +7,7 @@
 
 #include "confignames.h"
 #include "controllers/login.h"
+#include "controllers/logout.h"
 #include "controllers/root.h"
 #include "logging.h"
 #include "migrations/m0001_create_users_table.h"
@@ -89,6 +90,7 @@ bool Botaskaf::init()
 
     new Root(this);
     new Login(this);
+    new Logout(this);
 
     auto sess = new Session(this); // NOLINT(cppcoreguidelines-owning-memory)
     sess->setStorage(std::make_unique<SessionStoreFile>(sess));
@@ -242,3 +244,5 @@ bool Botaskaf::initializeDb(const QString &conName) const
 
     return true;
 }
+
+#include "moc_botaskaf.cpp"
