@@ -5,24 +5,42 @@
 
 #include "root.h"
 
-using namespace Cutelyst;
+#include <Cutelyst/Plugins/Authentication/authentication.h>
+
+using namespace Qt::Literals::StringLiterals;
 
 Root::Root(QObject *parent)
     : Controller(parent)
 {
 }
 
-Root::~Root()
-{
-}
-
 void Root::index(Context *c)
 {
-    c->response()->body() = "Welcome to Cutelyst!";
+    c->response()->body() = "Welcome to Botaskaf!";
 }
 
 void Root::defaultPage(Context *c)
 {
     c->response()->body() = "Page not found!";
-    c->response()->setStatus(404);
+    c->response()->setStatus(Response::NotFound);
+}
+
+bool Root::Auto(Context *c)
+{
+    if (c->controllerName() == "Login"_L1) {
+        return true;
+    }
+
+    if (c->controllerName() == "Logout"_L1) {
+        return true;
+    }
+
+    const auto user = Authentication::user(c);
+
+    if (Q_UNLIKELY(user.isNull())) {
+        c->res()->redirect(c->uriFor(u"/login"_s));
+        return false;
+    }
+
+    return true;
 }

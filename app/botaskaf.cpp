@@ -6,13 +6,29 @@
 #include "botaskaf.h"
 
 #include "confignames.h"
+#include "controllers/login.h"
 #include "controllers/root.h"
 #include "logging.h"
 #include "migrations/m0001_create_users_table.h"
 #include "settings.h"
+#include "userauthstoresql.h"
 
 #include <Cutelyst/Engine>
+#include <Cutelyst/Plugins/Authentication/authentication.h>
+#include <Cutelyst/Plugins/Authentication/authenticationrealm.h>
+#include <Cutelyst/Plugins/CSRFProtection/CSRFProtection>
+#include <Cutelyst/Plugins/Memcached/Memcached>
+#include <Cutelyst/Plugins/MemcachedSessionStore/MemcachedSessionStore>
+#include <Cutelyst/Plugins/Session/Session>
+#include <Cutelyst/Plugins/Session/sessionstorefile.h>
+#include <Cutelyst/Plugins/StaticCompressed/StaticCompressed>
+#include <Cutelyst/Plugins/StaticSimple/StaticSimple>
+#include <Cutelyst/Plugins/StatusMessage>
+#include <Cutelyst/Plugins/Utils/LangSelect>
 #include <Cutelyst/Plugins/Utils/Sql>
+#include <Cutelyst/Plugins/Utils/Validator>
+#include <Cutelyst/Plugins/View/Cutelee/cuteleeview.h>
+#include <CutelystBotan/credentialbotan.h>
 #include <Firfuorida/Migrator>
 #include <cutelee/engine.h>
 
@@ -72,6 +88,16 @@ bool Botaskaf::init()
     qCDebug(HBNBOTA_CORE) << "View cache enabled:" << viewCache;
 
     new Root(this);
+    new Login(this);
+
+    auto sess = new Session(this); // NOLINT(cppcoreguidelines-owning-memory)
+    sess->setStorage(std::make_unique<SessionStoreFile>(sess));
+
+    new StatusMessage(this);
+
+    auto authn = new Authentication(this);
+    authn->addRealm(std::make_shared<UserAuthStoreSql>(),
+                    std::make_shared<CutelystBotan::CredentialBotan>());
 
     return true;
 }

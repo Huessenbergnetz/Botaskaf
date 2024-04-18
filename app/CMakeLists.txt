@@ -11,6 +11,8 @@ target_sources(Botaskaf
         confignames.h.in
         settings.h
         settings.cpp
+        userauthstoresql.cpp
+        userauthstoresql.h
 )
 
 add_subdirectory(controllers)
@@ -39,6 +41,7 @@ target_link_libraries(Botaskaf
         Cutelyst::MemcachedSessionStore
         Cutelyst::CSRFProtection
         Cutelee::Templates
+        CutelystBotan::Core
 )
 
 configure_file(confignames.h.in confignames.h)

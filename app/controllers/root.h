@@ -10,13 +10,13 @@
 
 using namespace Cutelyst;
 
-class Root : public Controller
+class Root final : public Controller // NOLINT(cppcoreguidelines-special-member-functions)
 {
     Q_OBJECT
     C_NAMESPACE("")
 public:
     explicit Root(QObject *parent = nullptr);
-    ~Root();
+    ~Root() override = default;
 
     C_ATTR(index, :Path :AutoArgs)
     void index(Context *c);
@@ -27,6 +27,9 @@ public:
 private:
     C_ATTR(End, :ActionClass("RenderView"))
     void End(Context *c) { Q_UNUSED(c); }
+
+    C_ATTR(Auto, :Private)
+    bool Auto(Context *c);
 };
 
 #endif // HBNBOTA_ROOT_H

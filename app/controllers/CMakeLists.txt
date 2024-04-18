@@ -5,4 +5,6 @@ target_sources(Botaskaf
     PRIVATE
         root.cpp
         root.h
+        login.cpp
+        login.h
 )
