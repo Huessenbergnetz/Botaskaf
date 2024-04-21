@@ -63,7 +63,7 @@ Botaskaf::Botaskaf(QObject *parent)
 
 bool Botaskaf::init()
 {
-    const auto supportedLocals =
+    const auto supportedLocales =
         loadTranslationsFromDir(u"botaskaf"_s, QStringLiteral(HBNBOTA_TRANSLATIONSDIR));
 
     if (Q_UNLIKELY(!Settings::load(engine()->config(QStringLiteral(HBNBOTA_CONF_CORE))))) {
@@ -93,7 +93,8 @@ bool Botaskaf::init()
     auto view = new CuteleeView(this);
     view->setCache(viewCache);
     view->setWrapper(u"wrapper.html"_s);
-    view->setIncludePaths({Settings::tmplPath(u"site"_s)});
+    view->setIncludePaths({CutelystForms::Forms::templateDirPath(u"cutelee/bootstrap5"),
+                           Settings::tmplPath(u"site"_s)});
     view->engine()->addDefaultLibrary(u"cutelee_i18ntags"_s);
     qCDebug(HBNBOTA_CORE) << "Template include paths:" << view->includePaths();
 
@@ -113,6 +114,11 @@ bool Botaskaf::init()
 
     auto sess = new Session(this); // NOLINT(cppcoreguidelines-owning-memory)
     sess->setStorage(std::make_unique<SessionStoreFile>(sess));
+
+    auto lsp = new LangSelect(this, LangSelect::Session); // NOLINT(cppcoreguidelines-owning-memory)
+    lsp->setFallbackLocale(QLocale(QLocale::English, QLocale::UnitedStates));
+    lsp->setSupportedLocales(supportedLocales);
+    lsp->setSessionKey(u"lang"_s);
 
     new StatusMessage(this);
 

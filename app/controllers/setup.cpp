@@ -46,21 +46,10 @@ void Setup::index(Context *c)
 
     auto form = CutelystForms::Forms::getForm(u"setup/index"_s, c);
 
-    c->stash(
-        {{u"template"_s, u"setup/index.html"_s},
-         //% "Welcome"
-         {u"site_subtitle"_s, c->qtTrId("hbnbota_setup_index_subtitle")},
-         {u"form"_s, QVariant::fromValue<CutelystForms::Form *>(form)},
-         {u"translations"_s,
-          QVariantMap({//% "Welcome to the Botaskaf setup"
-                       {u"title"_s, c->qtTrId("hbnbota_setup_index_title")},
-                       //% "To begin the setup process, please enter the keyword you set in your "
-                       //% "configuration file in the “core” section under the key “setuptoken”.
-                       {u"description"_s, c->qtTrId("hbnbota_setup_index_description")},
-                       //% "Setup token"
-                       {u"formfield"_s, c->qtTrId("hbnbota_setup_index_formfield")},
-                       //% "Next"
-                       {u"button"_s, c->qtTrId("hbnbota_general_next")}})}});
+    c->stash({{u"template"_s, u"setup/index.html"_s},
+              //% "Welcome"
+              {u"site_subtitle"_s, c->qtTrId("hbnbota_setup_index_subtitle")},
+              {u"form"_s, QVariant::fromValue<CutelystForms::Form *>(form)}});
 }
 
 void Setup::defaultPage(Context *c)
@@ -71,28 +60,9 @@ void Setup::defaultPage(Context *c)
 
 void Setup::setup(Context *c)
 {
-    c->stash(
-        {{u"template"_s, u"setup/setup.html"_s},
-         //% "Create User"
-         {u"site_subtitle"_s, c->qtTrId("hbnbota_setup_user_suptitle")},
-         {u"translations"_s,
-          QVariantMap(
-              {//% "Create your first user"
-               {u"title"_s, c->qtTrId("hbnbota_setup_user_title")},
-               //% "Your first user will be your super user that is the main admin for "
-               //% "this instance of Botaskaf."
-               {u"description"_s, c->qtTrId("hbnbota_setup_user_description")},
-               {u"form"_s,
-                QVariantMap({//% "Email address"
-                             {u"emailLabel"_s, c->qtTrId("hbnbota_general_user_email_label")},
-                             //% "The email address of the user. Will be used for login and "
-                             //% "notifications.
-                             {u"emailDesc"_s, c->qtTrId("hbnbota_general_user_email_desc")},
-                             //% "Password"
-                             {u"passwordLabel"_s, c->qtTrId("hbnbota_general_user_password_label")},
-                             //% "The password for the user."
-                             {u"passwordDesc"_s, c->qtTrId("hbnbota_general_user_password_desc")},
-                             {u"button"_s, c->qtTrId("hbnbota_general_next")}})}})}});
+    c->stash({{u"template"_s, u"setup/setup.html"_s},
+              //% "Create User"
+              {u"site_subtitle"_s, c->qtTrId("hbnbota_setup_user_suptitle")}});
 }
 
 bool Setup::Auto(Context *c)

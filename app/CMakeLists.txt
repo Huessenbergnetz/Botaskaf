@@ -48,3 +48,25 @@ target_link_libraries(Botaskaf
 configure_file(confignames.h.in confignames.h)
 
 install(TARGETS Botaskaf DESTINATION ${CMAKE_INSTALL_LIBDIR}/cutelyst${Cutelyst3Qt6_VERSION_MAJOR}-qt6-apps)
+
+set(Botaskaf_TS_FILES
+    ${CMAKE_SOURCE_DIR}/translations/botaskaf.en.ts
+    ${CMAKE_SOURCE_DIR}/translations/botaskaf.de.ts
+)
+
+set_source_files_properties(${Botaskaf_TS_FILES}
+    PROPERTIES OUTPUT_LOCATION "${CMAKE_BINARY_DIR}/translations"
+)
+
+qt_add_lupdate(Botaskaf
+    TS_FILES ${Botaskaf_TS_FILES}
+    OPTIONS -no-obsolete -locations none -source-language en
+)
+
+qt_add_lrelease(Botaskaf
+    TS_FILES ${Botaskaf_TS_FILES}
+    QM_FILES_OUTPUT_VARIABLE Botaskaf_QM_FILES
+    OPTIONS -idbased
+)
+
+install(FILES ${Botaskaf_QM_FILES} DESTINATION ${HBNBOTA_TRANSLATIONSDIR})

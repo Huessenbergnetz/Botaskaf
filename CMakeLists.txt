@@ -10,7 +10,7 @@ project(Botaskaf
   LANGUAGES CXX
 )
 
-find_package(Qt6 6.4.0 COMPONENTS Core Network REQUIRED)
+find_package(Qt6 6.4.0 COMPONENTS Core Network Sql LinguistTools REQUIRED)
 find_package(Cutelyst4Qt6 REQUIRED)
 find_package(Cutelee6Qt6 REQUIRED)
 find_package(Cutelyst4Qt6Forms REQUIRED)
