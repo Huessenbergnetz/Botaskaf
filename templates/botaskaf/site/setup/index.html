@@ -14,9 +14,9 @@
                         <p class="card-text">{{ form.description }}</p>
                         <form method="post">
                             {% with form.fieldById.setuptoken as field %}
-                            <input class="form-control mb-4" type="{{ field.typeString }}" placeholder="{{ field.label }}" aria-label="{{ field.label }}" required autocomplete="off" name="setuptoken">
+                            {% include "cutelystforms/input.html" %}
                             {% endwith %}
-                            <button type="submit" class="btn btn-primary">{{ form.buttonById.submitBtn.text }}</button>
+                            <button type="submit" class="btn btn-primary mt-3">{{ form.buttonById.submitBtn.text }}</button>
                         </form>
                     </div>
                 </div>
