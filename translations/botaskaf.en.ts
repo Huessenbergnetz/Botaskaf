@@ -15,5 +15,21 @@
         <source>Setup</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_form_setup_index_label">
+        <source>Welcome to the Botaskaf setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_setup_index_desc">
+        <source>To begin the setup process, please enter the keyword you set in your configuration file in the “core” section under the key “setuptoken”.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_setup_index_setuptoken_label">
+        <source>Setup token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_general_next">
+        <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

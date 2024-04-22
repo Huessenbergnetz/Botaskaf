@@ -20,8 +20,8 @@ Form {
     buttons: [
         Button {
             htmlId: "submitBtn"
+            //% "Next"
             text: cTrId("hbnbota_general_next")
         }
-
     ]
 }

@@ -122,7 +122,6 @@ set(HBNBOTA_CONF_CORE_TEMPLATE_DEFVAL "botaskaf")
 
 add_subdirectory(app)
 add_subdirectory(templates)
-add_subdirectory(forms)
 
 if (BUILD_TESTS)
     find_package(Qt6 COMPONENTS Test REQUIRED)

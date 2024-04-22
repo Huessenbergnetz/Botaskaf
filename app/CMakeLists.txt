@@ -18,6 +18,7 @@ target_sources(Botaskaf
 add_subdirectory(controllers)
 add_subdirectory(objects)
 add_subdirectory(migrations)
+add_subdirectory(forms)
 
 target_link_libraries(Botaskaf
     PRIVATE
@@ -60,7 +61,7 @@ set_source_files_properties(${Botaskaf_TS_FILES}
 
 qt_add_lupdate(Botaskaf
     TS_FILES ${Botaskaf_TS_FILES}
-    OPTIONS -no-obsolete -locations none -source-language en
+    OPTIONS -no-obsolete -locations none -source-language en -tr-function-alias qsTrId=cTrId
 )
 
 qt_add_lrelease(Botaskaf
