@@ -8,6 +8,7 @@ Form {
     //% "To begin the setup process, please enter the keyword you set in your "
     //% "configuration file in the “core” section under the key “setuptoken”."
     description: cTrId("hbnbota_form_setup_index_desc")
+    method: Form.Post
 
     TextForm {
         htmlId: "setuptoken"

@@ -9,23 +9,19 @@
             <div class="col-12 col-lg-8 offset-lg-2 mt-5">
 
                 <div class="card">
-                    <h1 class="card-header h3">{{ translations.title }}</h1>
+                    <h1 class="card-header h3">{{ form.label }}</h1>
                     <div class="card-body">
-                        <p class="card-text">{{ translations.description }}</p>
-                        <form method="post">
+                        <p class="card-text">{{ form.description }}</p>
+                        <form {{ form.attrs|safe }}>
+                            {% for field in form.fieldList %}
                             <div class="mb-3">
-                                <label for="email" class="form-label">{{ translations.form.emailLabel }}</label>
-                                <input type="email" id="email" class="form-control" aria-describedby="emailHelpBlock" required autocomplete="email">
-                                <div id="emailHelpBlock" class="form-text">{{ translations.form.emailDesc }}</div>
+                                {% include "cutelystforms/inputwithlabel.html" %}
                             </div>
+                            {% endfor %}
 
-                            <div class="mb-3">
-                                <label for="password" class="form-label">{{ translations.form.passwordLabel }}</label>
-                                <input type="password" id="password" class="form-control" aria-describedby="passwordHelpBlock" required autocomplete="new-password">
-                                <div id="passwordHelpBlock" class="form-text">{{ translations.form.passwordDesc }}</div>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">{{ translations.form.button }}</button>
+                            {% with form.buttonById.submitBtn as btn %}
+                            <button type="submit" class="btn btn-primary" {{ btn.attrs|safe }}>{{ btn.text }}</button>
+                            {% endwith %}
                         </form>
                     </div>
                 </div>

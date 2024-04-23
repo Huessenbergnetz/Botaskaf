@@ -12,7 +12,7 @@
                     <h1 class="card-header h3">{{ form.label }}</h1>
                     <div class="card-body">
                         <p class="card-text">{{ form.description }}</p>
-                        <form method="post">
+                        <form {{ form.attrs|safe }}>
                             {% with form.fieldById.setuptoken as field %}
                             {% include "cutelystforms/input.html" %}
                             {% endwith %}

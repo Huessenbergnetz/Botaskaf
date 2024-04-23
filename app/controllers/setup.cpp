@@ -63,9 +63,17 @@ void Setup::defaultPage(Context *c)
 
 void Setup::setup(Context *c)
 {
+    ValidatorResult vr;
+
+    auto form = CutelystForms::Forms::getForm(u"setup/setup.qml"_s, c);
+    if (!vr) {
+        form->setErrors(vr.errors());
+    }
+
     c->stash({{u"template"_s, u"setup/setup.html"_s},
               //% "Create User"
-              {u"site_subtitle"_s, c->qtTrId("hbnbota_setup_user_suptitle")}});
+              {u"site_subtitle"_s, c->qtTrId("hbnbota_setup_user_suptitle")},
+              {u"form"_s, QVariant::fromValue<CutelystForms::Form *>(form)}});
 }
 
 bool Setup::Auto(Context *c)

@@ -4,4 +4,5 @@
 target_sources(Botaskaf
     PRIVATE
         index.qml
+        setup.qml
 )
