@@ -26,12 +26,12 @@ Setup::Setup(QObject *parent)
 
 void Setup::index(Context *c)
 {
+    ValidatorResult vr;
     if (c->req()->isPost()) {
         static Validator v({new ValidatorRequired(u"setuptoken"_s),
                             new ValidatorAlphaDash(u"setuptoken"_s, true)});
 
-        const ValidatorResult vr =
-            v.validate(c, Validator::FillStashOnError | Validator::BodyParamsOnly);
+        vr = v.validate(c, Validator::FillStashOnError | Validator::BodyParamsOnly);
         if (vr) {
             if (vr.value(u"setuptoken"_s).toString() == Settings::setupToken()) {
                 QNetworkCookie cookie{"hbnbota_setuptoken"_ba, Settings::setupToken().toLatin1()};
@@ -44,7 +44,10 @@ void Setup::index(Context *c)
         }
     }
 
-    auto form = CutelystForms::Forms::getForm(u"setup/index"_s, c);
+    auto form = CutelystForms::Forms::getForm(u"setup/index.qml"_s, c);
+    if (!vr) {
+        form->setErrors(vr.errors());
+    }
 
     c->stash({{u"template"_s, u"setup/index.html"_s},
               //% "Welcome"

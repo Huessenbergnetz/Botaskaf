@@ -9,7 +9,7 @@ Form {
     //% "configuration file in the “core” section under the key “setuptoken”."
     description: cTrId("hbnbota_form_setup_index_desc")
 
-    TextInput {
+    TextForm {
         htmlId: "setuptoken"
         name: "setuptoken"
         required: true
@@ -18,7 +18,7 @@ Form {
     }
 
     buttons: [
-        Button {
+        FormButton {
             htmlId: "submitBtn"
             //% "Next"
             text: cTrId("hbnbota_general_next")
