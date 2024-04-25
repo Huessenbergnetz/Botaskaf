@@ -119,6 +119,8 @@ set(HBNBOTA_CONF_CORE "core")
 set(HBNBOTA_CONF_CORE_SETUPTOKEN "setuptoken")
 set(HBNBOTA_CONF_CORE_TEMPLATE "template")
 set(HBNBOTA_CONF_CORE_TEMPLATE_DEFVAL "botaskaf")
+set(HBNBOTA_CONF_CORE_STATICPLUGIN "staticplugin")
+set(HBNBOTA_CONF_CORE_STATICPLUGIN_DEFVAL "simple")
 
 add_subdirectory(app)
 add_subdirectory(templates)

@@ -9,6 +9,10 @@
 #include <QString>
 
 namespace Settings {
+Q_NAMESPACE
+
+enum class StaticPlugin : int { None = 0, Simple, Compressed };
+Q_ENUM_NS(StaticPlugin)
 
 bool load(const QVariantMap &core);
 
@@ -48,6 +52,11 @@ QString tmplPath(QStringView path);
  * \brief The main site name.
  */
 QString siteName();
+
+/*!
+ * \brief The static plugin to use.
+ */
+StaticPlugin staticPlugin();
 } // namespace Settings
 
 #endif // HBNBOTA_SETTINGS

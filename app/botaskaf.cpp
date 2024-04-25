@@ -106,11 +106,23 @@ bool Botaskaf::init()
         new Logout(this);
     }
 
-    auto stat = new StaticSimple(this); // NOLINT(cppcoreguidelines-owning-memory)
-    stat->setIncludePaths({Settings::tmplPath(u"static"_s)});
-    stat->setDirs({u"css"_s, u"js"_s, u"fonts"_s});
-    stat->setServeDirsOnly(true);
-    qCDebug(HBNBOTA_CORE) << "Static file paths:" << Settings::tmplPath(u"static"_s);
+    const auto statPluginType = Settings::staticPlugin();
+    qCDebug(HBNBOTA_CORE) << "Static plugin:" << statPluginType;
+    if (statPluginType != Settings::StaticPlugin::None) {
+        const QStringList staticIncPaths{Settings::tmplPath(u"static"_s)};
+        qCDebug(HBNBOTA_CORE) << "Static include paths:" << staticIncPaths;
+        if (statPluginType == Settings::StaticPlugin::Simple) {
+            auto stat = new StaticSimple(this); // NOLINT(cppcoreguidelines-owning-memory)
+            stat->setIncludePaths(staticIncPaths);
+            stat->setDirs({u"css"_s, u"js"_s, u"fonts"_s});
+            stat->setServeDirsOnly(true);
+        } else if (statPluginType == Settings::StaticPlugin::Compressed) {
+            auto stat = new StaticCompressed(this); // NOLINT(cppcoreguidelines-owning-memory)
+            stat->setIncludePaths(staticIncPaths);
+            stat->setDirs({u"css"_s, u"js"_s, u"fonts"_s});
+            stat->setServeDirsOnly(true);
+        }
+    }
 
     auto sess = new Session(this); // NOLINT(cppcoreguidelines-owning-memory)
     sess->setStorage(std::make_unique<SessionStoreFile>(sess));

@@ -28,6 +28,8 @@ struct SettingVals {
     QString setupToken;
     QString tmpl;
 
+    Settings::StaticPlugin staticPlugin{Settings::StaticPlugin::Simple};
+
     bool loaded{false};
 };
 
@@ -39,6 +41,22 @@ bool loadCore(const QVariantMap &core)
     cfg->tmpl       = core.value(QStringLiteral(HBNBOTA_CONF_CORE_TEMPLATE),
                            QStringLiteral(HBNBOTA_CONF_CORE_TEMPLATE_DEFVAL))
                     .toString();
+
+    const QString _statPlugin = core.value(QStringLiteral(HBNBOTA_CONF_CORE_STATICPLUGIN),
+                                           QStringLiteral(HBNBOTA_CONF_CORE_STATICPLUGIN_DEFVAL))
+                                    .toString();
+    if (_statPlugin.compare("none"_L1, Qt::CaseInsensitive) == 0) {
+        cfg->staticPlugin = Settings::StaticPlugin::None;
+    } else if (_statPlugin.compare("simple"_L1, Qt::CaseInsensitive) == 0) {
+        cfg->staticPlugin = Settings::StaticPlugin::Simple;
+    } else if (_statPlugin.compare("compressed"_L1, Qt::CaseInsensitive) == 0) {
+        cfg->staticPlugin = Settings::StaticPlugin::Compressed;
+    } else {
+        qCWarning(HBNBOTA_SETTINGS)
+            << "Invalid value for" << HBNBOTA_CONF_CORE_STATICPLUGIN << "in section"
+            << HBNBOTA_CONF_CORE
+            << ", using default value:" << HBNBOTA_CONF_CORE_STATICPLUGIN_DEFVAL;
+    }
 
     return true;
 }
@@ -89,4 +107,10 @@ QString Settings::tmplPath(QStringView path)
 QString Settings::siteName()
 {
     return u"Botaskaf"_s;
+}
+
+Settings::StaticPlugin Settings::staticPlugin()
+{
+    QReadLocker locker(&cfg->lock);
+    return cfg->staticPlugin;
 }
