@@ -29,6 +29,8 @@ struct SettingVals {
     QString tmpl;
 
     Settings::StaticPlugin staticPlugin{Settings::StaticPlugin::Simple};
+    Settings::Cache cache{Settings::Cache::None};
+    Settings::SessionStore sessionStore{Settings::SessionStore::File};
 
     bool loaded{false};
 };
@@ -56,6 +58,32 @@ bool loadCore(const QVariantMap &core)
             << "Invalid value for" << HBNBOTA_CONF_CORE_STATICPLUGIN << "in section"
             << HBNBOTA_CONF_CORE
             << ", using default value:" << HBNBOTA_CONF_CORE_STATICPLUGIN_DEFVAL;
+    }
+
+    const QString _cache = core.value(QStringLiteral(HBNBOTA_CONF_CORE_CACHE),
+                                      QStringLiteral(HBNBOTA_CONF_CORE_CACHE_DEFVAL))
+                               .toString();
+    if (_cache.compare("none"_L1, Qt::CaseInsensitive) == 0) {
+        cfg->cache = Settings::Cache::None;
+    } else if (_cache.compare("memcached"_L1, Qt::CaseInsensitive) == 0) {
+        cfg->cache = Settings::Cache::Memcached;
+    } else {
+        qCWarning(HBNBOTA_SETTINGS)
+            << "Invalid value for" << HBNBOTA_CONF_CORE_CACHE << "in section" << HBNBOTA_CONF_CORE
+            << ", using, default value:" << HBNBOTA_CONF_CORE_CACHE_DEFVAL;
+    }
+
+    const QString _sessionStore = core.value(QStringLiteral(HBNBOTA_CONF_CORE_SESSIONSTORE),
+                                             QStringLiteral(HBNBOTA_CONF_CORE_SESSIONSTORE_DEFVAL))
+                                      .toString();
+    if (_sessionStore.compare("file"_L1, Qt::CaseInsensitive) == 0) {
+        cfg->sessionStore = Settings::SessionStore::File;
+    } else if (_sessionStore.compare("memcached"_L1, Qt::CaseInsensitive) == 0) {
+        cfg->sessionStore = Settings::SessionStore::Memcached;
+    } else {
+        qCWarning(HBNBOTA_SETTINGS)
+            << "Invalid value for" << HBNBOTA_CONF_CORE_SESSIONSTORE << "in section"
+            << HBNBOTA_CONF_CORE << ", using default:" << HBNBOTA_CONF_CORE_SESSIONSTORE_DEFVAL;
     }
 
     return true;
@@ -113,4 +141,16 @@ Settings::StaticPlugin Settings::staticPlugin()
 {
     QReadLocker locker(&cfg->lock);
     return cfg->staticPlugin;
+}
+
+Settings::Cache Settings::cache()
+{
+    QReadLocker locker(&cfg->lock);
+    return cfg->cache;
+}
+
+Settings::SessionStore Settings::sessionStore()
+{
+    QReadLocker locker(&cfg->lock);
+    return cfg->sessionStore;
 }

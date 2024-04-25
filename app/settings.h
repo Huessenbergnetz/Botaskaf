@@ -14,6 +14,12 @@ Q_NAMESPACE
 enum class StaticPlugin : int { None = 0, Simple, Compressed };
 Q_ENUM_NS(StaticPlugin)
 
+enum class Cache : int { None = 0, Memcached };
+Q_ENUM_NS(Cache)
+
+enum class SessionStore : int { File = 0, Memcached };
+Q_ENUM_NS(SessionStore)
+
 bool load(const QVariantMap &core);
 
 /*!
@@ -57,6 +63,16 @@ QString siteName();
  * \brief The static plugin to use.
  */
 StaticPlugin staticPlugin();
+
+/*!
+ * \brief The cache type to use.
+ */
+Cache cache();
+
+/*!
+ * \brief The session store to use.
+ */
+SessionStore sessionStore();
 } // namespace Settings
 
 #endif // HBNBOTA_SETTINGS

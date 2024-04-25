@@ -124,8 +124,24 @@ bool Botaskaf::init()
         }
     }
 
+    const auto cacheType        = Settings::cache();
+    const auto sessionStoreType = Settings::sessionStore();
+
+    qCDebug(HBNBOTA_CORE) << "Cache:" << cacheType;
+    if (cacheType == Settings::Cache::Memcached ||
+        sessionStoreType == Settings::SessionStore::Memcached) {
+        auto memc = new Memcached(this); // NOLINT(cppcoreguidelines-owning-memory)
+        memc->setDefaultConfig({{u"binary_protocols"_s, true}});
+    }
+
     auto sess = new Session(this); // NOLINT(cppcoreguidelines-owning-memory)
-    sess->setStorage(std::make_unique<SessionStoreFile>(sess));
+
+    qCDebug(HBNBOTA_CORE) << "Session store:" << sessionStoreType;
+    if (sessionStoreType == Settings::SessionStore::Memcached) {
+        sess->setStorage(std::make_unique<MemcachedSessionStore>(this, sess));
+    } else {
+        sess->setStorage(std::make_unique<SessionStoreFile>(sess));
+    }
 
     auto lsp = new LangSelect(this, LangSelect::Session); // NOLINT(cppcoreguidelines-owning-memory)
     lsp->setFallbackLocale(QLocale(QLocale::English, QLocale::UnitedStates));
@@ -134,10 +150,10 @@ bool Botaskaf::init()
 
     new StatusMessage(this);
 
-    auto forms = new CutelystForms::Forms(this);
+    auto forms = new CutelystForms::Forms(this); // NOLINT(cppcoreguidelines-owning-memory)
     forms->setIncludePaths({QStringLiteral(HBNBOTA_FORMSDIR)});
 
-    auto authn = new Authentication(this);
+    auto authn = new Authentication(this); // NOLINT(cppcoreguidelines-owning-memory)
     authn->addRealm(std::make_shared<UserAuthStoreSql>(),
                     std::make_shared<CutelystBotan::CredentialBotan>());
 
