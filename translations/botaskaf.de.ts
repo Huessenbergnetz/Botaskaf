@@ -79,5 +79,10 @@
         <source>John Doe</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_locale_option_text">
+        <source>%1 (%2) (%3)</source>
+        <extracomment>locale option text, %1 will be replaced by the native language name, %2 will be replaced by the native territory name, and %3 will be replaced by the locale’s short name in the form language_territory</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

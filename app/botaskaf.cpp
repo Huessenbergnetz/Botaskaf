@@ -66,7 +66,10 @@ bool Botaskaf::init()
     const auto supportedLocales =
         loadTranslationsFromDir(u"botaskaf"_s, QStringLiteral(HBNBOTA_TRANSLATIONSDIR));
 
-    if (Q_UNLIKELY(!Settings::load(engine()->config(QStringLiteral(HBNBOTA_CONF_CORE))))) {
+    Settings::loadSupportedLocales(supportedLocales);
+
+    if (Q_UNLIKELY(!Settings::load(engine()->config(QStringLiteral(HBNBOTA_CONF_CORE)),
+                                   engine()->config(QStringLiteral(HBNBOTA_CONF_DEFAULTS))))) {
         return false;
     }
 

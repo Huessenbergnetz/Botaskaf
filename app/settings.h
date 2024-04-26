@@ -6,7 +6,14 @@
 #ifndef HBNBOTA_SETTINGS_H
 #define HBNBOTA_SETTINGS_H
 
+#include <CutelystForms/option.h>
+
+#include <QLocale>
 #include <QString>
+
+namespace Cutelyst {
+class Context;
+}
 
 namespace Settings {
 Q_NAMESPACE
@@ -20,7 +27,9 @@ Q_ENUM_NS(Cache)
 enum class SessionStore : int { File = 0, Memcached };
 Q_ENUM_NS(SessionStore)
 
-bool load(const QVariantMap &core);
+bool load(const QVariantMap &core, const QVariantMap &defaults);
+
+void loadSupportedLocales(const QVector<QLocale> &locales);
 
 /*!
  * \brief The setup token used to initialize the setup.
@@ -73,6 +82,11 @@ Cache cache();
  * \brief The session store to use.
  */
 SessionStore sessionStore();
+
+QLocale defLocale();
+
+QList<CutelystForms::Option *>
+    supportedLocales(Cutelyst::Context *c, const QLocale &selected, QObject *parent = nullptr);
 } // namespace Settings
 
 #endif // HBNBOTA_SETTINGS

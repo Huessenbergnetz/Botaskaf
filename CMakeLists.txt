@@ -126,6 +126,12 @@ set(HBNBOTA_CONF_CORE_CACHE_DEFVAL "none")
 set(HBNBOTA_CONF_CORE_SESSIONSTORE "sessionstore")
 set(HBNBOTA_CONF_CORE_SESSIONSTORE_DEFVAL "file")
 
+set(HBNBOTA_CONF_DEFAULTS "defaults")
+set(HBNBOTA_CONF_DEFAULTS_LANG "language")
+set(HBNBOTA_CONF_DEFAULTS_LANG_DEFVAL "en_US")
+set(HBNBOTA_CONF_DEFAULTS_TZ "timezone")
+set(HBNBOTA_CONF_DEFAULTS_TZ_DEFVAL "UTC")
+
 add_subdirectory(app)
 add_subdirectory(templates)
 
