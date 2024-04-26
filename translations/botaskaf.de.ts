@@ -84,5 +84,9 @@
         <extracomment>locale option text, %1 will be replaced by the native language name, %2 will be replaced by the native territory name, and %3 will be replaced by the locale’s short name in the form language_territory</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_user_locale_label">
+        <source>Localization</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

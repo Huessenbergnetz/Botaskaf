@@ -64,8 +64,16 @@ void Setup::defaultPage(Context *c)
 void Setup::setup(Context *c)
 {
     ValidatorResult vr;
+    if (c->req()->isPost()) {
+    }
 
-    auto form = CutelystForms::Forms::getForm(u"setup/setup.qml"_s, c);
+    const QLocale inputLocale = c->req()->isPost()
+                                    ? QLocale{c->req()->bodyParam(u"locale"_s).trimmed()}
+                                    : Settings::defLocale();
+    auto form                 = CutelystForms::Forms::getForm(u"setup/setup.qml"_s, c);
+    form->fieldByName(u"locale"_s)
+        ->appendOptions(Settings::supportedLocales(
+            c, inputLocale != QLocale::c() ? inputLocale : Settings::defLocale(), c));
     if (!vr) {
         form->setErrors(vr.errors());
     }

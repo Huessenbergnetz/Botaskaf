@@ -11,7 +11,7 @@ Form {
 
     EmailForm {
         htmlId: "email"
-        name: htmlId
+        name: "email"
         required: true
         autocomplete: "email"
         //% "Email address"
@@ -24,7 +24,7 @@ Form {
 
     TextForm {
         htmlId: "displayName"
-        name: htmlId
+        name: "displayName"
         required: true
         minlength: 3
         autocomplete: "name"
@@ -39,7 +39,7 @@ Form {
 
     PasswordForm {
         htmlId: "password"
-        name: htmlId
+        name: "password"
         required: true
         autocomplete: "new-password"
         //% "Password"
@@ -55,6 +55,15 @@ Form {
         label: cTrId("hbnbota_password_confirmation_label")
         //% "Please confirm your selected password by enter it again."
         description: cTrId("hbnbota_password_confirmation_desc")
+    }
+
+    Select {
+        htmlId: "locale"
+        name: "locale"
+        required: true
+        //% "Localization"
+        label: cTrId("hbnbota_user_locale_label")
+        options: locales
     }
 
     buttons: [
