@@ -457,6 +457,63 @@ User User::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
     return u;
 }
 
+User User::get(Cutelyst::Context *c, Error &e, User::dbid_t id)
+{
+    User u = User::fromCache(id);
+    if (!u.isNull()) {
+        return u;
+    }
+
+    qCDebug(HBNBOTA_CORE) << "Query user with ID" << id << "from the database";
+
+    QSqlQuery q = CPreparedSqlQueryThreadFO(
+        u"SELECT u1.type, u1.email, u1.displayName, u1.created, u1.updated, u1.lastSeen, u1.lockedAt, u1.lockedBy, u2.displayName AS lockedByName, u1.settings FROM users u1 LEFT JOIN users u2 ON u2.id = u1.lockedBy WHERE u1.id = :id"_s);
+    q.bindValue(u":id"_s, id);
+
+    if (Q_UNLIKELY(!q.exec())) {
+        //% "Failed to get user with ID %1 from database."
+        e = Error(q, c->qtTrId("hbnbota_user_get_query_failed").arg(id));
+        qCCritical(HBNBOTA_CORE) << "Failed to get user with ID" << id
+                                 << "from database:" << q.lastError().text();
+        return {};
+    }
+
+    if (Q_UNLIKELY(!q.next())) {
+        //% "Can not find user with ID %1 in the database.
+        e = Error(Cutelyst::Response::NotFound, c->qtTrId("hbnbota_user_get_notfound").arg(id));
+        qCCritical(HBNBOTA_CORE) << "Can not find user ID" << id << "in the database";
+        return {};
+    }
+
+    const User::Type type         = static_cast<User::Type>(q.value(0).toInt());
+    const QString email           = q.value(1).toString();
+    const QString displayName     = q.value(2).toString();
+    const QDateTime created       = q.value(3).toDateTime();
+    const QDateTime updated       = q.value(4).toDateTime();
+    const QDateTime lastSeen      = q.value(5).toDateTime();
+    const QDateTime lockedAt      = q.value(6).toDateTime();
+    const User::dbid_t lockedById = User::toDbId(q.value(7));
+    const QString lockedByName    = q.value(8).toString();
+    const QVariantMap settings =
+        QJsonDocument::fromJson(q.value(9).toByteArray()).object().toVariantMap();
+
+    u = User{id,
+             type,
+             email,
+             displayName,
+             created,
+             updated,
+             lastSeen,
+             lockedAt,
+             lockedById,
+             lockedByName,
+             settings};
+
+    u.toCache();
+
+    return u;
+}
+
 User User::fromCache(User::dbid_t id)
 {
     User u;

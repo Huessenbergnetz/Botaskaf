@@ -361,6 +361,8 @@ public:
 
     static User create(Cutelyst::Context *c, Error &e, const QVariantHash &values);
 
+    static User get(Cutelyst::Context *c, Error &e, User::dbid_t id);
+
 private:
     QSharedDataPointer<UserData> data;
 

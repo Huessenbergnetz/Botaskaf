@@ -96,5 +96,47 @@
         <source>Sorry, but the entered setup token is not valid.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_error_failed_hashing_pw">
+        <source>Failed to hash the password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_failed_create_user_db">
+        <source>Failed to insert new user “%1” into database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_user_get_query_failed">
+        <source>Failed to get user with ID %1 from database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_user_get_notfound">
+        <source>Can not find user with ID %1 in the database.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_title_badrequest">
+        <source>Bad request</source>
+        <extracomment>Error title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_title_accessdenied">
+        <source>Access denied</source>
+        <extracomment>Error title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_title_notfound">
+        <source>Not found</source>
+        <extracomment>Error title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hnbota_error_title_notallowed">
+        <source>Method not allowed</source>
+        <extracomment>Error title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_title_internal">
+        <source>Internal server error</source>
+        <extracomment>Error title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

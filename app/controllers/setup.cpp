@@ -10,6 +10,7 @@
 #include "settings.h"
 
 #include <Cutelyst/Context>
+#include <Cutelyst/Plugins/Session/session.h>
 #include <Cutelyst/Plugins/Utils/Validator>
 #include <Cutelyst/Plugins/Utils/validatoralphadash.h>
 #include <Cutelyst/Plugins/Utils/validatorconfirmed.h>
@@ -88,6 +89,7 @@ void Setup::setup(Context *c)
             Error e;
             auto user = User::create(c, e, vr.values());
             if (user.isValid()) {
+                Session::setValue(c, u"created_user_id"_s, user.id());
                 c->res()->redirect(c->uriFor(u"/finished"_s));
                 return;
             } else {
@@ -122,6 +124,9 @@ void Setup::setup(Context *c)
 
 void Setup::finished(Context *c)
 {
+    Error e;
+    User u = User::get(c, e, User::toDbId(Session::value(c, u"created_user_id"_s)));
+    Session::deleteValue(c, u"created_user_id"_s);
     c->response()->body() = "Setup finished!";
 }
 
