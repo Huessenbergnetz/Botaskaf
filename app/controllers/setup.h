@@ -28,6 +28,9 @@ public:
     C_ATTR(setup, :Local :Args(0))
     void setup(Context *c);
 
+    C_ATTR(finished, :Local :Args(0))
+    void finished(Context *c);
+
 private:
     C_ATTR(End, :ActionClass("RenderView"))
     void End(Context *c) { Q_UNUSED(c); }

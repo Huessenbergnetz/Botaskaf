@@ -12,6 +12,11 @@
 #include <QSharedDataPointer>
 
 class UserData;
+class Error;
+
+namespace Cutelyst {
+class Context;
+}
 
 /*!
  * \brief Contains data about users and provides user management methods.
@@ -349,6 +354,12 @@ public:
      * and success by setting \a *ok to \c true.
      */
     static dbid_t toDbId(const QVariant &var, bool *ok = nullptr);
+
+    static User fromStash(Cutelyst::Context *c);
+
+    void toStash(Cutelyst::Context *c) const;
+
+    static User create(Cutelyst::Context *c, Error &e, const QVariantHash &values);
 
 private:
     QSharedDataPointer<UserData> data;

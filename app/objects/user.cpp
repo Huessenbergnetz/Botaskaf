@@ -5,14 +5,22 @@
 
 #include "user.h"
 
+#include "error.h"
 #include "logging.h"
 #include "settings.h"
 
+#include <Cutelyst/Context>
 #include <Cutelyst/Plugins/Memcached/memcached.h>
+#include <Cutelyst/Plugins/Utils/sql.h>
+#include <CutelystBotan/credentialbotan.h>
 
 #include <QDebug>
+#include <QJsonDocument>
 #include <QMetaEnum>
 #include <QMetaObject>
+#include <QSqlDriver>
+#include <QSqlError>
+#include <QSqlQuery>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -375,6 +383,78 @@ User::dbid_t User::toDbId(const QVariant &var, bool *ok)
     }
 
     return 0;
+}
+
+User User::fromStash(Cutelyst::Context *c)
+{
+    Q_ASSERT(c);
+    return c->stash(HBNBOTA_USER_STASH_KEY).value<User>();
+}
+
+void User::toStash(Cutelyst::Context *c) const
+{
+    Q_ASSERT(c);
+    c->setStash(HBNBOTA_USER_STASH_KEY, QVariant::fromValue<User>(*this));
+}
+
+User User::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
+{
+    const QString email       = values.value(u"email"_s).toString();
+    const QString displayName = values.value(u"displayName"_s).toString();
+    const QString password    = values.value(u"password"_s).toString();
+    const Type type           = static_cast<Type>(values.value(u"type"_s).toInt());
+    const QJsonDocument settings{
+        QJsonObject{{u"locale"_s, values.value(u"locale"_s).toString()},
+                    {u"timezone"_s, values.value(u"timezone"_s).toString()}}};
+    const QDateTime now = QDateTime::currentDateTimeUtc();
+
+    const QString passwordHash = CutelystBotan::CredentialBotan::createArgon2Password(password);
+    if (Q_UNLIKELY(passwordHash.isEmpty())) {
+        e = Error(Cutelyst::Response::InternalServerError,
+                  //% "Failed to hash the password."
+                  c->qtTrId("hbnbota_error_failed_hashing_pw"));
+        qCCritical(HBNBOTA_CORE) << "Failed to hash the password for new user identified by email"
+                                 << email;
+        return {};
+    }
+
+    QSqlQuery q = CPreparedSqlQueryThread(
+        u"INSERT INTO users (type, email, displayName, password, created, updated, settings) "
+        "VALUES (:type, :email, :displayName, :password, :created, :updated, :settings)"_s);
+    q.bindValue(u":type"_s, static_cast<int>(type));
+    q.bindValue(u":email"_s, email);
+    q.bindValue(u":displayName"_s, displayName);
+    q.bindValue(u":password"_s, passwordHash);
+    q.bindValue(u":created"_s, now);
+    q.bindValue(u":updated"_s, now);
+    q.bindValue(u":settings"_s, settings.toJson(QJsonDocument::Compact));
+
+    if (Q_UNLIKELY(!q.exec())) {
+        //% "Failed to insert new user “%1” into database."
+        e = Error(q, c->qtTrId("hbnbota_error_failed_create_user_db").arg(email));
+        qCCritical(HBNBOTA_CORE) << "Failed to insert new user" << email
+                                 << "into database:" << q.lastError().text();
+        return {};
+    }
+
+    User::dbid_t id = 0;
+
+    if (q.driver()->hasFeature(QSqlDriver::LastInsertId)) {
+        id = User::toDbId(q.lastInsertId());
+    } else {
+        q = CPreparedSqlQueryThreadFO(u"SELECT id FROM users WHERE email = :email"_s);
+        q.bindValue(u":email"_s, email);
+        q.exec();
+        q.next();
+        id = User::toDbId(q.value(0));
+    }
+
+    User u{id, type, email, displayName, now, now, {}, {}, 0, {}, settings.object().toVariantMap()};
+    u.toCache();
+
+    qCInfo(HBNBOTA_CORE) << User::fromStash(c) << "created new" << u;
+
+    return u;
 }
 
 User User::fromCache(User::dbid_t id)

@@ -5,7 +5,8 @@
 
 #include "setup.h"
 
-#include "logging.h"
+#include "objects/error.h"
+#include "objects/user.h"
 #include "settings.h"
 
 #include <Cutelyst/Context>
@@ -77,8 +78,22 @@ void Setup::setup(Context *c)
                             new ValidatorRequired(u"displayName"_s),
                             new ValidatorRequired(u"password"_s),
                             new ValidatorConfirmed(u"password"_s),
+                            new ValidatorRequired(u"locale"_s),
                             new ValidatorIn(u"locale"_s, Settings::allowedLocaleIds()),
-                            new ValidatorIn(u"timezonne"_s, Settings::allowedTimeZoneIds())});
+                            new ValidatorRequired(u"timezone"_s),
+                            new ValidatorIn(u"timezone"_s, Settings::allowedTimeZoneIds())});
+        vr = v.validate(c, Validator::FillStashOnError | Validator::BodyParamsOnly);
+        if (vr) {
+            vr.addValue(u"type"_s, static_cast<int>(User::SuperUser));
+            Error e;
+            auto user = User::create(c, e, vr.values());
+            if (user.isValid()) {
+                c->res()->redirect(c->uriFor(u"/finished"_s));
+                return;
+            } else {
+                e.toStash(c);
+            }
+        }
     }
 
     const QLocale inputLocale = c->req()->isPost()
@@ -103,6 +118,11 @@ void Setup::setup(Context *c)
               //% "Create User"
               {u"site_subtitle"_s, c->qtTrId("hbnbota_setup_user_suptitle")},
               {u"form"_s, QVariant::fromValue<CutelystForms::Form *>(form)}});
+}
+
+void Setup::finished(Context *c)
+{
+    c->response()->body() = "Setup finished!";
 }
 
 bool Setup::Auto(Context *c)
