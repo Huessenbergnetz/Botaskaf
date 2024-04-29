@@ -25,6 +25,7 @@ void M0001_CreateUsersTable::up()
     t->dateTime(u"lastSeen"_s)->nullable();
     t->dateTime(u"lockedAt"_s)->nullable();
     t->integer(u"lockedBy"_s)->unSigned()->nullable();
+    t->json(u"settings"_s);
 
     switch (dbType()) {
     case Firfuorida::Migrator::MariaDB:
