@@ -43,6 +43,7 @@ void Setup::index(Context *c)
                     QDateTime::currentDateTimeUtc().addDuration(std::chrono::minutes{30}));
                 c->res()->setCookie(cookie);
                 c->res()->redirect(c->uriFor(u"/setup"_s));
+                return;
             } else {
                 //% "Sorry, but the entered setup token is not valid."
                 vr.addError(u"setuptoken"_s, c->qtTrId("hbnbota_setup_invalid_token"));
