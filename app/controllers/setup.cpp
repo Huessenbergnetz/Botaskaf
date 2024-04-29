@@ -20,8 +20,6 @@
 #include <Cutelyst/Response>
 #include <CutelystForms/forms.h>
 
-#include <QNetworkCookie>
-
 using namespace Qt::Literals::StringLiterals;
 
 Setup::Setup(QObject *parent)
@@ -39,11 +37,7 @@ void Setup::index(Context *c)
         vr = v.validate(c, Validator::FillStashOnError | Validator::BodyParamsOnly);
         if (vr) {
             if (vr.value(u"setuptoken"_s).toString() == Settings::setupToken()) {
-                QNetworkCookie cookie{"hbnbota_setuptoken"_ba, Settings::setupToken().toLatin1()};
-                cookie.setHttpOnly(true);
-                cookie.setExpirationDate(
-                    QDateTime::currentDateTimeUtc().addDuration(std::chrono::minutes{30}));
-                c->res()->setCookie(cookie);
+                Session::setValue(c, u"setuptoken"_s, Settings::setupToken().toLatin1());
                 c->res()->redirect(c->uriFor(u"/setup"_s));
                 return;
             } else {
@@ -125,8 +119,7 @@ void Setup::setup(Context *c)
 void Setup::finished(Context *c)
 {
     Error e;
-    User u = User::get(c, e, User::toDbId(Session::value(c, u"created_user_id"_s)));
-    Session::deleteValue(c, u"created_user_id"_s);
+    User u                = User::get(c, e, User::toDbId(Session::value(c, u"created_user_id"_s)));
     c->response()->body() = "Setup finished!";
 }
 
@@ -141,7 +134,7 @@ bool Setup::Auto(Context *c)
         return true;
     }
 
-    if (c->req()->cookie("hbnbota_setuptoken"_ba) != Settings::setupToken().toLatin1()) {
+    if (Session::value(c, u"setuptoken"_s).toString() != Settings::setupToken()) {
         c->res()->redirect(c->uriFor(u"/"_s));
         return false;
     }
