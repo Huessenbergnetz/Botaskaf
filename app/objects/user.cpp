@@ -5,11 +5,19 @@
 
 #include "user.h"
 
+#include "logging.h"
+#include "settings.h"
+
+#include <Cutelyst/Plugins/Memcached/memcached.h>
+
 #include <QDebug>
 #include <QMetaEnum>
 #include <QMetaObject>
 
 using namespace Qt::Literals::StringLiterals;
+
+#define HBNBOTA_USER_STASH_KEY u"user"_s
+#define HBNBOTA_USER_MEMC_GROUP_KEY "users"_ba
 
 class UserData : public QSharedData // NOLINT(cppcoreguidelines-special-member-functions)
 {
@@ -369,13 +377,37 @@ User::dbid_t User::toDbId(const QVariant &var, bool *ok)
     return 0;
 }
 
+User User::fromCache(User::dbid_t id)
+{
+    User u;
+
+    if (Settings::cache() == Settings::Cache::Memcached) {
+        Cutelyst::Memcached::ReturnType rt{Cutelyst::Memcached::ReturnType::Failure};
+        u = Cutelyst::Memcached::getByKey<User>(
+            HBNBOTA_USER_MEMC_GROUP_KEY, QByteArray::number(id), nullptr, &rt);
+        if (rt == Cutelyst::Memcached::ReturnType::Success) {
+            qCDebug(HBNBOTA_CORE) << "Found user with ID" << id << "in memcached";
+        }
+    }
+
+    return u;
+}
+
+void User::toCache() const
+{
+    if (Settings::cache() == Settings::Cache::Memcached) {
+        Cutelyst::Memcached::setByKey<User>(
+            HBNBOTA_USER_MEMC_GROUP_KEY, QByteArray::number(id()), *this, std::chrono::days{7});
+    }
+}
+
 QDebug operator<<(QDebug dbg, const User &user)
 {
     QDebugStateSaver saver(dbg);
     dbg.nospace() << "User(";
     if (!user.isNull()) {
         if (user.isValid()) {
-            dbg << "DI: " << user.id();
+            dbg << "ID: " << user.id();
             dbg << ", Email: " << user.email();
             dbg << ", Type: " << user.type();
             dbg << ", Display Name: " << user.displayName();

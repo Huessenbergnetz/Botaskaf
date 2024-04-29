@@ -355,6 +355,10 @@ private:
 
     friend QDataStream &operator<<(QDataStream &out, const User &user);
     friend QDataStream &operator>>(QDataStream &in, User &user);
+
+    static User fromCache(User::dbid_t id);
+
+    void toCache() const;
 };
 
 Q_DECLARE_METATYPE(User)
