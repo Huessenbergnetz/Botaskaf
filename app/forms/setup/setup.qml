@@ -20,6 +20,7 @@ Form {
         description: cTrId("hbnbota_user_email_desc")
         //% "your.name@example.com"
         placeholder: cTrId("hbnbota_email_placeholder")
+        value: cStashValue("email")
     }
 
     TextForm {
@@ -35,6 +36,7 @@ Form {
         description: cTrId("hbnbota_user_displayname_desc")
         //% "John Doe"
         placeholder: cTrId("hbnbota_displayname_placeholder")
+        value: cStashValue("displayName")
     }
 
     PasswordForm {
@@ -63,7 +65,14 @@ Form {
         required: true
         //% "Localization"
         label: cTrId("hbnbota_user_locale_label")
-        options: locales
+    }
+
+    Select {
+        htmlId: "timezone"
+        name: "timezone"
+        required: true
+        //% "Time zone"
+        label: cTrId("hbnbota_user_timezone_label")
     }
 
     buttons: [

@@ -10,6 +10,7 @@
 
 #include <QLocale>
 #include <QString>
+#include <QTimeZone>
 
 namespace Cutelyst {
 class Context;
@@ -85,8 +86,17 @@ SessionStore sessionStore();
 
 QLocale defLocale();
 
+QTimeZone defTimeZone();
+
 QList<CutelystForms::Option *>
     supportedLocales(Cutelyst::Context *c, const QLocale &selected, QObject *parent = nullptr);
+
+QStringList allowedLocaleIds();
+
+QList<CutelystForms::Option *> supportedTimeZones(const QByteArray &selected,
+                                                  QObject *parent = nullptr);
+
+QStringList allowedTimeZoneIds();
 } // namespace Settings
 
 #endif // HBNBOTA_SETTINGS

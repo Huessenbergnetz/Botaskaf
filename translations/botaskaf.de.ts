@@ -88,5 +88,13 @@
         <source>Localization</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_user_timezone_label">
+        <source>Time zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_setup_invalid_token">
+        <source>Sorry, but the entered setup token is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

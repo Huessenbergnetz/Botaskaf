@@ -11,6 +11,9 @@
 #include <Cutelyst/Context>
 #include <Cutelyst/Plugins/Utils/Validator>
 #include <Cutelyst/Plugins/Utils/validatoralphadash.h>
+#include <Cutelyst/Plugins/Utils/validatorconfirmed.h>
+#include <Cutelyst/Plugins/Utils/validatoremail.h>
+#include <Cutelyst/Plugins/Utils/validatorin.h>
 #include <Cutelyst/Plugins/Utils/validatorrequired.h>
 #include <Cutelyst/Response>
 #include <CutelystForms/forms.h>
@@ -40,6 +43,9 @@ void Setup::index(Context *c)
                     QDateTime::currentDateTimeUtc().addDuration(std::chrono::minutes{30}));
                 c->res()->setCookie(cookie);
                 c->res()->redirect(c->uriFor(u"/setup"_s));
+            } else {
+                //% "Sorry, but the entered setup token is not valid."
+                vr.addError(u"setuptoken"_s, c->qtTrId("hbnbota_setup_invalid_token"));
             }
         }
     }
@@ -65,15 +71,29 @@ void Setup::setup(Context *c)
 {
     ValidatorResult vr;
     if (c->req()->isPost()) {
+        static Validator v({new ValidatorRequired(u"email"_s),
+                            new ValidatorEmail(u"email"_s),
+                            new ValidatorRequired(u"displayName"_s),
+                            new ValidatorRequired(u"password"_s),
+                            new ValidatorConfirmed(u"password"_s),
+                            new ValidatorIn(u"locale"_s, Settings::allowedLocaleIds()),
+                            new ValidatorIn(u"timezonne"_s, Settings::allowedTimeZoneIds())});
     }
 
     const QLocale inputLocale = c->req()->isPost()
                                     ? QLocale{c->req()->bodyParam(u"locale"_s).trimmed()}
                                     : Settings::defLocale();
-    auto form                 = CutelystForms::Forms::getForm(u"setup/setup.qml"_s, c);
+    const QTimeZone inputTz =
+        c->req()->isPost() ? QTimeZone{c->req()->bodyParam(u"timezone"_s).trimmed().toLatin1()}
+                           : Settings::defTimeZone();
+    auto form = CutelystForms::Forms::getForm(
+        u"setup/setup.qml"_s, c, CutelystForms::Forms::DoNotFillContext);
     form->fieldByName(u"locale"_s)
         ->appendOptions(Settings::supportedLocales(
             c, inputLocale != QLocale::c() ? inputLocale : Settings::defLocale(), c));
+    form->fieldByName(u"timezone"_s)
+        ->appendOptions(Settings::supportedTimeZones(
+            inputTz.isValid() ? inputTz.id() : Settings::defTimeZone().id()));
     if (!vr) {
         form->setErrors(vr.errors());
     }

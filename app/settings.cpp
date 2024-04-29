@@ -13,6 +13,7 @@
 #include <QGlobalStatic>
 #include <QReadLocker>
 #include <QReadWriteLock>
+#include <QTimeZone>
 #include <QVariantMap>
 #include <QWriteLocker>
 
@@ -33,6 +34,7 @@ struct SettingVals {
     QString tmpl;
 
     QLocale defLocale{QStringLiteral(HBNBOTA_CONF_DEFAULTS_LANG_DEFVAL)};
+    QTimeZone defTimeZone{QByteArrayLiteral(HBNBOTA_CONF_DEFAULTS_TZ_DEFVAL)};
 
     Settings::StaticPlugin staticPlugin{Settings::StaticPlugin::Simple};
     Settings::Cache cache{Settings::Cache::None};
@@ -102,6 +104,19 @@ bool loadDefaults(const QVariantMap &defaults)
         qCCritical(HBNBOTA_SETTINGS)
             << "Can not load defaults while supported languages are not loaded";
         return false;
+    }
+
+    const QTimeZone tz{defaults
+                           .value(QStringLiteral(HBNBOTA_CONF_DEFAULTS_TZ),
+                                  QStringLiteral(HBNBOTA_CONF_DEFAULTS_TZ_DEFVAL))
+                           .toString()
+                           .toLatin1()};
+    if (tz.isValid()) {
+        cfg->defTimeZone = tz;
+    } else {
+        qCWarning(HBNBOTA_SETTINGS)
+            << "Invalid value for" << HBNBOTA_CONF_DEFAULTS_TZ << "in section"
+            << HBNBOTA_CONF_DEFAULTS << ", using default value:" << HBNBOTA_CONF_DEFAULTS_TZ_DEFVAL;
     }
 
     QLocale defLocale{defaults
@@ -226,6 +241,12 @@ QLocale Settings::defLocale()
     return cfg->defLocale;
 }
 
+QTimeZone Settings::defTimeZone()
+{
+    QReadLocker locker(&cfg->lock);
+    return cfg->defTimeZone;
+}
+
 QList<CutelystForms::Option *>
     Settings::supportedLocales(Cutelyst::Context *c, const QLocale &selected, QObject *parent)
 {
@@ -245,5 +266,40 @@ QList<CutelystForms::Option *>
             parent);
     }
 
+    return lst;
+}
+
+QStringList Settings::allowedLocaleIds()
+{
+    QStringList lst;
+    QReadLocker locker(&cfg->lock);
+    lst.reserve(cfg->supportedLocales.size());
+    for (const QLocale &l : std::as_const(cfg->supportedLocales)) {
+        lst << l.name();
+    }
+    return lst;
+}
+
+QList<CutelystForms::Option *> Settings::supportedTimeZones(const QByteArray &selected,
+                                                            QObject *parent)
+{
+    QList<CutelystForms::Option *> lst;
+    const QList<QByteArray> tzIds = QTimeZone::availableTimeZoneIds();
+    lst.reserve(tzIds.size());
+    for (const QByteArray &tzId : tzIds) {
+        const QString tzIdStr = QString::fromLatin1(tzId);
+        lst << new CutelystForms::Option(tzIdStr, tzIdStr, tzId == selected, parent);
+    }
+    return lst;
+}
+
+QStringList Settings::allowedTimeZoneIds()
+{
+    QStringList lst;
+    const QList<QByteArray> tzIds = QTimeZone::availableTimeZoneIds();
+    lst.reserve(tzIds.size());
+    for (const QByteArray &id : tzIds) {
+        lst << QString::fromLatin1(id);
+    }
     return lst;
 }
