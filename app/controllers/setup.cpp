@@ -40,8 +40,9 @@ void Setup::index(Context *c)
                 c->res()->redirect(c->uriFor(u"/setup"_s));
                 return;
             } else {
+                //: Error message
                 //% "Sorry, but the entered setup token is not valid."
-                vr.addError(u"setuptoken"_s, c->qtTrId("hbnbota_setup_invalid_token"));
+                vr.addError(u"setuptoken"_s, c->qtTrId("hbnbota_error_setup_invalid_token"));
             }
         }
     }
@@ -52,8 +53,9 @@ void Setup::index(Context *c)
     }
 
     c->stash({{u"template"_s, u"setup/index.html"_s},
+              //: Site third level title, will be something like: Welcome - Setup - Botaskaf
               //% "Welcome"
-              {u"site_subtitle"_s, c->qtTrId("hbnbota_setup_index_subtitle")},
+              {u"site_subtitle"_s, c->qtTrId("hbnbota_site_subtitle_setup_index")},
               {u"form"_s, QVariant::fromValue<CutelystForms::Form *>(form)}});
 }
 
@@ -106,8 +108,9 @@ void Setup::setup(Context *c)
     }
 
     c->stash({{u"template"_s, u"setup/setup.html"_s},
+              //: Site third level title, will be something like: Create User - Setup - Botaskaf
               //% "Create User"
-              {u"site_subtitle"_s, c->qtTrId("hbnbota_setup_user_subtitle")},
+              {u"site_subtitle"_s, c->qtTrId("hbnbota_site_subtitle_setup_user")},
               {u"form"_s, QVariant::fromValue<CutelystForms::Form *>(form)}});
 }
 
@@ -116,12 +119,13 @@ void Setup::finished(Context *c)
     Error e;
     User u = User::get(c, e, User::toDbId(Session::value(c, u"created_user_id"_s)));
     c->stash({{u"template"_s, u"setup/finished.html"_s},
+              //: Site third level title, will be something like: Finished - Setup - Botaskaf
               //% "Finished"
               {u"site_subtitle"_s, c->qtTrId("hbnbota_setup_finished_subtitle")},
               //% "You have successfully completed the setup and created your first user "
               //% "“%1” (%2). Now remove the “setuptoken“ entry from your configuration file "
               //% "and restart the application."
-              {u"setup_finished_msg"_s, c->qtTrId("hbnbota_setup_finished_userinfo_msg").arg(u.displayName(), u.email())}});
+              {u"setup_finished_msg"_s, c->qtTrId("hbnbota_info_setup_finished").arg(u.displayName(), u.email())}});
 }
 
 bool Setup::Auto(Context *c)
@@ -133,8 +137,9 @@ bool Setup::Auto(Context *c)
 
     c->stash({{u"no_wrapper"_s, true},
               {u"site_name"_s, Settings::siteName()},
+              //: Site second level title, will be something like: Welcome - Setup - Botaskaf
               //% "Setup"
-              {u"site_title"_s, c->qtTrId("hbnbota_setup_site_title")}});
+              {u"site_title"_s, c->qtTrId("hbnbota_site_title_setup")}});
 
     if (c->actionName() == "index"_L1) {
         return true;
