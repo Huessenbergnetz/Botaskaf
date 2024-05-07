@@ -1,0 +1,23 @@
+{# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de> #}
+{# SPDX-License-Identifier: AGPL-3.0-or-later #}
+
+{% include "header.html" %}
+
+<body>
+    <main class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8 offset-lg-2 mt-5">
+
+                <div class="card">
+                    <h1 class="card-header h3">{{ site_title }} &ndash; {{ site_subtitle }}</h1>
+                    <div class="card-body">
+                        <p class="card-text">{{ setup_finished_msg }}</p>
+                    </div>
+                </div>
+
+            </div> <!-- col -->
+        </div> <!-- row -->
+    </main>
+</body>
+
+{% include  "footer.html" %}
