@@ -211,10 +211,8 @@ QJsonObject User::toJson() const
             {u"displayName"_s, data->displayName},
             {u"created"_s, data->created.toString(Qt::ISODateWithMs)},
             {u"updated"_s, data->updated.toString(Qt::ISODateWithMs)},
-            {u"lastSeen"_s,
-             data->lastSeen.isNull() ? QJsonValue() : data->lastSeen.toString(Qt::ISODateWithMs)},
-            {u"lockedAt"_s,
-             data->lockedAt.isNull() ? QJsonValue() : data->lockedAt.toString(Qt::ISODateWithMs)},
+            {u"lastSeen"_s, data->lastSeen.isNull() ? QJsonValue() : data->lastSeen.toString(Qt::ISODateWithMs)},
+            {u"lockedAt"_s, data->lockedAt.isNull() ? QJsonValue() : data->lockedAt.toString(Qt::ISODateWithMs)},
             {u"lockedById"_s, static_cast<qint64>(data->lockedById)},
             {u"lockedByName"_s, data->lockedByName.isEmpty() ? QJsonValue() : data->lockedByName},
             {u"settings"_s, QJsonObject::fromVariantMap(data->settings)},
@@ -403,24 +401,22 @@ User User::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
     const QString displayName = values.value(u"displayName"_s).toString();
     const QString password    = values.value(u"password"_s).toString();
     const Type type           = static_cast<Type>(values.value(u"type"_s).toInt());
-    const QJsonDocument settings{
-        QJsonObject{{u"locale"_s, values.value(u"locale"_s).toString()},
-                    {u"timezone"_s, values.value(u"timezone"_s).toString()}}};
-    const QDateTime now = QDateTime::currentDateTimeUtc();
+    const QDateTime now       = QDateTime::currentDateTimeUtc();
+    const QJsonDocument settings{QJsonObject{{u"locale"_s, values.value(u"locale"_s).toString()},
+                                             {u"timezone"_s, values.value(u"timezone"_s).toString()}}};
 
     const QString passwordHash = CutelystBotan::CredentialBotan::createArgon2Password(password);
     if (Q_UNLIKELY(passwordHash.isEmpty())) {
         e = Error(Cutelyst::Response::InternalServerError,
                   //% "Failed to hash the password."
                   c->qtTrId("hbnbota_error_failed_hashing_pw"));
-        qCCritical(HBNBOTA_CORE) << "Failed to hash the password for new user identified by email"
-                                 << email;
+        qCCritical(HBNBOTA_CORE) << "Failed to hash the password for new user identified by email" << email;
         return {};
     }
 
-    QSqlQuery q = CPreparedSqlQueryThread(
-        u"INSERT INTO users (type, email, displayName, password, created, updated, settings) "
-        "VALUES (:type, :email, :displayName, :password, :created, :updated, :settings)"_s);
+    QSqlQuery q =
+        CPreparedSqlQueryThread(u"INSERT INTO users (type, email, displayName, password, created, updated, settings) "
+                                "VALUES (:type, :email, :displayName, :password, :created, :updated, :settings)"_s);
     q.bindValue(u":type"_s, static_cast<int>(type));
     q.bindValue(u":email"_s, email);
     q.bindValue(u":displayName"_s, displayName);
@@ -432,8 +428,7 @@ User User::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
     if (Q_UNLIKELY(!q.exec())) {
         //% "Failed to insert new user “%1” into database."
         e = Error(q, c->qtTrId("hbnbota_error_failed_create_user_db").arg(email));
-        qCCritical(HBNBOTA_CORE) << "Failed to insert new user" << email
-                                 << "into database:" << q.lastError().text();
+        qCCritical(HBNBOTA_CORE) << "Failed to insert new user" << email << "into database:" << q.lastError().text();
         return {};
     }
 
@@ -473,13 +468,12 @@ User User::get(Cutelyst::Context *c, Error &e, User::dbid_t id)
     if (Q_UNLIKELY(!q.exec())) {
         //% "Failed to get user with ID %1 from database."
         e = Error(q, c->qtTrId("hbnbota_user_get_query_failed").arg(id));
-        qCCritical(HBNBOTA_CORE) << "Failed to get user with ID" << id
-                                 << "from database:" << q.lastError().text();
+        qCCritical(HBNBOTA_CORE) << "Failed to get user with ID" << id << "from database:" << q.lastError().text();
         return {};
     }
 
     if (Q_UNLIKELY(!q.next())) {
-        //% "Can not find user with ID %1 in the database.
+        //% "Can not find user with ID %1 in the database."
         e = Error(Cutelyst::Response::NotFound, c->qtTrId("hbnbota_user_get_notfound").arg(id));
         qCCritical(HBNBOTA_CORE) << "Can not find user ID" << id << "in the database";
         return {};
@@ -494,20 +488,9 @@ User User::get(Cutelyst::Context *c, Error &e, User::dbid_t id)
     const QDateTime lockedAt      = q.value(6).toDateTime();
     const User::dbid_t lockedById = User::toDbId(q.value(7));
     const QString lockedByName    = q.value(8).toString();
-    const QVariantMap settings =
-        QJsonDocument::fromJson(q.value(9).toByteArray()).object().toVariantMap();
+    const QVariantMap settings    = QJsonDocument::fromJson(q.value(9).toByteArray()).object().toVariantMap();
 
-    u = User{id,
-             type,
-             email,
-             displayName,
-             created,
-             updated,
-             lastSeen,
-             lockedAt,
-             lockedById,
-             lockedByName,
-             settings};
+    u = User{id, type, email, displayName, created, updated, lastSeen, lockedAt, lockedById, lockedByName, settings};
 
     u.toCache();
 
@@ -520,8 +503,7 @@ User User::fromCache(User::dbid_t id)
 
     if (Settings::cache() == Settings::Cache::Memcached) {
         Cutelyst::Memcached::ReturnType rt{Cutelyst::Memcached::ReturnType::Failure};
-        u = Cutelyst::Memcached::getByKey<User>(
-            HBNBOTA_USER_MEMC_GROUP_KEY, QByteArray::number(id), nullptr, &rt);
+        u = Cutelyst::Memcached::getByKey<User>(HBNBOTA_USER_MEMC_GROUP_KEY, QByteArray::number(id), nullptr, &rt);
         if (rt == Cutelyst::Memcached::ReturnType::Success) {
             qCDebug(HBNBOTA_CORE) << "Found user with ID" << id << "in memcached";
         }
@@ -559,10 +541,9 @@ QDebug operator<<(QDebug dbg, const User &user)
 QDataStream &operator<<(QDataStream &out, const User &user)
 {
     if (!user.isNull()) {
-        out << user.data->id << static_cast<qint32>(user.data->type) << user.data->email
-            << user.data->displayName << user.data->created << user.data->updated
-            << user.data->lastSeen << user.data->lockedAt << user.data->lockedById
-            << user.data->lockedByName << user.data->settings;
+        out << user.data->id << static_cast<qint32>(user.data->type) << user.data->email << user.data->displayName
+            << user.data->created << user.data->updated << user.data->lastSeen << user.data->lockedAt
+            << user.data->lockedById << user.data->lockedByName << user.data->settings;
     } else {
         out << static_cast<User::dbid_t>(0);
     }

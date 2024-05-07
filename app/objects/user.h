@@ -297,8 +297,6 @@ public:
      */
     bool operator!=(const User &other) const noexcept { return !(*this == other); }
 
-    operator QVariant() const { return QVariant::fromValue<User>(*this); }
-
     /*!
      * \brief Converts \a str to enum Type.
      */
