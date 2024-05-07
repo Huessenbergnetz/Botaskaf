@@ -63,8 +63,7 @@ Botaskaf::Botaskaf(QObject *parent)
 
 bool Botaskaf::init()
 {
-    const auto supportedLocales =
-        loadTranslationsFromDir(u"botaskaf"_s, QStringLiteral(HBNBOTA_TRANSLATIONSDIR));
+    const auto supportedLocales = loadTranslationsFromDir(u"botaskaf"_s, QStringLiteral(HBNBOTA_TRANSLATIONSDIR));
 
     Settings::loadSupportedLocales(supportedLocales);
 
@@ -73,8 +72,7 @@ bool Botaskaf::init()
         return false;
     }
 
-    QLockFile dbInitLock{QStandardPaths::writableLocation(QStandardPaths::TempLocation) +
-                         u"/botaskaf_db.lock"_s};
+    QLockFile dbInitLock{QStandardPaths::writableLocation(QStandardPaths::TempLocation) + u"/botaskaf_db.lock"_s};
     if (dbInitLock.tryLock(std::chrono::milliseconds{1})) {
         if (Q_LIKELY(connectDb(u"db"_s))) {
             if (Q_UNLIKELY(!initializeDb(u"db"_s))) {
@@ -96,8 +94,7 @@ bool Botaskaf::init()
     auto view = new CuteleeView(this);
     view->setCache(viewCache);
     view->setWrapper(u"wrapper.html"_s);
-    view->setIncludePaths({CutelystForms::Forms::templateDirPath(u"cutelee/bootstrap5"),
-                           Settings::tmplPath(u"site"_s)});
+    view->setIncludePaths({CutelystForms::Forms::templateDirPath(u"cutelee/bootstrap5"), Settings::tmplPath(u"site"_s)});
     view->engine()->addDefaultLibrary(u"cutelee_i18ntags"_s);
     qCDebug(HBNBOTA_CORE) << "Template include paths:" << view->includePaths();
 
@@ -131,8 +128,7 @@ bool Botaskaf::init()
     const auto sessionStoreType = Settings::sessionStore();
 
     qCDebug(HBNBOTA_CORE) << "Cache:" << cacheType;
-    if (cacheType == Settings::Cache::Memcached ||
-        sessionStoreType == Settings::SessionStore::Memcached) {
+    if (cacheType == Settings::Cache::Memcached || sessionStoreType == Settings::SessionStore::Memcached) {
         auto memc = new Memcached(this); // NOLINT(cppcoreguidelines-owning-memory)
         memc->setDefaultConfig({{u"binary_protocols"_s, true}});
     }
@@ -157,8 +153,7 @@ bool Botaskaf::init()
     forms->setIncludePaths({QStringLiteral(HBNBOTA_FORMSDIR)});
 
     auto authn = new Authentication(this); // NOLINT(cppcoreguidelines-owning-memory)
-    authn->addRealm(std::make_shared<UserAuthStoreSql>(),
-                    std::make_shared<CutelystBotan::CredentialBotan>());
+    authn->addRealm(std::make_shared<UserAuthStoreSql>(), std::make_shared<CutelystBotan::CredentialBotan>());
 
     return true;
 }
@@ -176,10 +171,8 @@ bool Botaskaf::connectDb(const QString &conName) const
     qCDebug(HBNBOTA_CORE) << "Establishing database connection" << dbConName;
 
     const auto conf = engine()->config(QStringLiteral(HBNBOTA_CONF_DB));
-    const auto type = conf.value(QStringLiteral(HBNBOTA_CONF_DB_TYPE),
-                                 QStringLiteral(HBNBOTA_CONF_DB_TYPE_DEFVAL))
-                          .toString()
-                          .toUpper();
+    const auto type =
+        conf.value(QStringLiteral(HBNBOTA_CONF_DB_TYPE), QStringLiteral(HBNBOTA_CONF_DB_TYPE_DEFVAL)).toString().toUpper();
 
     QSqlDatabase db = QSqlDatabase::addDatabase(type, dbConName);
     if (Q_UNLIKELY(!db.isValid())) {
@@ -189,28 +182,23 @@ bool Botaskaf::connectDb(const QString &conName) const
     }
 
     const auto name =
-        conf.value(QStringLiteral(HBNBOTA_CONF_DB_NAME), QLatin1String(HBNBOTA_CONF_DB_NAME_DEFVAL))
-            .toString();
+        conf.value(QStringLiteral(HBNBOTA_CONF_DB_NAME), QLatin1String(HBNBOTA_CONF_DB_NAME_DEFVAL)).toString();
 
     if (type == "QMYSQL"_L1 || type == "QMARIADB"_L1) {
 
-        const auto user = conf.value(QStringLiteral(HBNBOTA_CONF_DB_USER),
-                                     QStringLiteral(HBNBOTA_CONF_DB_USER_DEFVAL))
-                              .toString();
+        const auto user =
+            conf.value(QStringLiteral(HBNBOTA_CONF_DB_USER), QStringLiteral(HBNBOTA_CONF_DB_USER_DEFVAL)).toString();
         const auto pass = conf.value(QStringLiteral(HBNBOTA_CONF_DB_PASS)).toString();
-        const auto host = conf.value(QStringLiteral(HBNBOTA_CONF_DB_HOST),
-                                     QStringLiteral(HBNBOTA_CONF_DB_HOST_DEFVAL))
-                              .toString();
-        const auto port =
-            conf.value(QStringLiteral(HBNBOTA_CONF_DB_PORT), HBNBOTA_CONF_DB_PORT_DEFVAL).toInt();
+        const auto host =
+            conf.value(QStringLiteral(HBNBOTA_CONF_DB_HOST), QStringLiteral(HBNBOTA_CONF_DB_HOST_DEFVAL)).toString();
+        const auto port = conf.value(QStringLiteral(HBNBOTA_CONF_DB_PORT), HBNBOTA_CONF_DB_PORT_DEFVAL).toInt();
 
         db.setDatabaseName(name);
         db.setUserName(user);
         db.setPassword(pass);
 
         if (host[0] == '/'_L1) {
-            db.setConnectOptions(
-                u"UNIX_SOCKET=%1;MYSQL_OPT_RECONNECT=1;CLIENT_INTERACTIVE=1"_s.arg(host));
+            db.setConnectOptions(u"UNIX_SOCKET=%1;MYSQL_OPT_RECONNECT=1;CLIENT_INTERACTIVE=1"_s.arg(host));
         } else {
             db.setConnectOptions(u"MYSQL_OPT_RECONNECT=1;CLIENT_INTERACTIVE=1"_s);
             db.setHostName(host);
@@ -218,40 +206,33 @@ bool Botaskaf::connectDb(const QString &conName) const
         }
 
     } else if (type == "QSQLITE"_L1) {
-        db.setDatabaseName(name.isEmpty()
-                               ? QStandardPaths::writableLocation(QStandardPaths::HomeLocation) +
-                                     u"/botaskaf.sqlite"_s
-                               : name);
+        db.setDatabaseName(
+            name.isEmpty() ? QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + u"/botaskaf.sqlite"_s : name);
     }
 
     if (Q_UNLIKELY(!db.open())) {
         qCDebug(HBNBOTA_CORE) << "DB FILE:" << db.databaseName();
-        qCCritical(HBNBOTA_CORE) << "Can not establish database connection:"
-                                 << db.lastError().text();
+        qCCritical(HBNBOTA_CORE) << "Can not establish database connection:" << db.lastError().text();
         return false;
     }
 
     if (type == "QMYSQL"_L1 || type == "QMARIADB"_L1) {
         QSqlQuery q(db);
         if (Q_UNLIKELY(!q.exec(u"SET time_zone = '+00:00'"_s))) {
-            qCWarning(HBNBOTA_CORE)
-                << "Failed to set database connection time zone to UTC:" << q.lastError().text();
+            qCWarning(HBNBOTA_CORE) << "Failed to set database connection time zone to UTC:" << q.lastError().text();
         }
     }
 
     if (type == "QSQLITE"_L1) {
         QSqlQuery q(db);
         if (Q_UNLIKELY(!q.exec(u"PRAGMA journal_mode = WAL"_s))) {
-            qCWarning(HBNBOTA_CORE)
-                << "Failed to set SQLite journal mode to WAL:" << q.lastError().text();
+            qCWarning(HBNBOTA_CORE) << "Failed to set SQLite journal mode to WAL:" << q.lastError().text();
         }
         if (Q_UNLIKELY(!q.exec(u"PRAGMA encoding = 'UTF-8'"_s))) {
-            qCWarning(HBNBOTA_CORE)
-                << "Failed to set SQLite encoding mode to UTF-8:" << q.lastError().text();
+            qCWarning(HBNBOTA_CORE) << "Failed to set SQLite encoding mode to UTF-8:" << q.lastError().text();
         }
         if (Q_UNLIKELY(!q.exec(u"PRAGMA foreign_keys = on"_s))) {
-            qCWarning(HBNBOTA_CORE)
-                << "Failed to enable foreign keys on SQLite:" << q.lastError().text();
+            qCWarning(HBNBOTA_CORE) << "Failed to enable foreign keys on SQLite:" << q.lastError().text();
         }
     }
 
@@ -267,7 +248,7 @@ bool Botaskaf::initializeDb(const QString &conName) const
 
     if (mode.startsWith("refresh"_ba)) {
         auto parts = mode.split('=');
-        bool ok    = false;
+        bool ok    = true;
         uint steps = parts.size() > 1 ? parts.at(1).toUInt(&ok) : 0;
         if (Q_UNLIKELY(!ok)) {
             qCCritical(HBNBOTA_CORE) << "Invalid number of steps given for database refresh";
@@ -279,7 +260,7 @@ bool Botaskaf::initializeDb(const QString &conName) const
         }
     } else if (mode.startsWith("rollback"_ba)) {
         auto parts = mode.split('=');
-        bool ok    = false;
+        bool ok    = true;
         uint steps = parts.size() > 1 ? parts.at(1).toUInt(&ok) : 1;
         if (Q_UNLIKELY(!ok)) {
             qCCritical(HBNBOTA_CORE) << "Invalid number of steps given for database rollback";
