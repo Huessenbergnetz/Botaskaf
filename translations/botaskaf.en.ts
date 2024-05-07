@@ -3,18 +3,6 @@
 <TS version="2.1">
 <context>
     <name></name>
-    <message id="hbnbota_setup_index_subtitle">
-        <source>Welcome</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="hbnbota_setup_user_suptitle">
-        <source>Create User</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="hbnbota_setup_site_title">
-        <source>Setup</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message id="hbnbota_form_setup_index_label">
         <source>Welcome to the Botaskaf setup</source>
         <translation type="unfinished"></translation>
@@ -92,25 +80,8 @@
         <source>Time zone</source>
         <translation type="unfinished"></translation>
     </message>
-    <message id="hbnbota_setup_invalid_token">
-        <source>Sorry, but the entered setup token is not valid.</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message id="hbnbota_error_failed_hashing_pw">
         <source>Failed to hash the password.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="hbnbota_error_failed_create_user_db">
-        <source>Failed to insert new user “%1” into database.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="hbnbota_user_get_query_failed">
-        <source>Failed to get user with ID %1 from database.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="hbnbota_user_get_notfound">
-        <source>Can not find user with ID %1 in the database.
-</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="hbnbota_error_title_badrequest">
@@ -136,6 +107,47 @@
     <message id="hbnbota_error_title_internal">
         <source>Internal server error</source>
         <extracomment>Error title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_setup_finished_subtitle">
+        <source>Finished</source>
+        <extracomment>Site third level title, will be something like: Finished - Setup - Botaskaf</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_setup_invalid_token">
+        <source>Sorry, but the entered setup token is not valid.</source>
+        <extracomment>Error message</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_site_subtitle_setup_index">
+        <source>Welcome</source>
+        <extracomment>Site third level title, will be something like: Welcome - Setup - Botaskaf</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_site_subtitle_setup_user">
+        <source>Create User</source>
+        <extracomment>Site third level title, will be something like: Create User - Setup - Botaskaf</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_info_setup_finished">
+        <source>You have successfully completed the setup and created your first user “%1” (%2). Now remove the “setuptoken“ entry from your configuration file and restart the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_site_title_setup">
+        <source>Setup</source>
+        <extracomment>Site second level title, will be something like: Welcome - Setup - Botaskaf</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_user_failed_create_db">
+        <source>Failed to insert new user “%1” into database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_user_get_query_failed">
+        <source>Failed to get user with ID %1 from database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_user_get_not_found">
+        <source>Can not find user with ID %1 in the database.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
