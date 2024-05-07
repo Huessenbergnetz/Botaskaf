@@ -155,6 +155,8 @@ bool Botaskaf::init()
     auto authn = new Authentication(this); // NOLINT(cppcoreguidelines-owning-memory)
     authn->addRealm(std::make_shared<UserAuthStoreSql>(), std::make_shared<CutelystBotan::CredentialBotan>());
 
+    Validator::loadTranslations(this);
+
     return true;
 }
 
