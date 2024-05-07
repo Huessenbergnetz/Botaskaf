@@ -97,14 +97,7 @@ public:
     /*!
      * \brief The user type.
      */
-    enum Type : int {
-        Invalid       = -1,
-        Disabled      = 0,
-        Registered    = 16,
-        Manager       = 32,
-        Administrator = 64,
-        SuperUser     = 127
-    };
+    enum Type : int { Invalid = -1, Disabled = 0, Registered = 16, Manager = 32, Administrator = 64, SuperUser = 127 };
     Q_ENUM(Type)
 
     /*!
@@ -303,6 +296,8 @@ public:
      * This compares all properties.
      */
     bool operator!=(const User &other) const noexcept { return !(*this == other); }
+
+    operator QVariant() const { return QVariant::fromValue<User>(*this); }
 
     /*!
      * \brief Converts \a str to enum Type.
