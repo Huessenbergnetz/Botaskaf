@@ -150,5 +150,22 @@
         <source>Can not find user with ID %1 in the database.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_form_login_label">
+        <source>Login to Botaskaf</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_general_login">
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_site_title_login">
+        <source>Login</source>
+        <extracomment>Site second level title, will be something like: Login - Botaskaf</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_login_failed">
+        <source>Arrrgh, bad email address and/or password!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

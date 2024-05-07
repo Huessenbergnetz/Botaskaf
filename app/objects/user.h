@@ -16,7 +16,8 @@ class Error;
 
 namespace Cutelyst {
 class Context;
-}
+class AuthenticationUser;
+} // namespace Cutelyst
 
 /*!
  * \brief Contains data about users and provides user management methods.
@@ -355,6 +356,10 @@ public:
     static User create(Cutelyst::Context *c, Error &e, const QVariantHash &values);
 
     static User get(Cutelyst::Context *c, Error &e, User::dbid_t id);
+
+    static bool toStash(Cutelyst::Context *c, Error &e, User::dbid_t id);
+
+    static bool toStash(Cutelyst::Context *c, Error &e, const Cutelyst::AuthenticationUser &authUser);
 
 private:
     QSharedDataPointer<UserData> data;

@@ -1,0 +1,57 @@
+{# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de> #}
+{# SPDX-License-Identifier: AGPL-3.0-or-later #}
+
+{% include "header.html" %}
+
+<body>
+    <main class="container">
+        <div class="row">
+            <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 mt-5">
+
+                <div class="card">
+                    <h1 class="card-header h3">{{ form.label }}</h1>
+                    <div class="card-body">
+                        <form {{ form.attrs|safe }}>
+                            {% with form.fieldByName.email as field %}
+                            <div class="mb-3">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-envelope-at"></i></span>
+                                    <input type="{{ field.typeString }}" class="form-control{% if field.errors %} is-invalid{%endif %}" aria-label="{{ field.label }}" {{ field.attrs|safe }}{% if field.errors %} aria-describedby="{{ field.name }}Feedback"{% endif %}>
+                                </div>
+                                {% if field.errors %}
+                                <div id="{{ field.name}}Feedback" class="invalid-feedback">{{ field.errors|join:"<br>" }}</div>
+                                {% endif %}
+                            </div>
+                            {% endwith %}
+
+                            {% with form.fieldByName.password as field %}
+                            <div class="mb-3">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-key"></i></span>
+                                    <input type="{{ field.typeString }}" class="form-control{% if field.errors %} is-invalid{%endif %}" aria-label="{{ field.label }}" {{ field.attrs|safe }}{% if field.errors %} aria-describedby="{{ field.name }}Feedback"{% endif %}>
+                                </div>
+                                {% if field.errors %}
+                                <div id="{{ field.name}}Feedback" class="invalid-feedback">{{ field.errors|join:"<br>" }}</div>
+                                {% endif %}
+                            </div>
+                            {% endwith %}
+
+                            <div class="d-grid gap-2">
+                                {% with form.buttonById.submitBtn as btn %}
+                                <button type="{{ btn.typeString }}" class="btn btn-primary" {{ btn.attrs|safe }}><i class="bi bi-box-arrow-in-right"></i> {{ btn.text }}</button>
+                                {% endwith %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                {% if error_msg %}
+                <div class="alert alert-danger mt-3" role="alert">{{ error_msg }}</div>
+                {% endif %}
+
+            </div> <!-- col -->
+        </div> <!-- row -->
+    </main>
+</body>
+
+{% include "footer.html" %}

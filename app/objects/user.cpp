@@ -497,6 +497,28 @@ User User::get(Cutelyst::Context *c, Error &e, User::dbid_t id)
     return u;
 }
 
+bool User::toStash(Cutelyst::Context *c, Error &e, User::dbid_t id)
+{
+    Q_ASSERT(c);
+    const auto u = User::get(c, e, id);
+    if (!u.isNull()) {
+        u.toStash(c);
+        return true;
+    }
+    return false;
+}
+
+bool User::toStash(Cutelyst::Context *c, Error &e, const Cutelyst::AuthenticationUser &authUser)
+{
+    Q_ASSERT(c);
+    bool ok       = false;
+    const auto id = User::toDbId(authUser.id(), &ok);
+    if (!ok) {
+        return false;
+    }
+    return User::toStash(c, e, id);
+}
+
 User User::fromCache(User::dbid_t id)
 {
     User u;

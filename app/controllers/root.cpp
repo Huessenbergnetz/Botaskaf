@@ -5,6 +5,9 @@
 
 #include "root.h"
 
+#include "objects/error.h"
+#include "objects/user.h"
+
 #include <Cutelyst/Plugins/Authentication/authentication.h>
 
 using namespace Qt::Literals::StringLiterals;
@@ -31,16 +34,15 @@ bool Root::Auto(Context *c)
         return true;
     }
 
-    if (c->controllerName() == "Logout"_L1) {
-        return true;
-    }
-
     const auto user = Authentication::user(c);
 
     if (Q_UNLIKELY(user.isNull())) {
         c->res()->redirect(c->uriFor(u"/login"_s));
         return false;
     }
+
+    Error e;
+    User::toStash(c, e, user);
 
     return true;
 }

@@ -8,6 +8,7 @@ target_sources(botaskaftemplate
         header.html
         index.html
         wrapper.html
+        login.html
 )
 
 add_subdirectory(setup)

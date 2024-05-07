@@ -5,6 +5,9 @@
 
 #include "logout.h"
 
+#include "logging.h"
+#include "objects/user.h"
+
 #include <Cutelyst/Plugins/Authentication/authentication.h>
 
 Logout::Logout(QObject *parent)
@@ -14,6 +17,8 @@ Logout::Logout(QObject *parent)
 
 void Logout::index(Context *c)
 {
+    qCInfo(HBNBOTA_AUTHN) << User::fromStash(c) << "logged out";
+
     Authentication::logout(c);
     c->res()->redirect(c->uriFor(QStringLiteral("/login")));
 }
