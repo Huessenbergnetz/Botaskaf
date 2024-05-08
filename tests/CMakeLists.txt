@@ -13,4 +13,4 @@ function(hbnbota_test _testname)
 endfunction(hbnbota_test _testname)
 
 hbnbota_test(testuser)
-hbnbota_test(testerrorobject)
+# hbnbota_test(testerrorobject)

@@ -6,6 +6,7 @@
 #include "userauthstoresql.h"
 
 #include "logging.h"
+#include "objects/error.h"
 #include "objects/user.h"
 
 #include <Cutelyst/Context>
@@ -34,20 +35,24 @@ AuthenticationUser UserAuthStoreSql::findUser(Context *c, const ParamsMultiMap &
 {
     const QString email = userinfo.value(u"email"_s).toLower();
 
-    QSqlQuery q =
-        CPreparedSqlQueryThreadFO(u"SELECT id, type, password FROM users WHERE email = :email"_s);
+    QSqlQuery q = CPreparedSqlQueryThreadFO(u"SELECT id, type, password FROM users WHERE email = :email"_s);
     q.bindValue(u":email"_s, email);
 
     if (Q_UNLIKELY(!q.exec())) {
-        qCCritical(HBNBOTA_AUTHN) << "Failed to execute database query to get user with email"
-                                  << email << "from the database:" << q.lastError().text();
+        qCCritical(HBNBOTA_AUTHN) << "Failed to execute database query to get user with email" << email
+                                  << "from the database:" << q.lastError().text();
+        //% "Failed to execute database query to get user data."
+        const Error e = Error::create(c, q, c->qtTrId("hbnbota_error_userstore_query_failed"));
+        e.toStash(c);
         return {};
     }
 
     if (Q_UNLIKELY(!q.next())) {
         qCWarning(HBNBOTA_AUTHN).noquote().nospace()
-            << "Login failed: email address " << email
-            << " not found. IP: " << c->req()->addressString();
+            << "Login failed: email address " << email << " not found. IP: " << c->req()->addressString();
+        //% "Arrrgh, bad email address and/or password!"
+        const Error e = Error::create(c, Response::Forbidden, c->qtTrId("hbnbota_error_login_failed"), u"BAD_LOGIN"_s);
+        e.toStash(c);
         return {};
     }
 
@@ -56,8 +61,9 @@ AuthenticationUser UserAuthStoreSql::findUser(Context *c, const ParamsMultiMap &
 
     if (userType <= User::Disabled) {
         qCWarning(HBNBOTA_AUTHN).noquote().nospace()
-            << "Login failed: user with email address " << email
-            << " is disabled: IP: " << c->req()->addressString();
+            << "Login failed: user with email address " << email << " is disabled: IP: " << c->req()->addressString();
+        const Error e = Error::create(c, Response::Forbidden, c->qtTrId("hbnbota_error_login_failed"), u"BAD_LOGIN"_s);
+        e.toStash(c);
         return {};
     }
 

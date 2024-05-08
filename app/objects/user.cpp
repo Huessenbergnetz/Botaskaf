@@ -407,9 +407,10 @@ User User::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
 
     const QString passwordHash = CutelystBotan::CredentialBotan::createArgon2Password(password);
     if (Q_UNLIKELY(passwordHash.isEmpty())) {
-        e = Error(Cutelyst::Response::InternalServerError,
-                  //% "Failed to hash the password."
-                  c->qtTrId("hbnbota_error_failed_hashing_pw"));
+        e = Error::create(c,
+                          Cutelyst::Response::InternalServerError,
+                          //% "Failed to hash the password."
+                          c->qtTrId("hbnbota_error_failed_hashing_pw"));
         qCCritical(HBNBOTA_CORE) << "Failed to hash the password for new user identified by email" << email;
         return {};
     }
@@ -427,7 +428,7 @@ User User::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
 
     if (Q_UNLIKELY(!q.exec())) {
         //% "Failed to insert new user “%1” into database."
-        e = Error(q, c->qtTrId("hbnbota_error_user_failed_create_db").arg(email));
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_user_failed_create_db").arg(email));
         qCCritical(HBNBOTA_CORE) << "Failed to insert new user" << email << "into database:" << q.lastError().text();
         return {};
     }
@@ -467,14 +468,14 @@ User User::get(Cutelyst::Context *c, Error &e, User::dbid_t id)
 
     if (Q_UNLIKELY(!q.exec())) {
         //% "Failed to get user with ID %1 from database."
-        e = Error(q, c->qtTrId("hbnbota_error_user_get_query_failed").arg(id));
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_user_get_query_failed").arg(id));
         qCCritical(HBNBOTA_CORE) << "Failed to get user with ID" << id << "from database:" << q.lastError().text();
         return {};
     }
 
     if (Q_UNLIKELY(!q.next())) {
         //% "Can not find user with ID %1 in the database."
-        e = Error(Cutelyst::Response::NotFound, c->qtTrId("hbnbota_error_user_get_not_found").arg(id));
+        e = Error::create(c, Cutelyst::Response::NotFound, c->qtTrId("hbnbota_error_user_get_not_found").arg(id));
         qCCritical(HBNBOTA_CORE) << "Can not find user ID" << id << "in the database";
         return {};
     }

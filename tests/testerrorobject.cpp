@@ -5,6 +5,8 @@
 
 #include "objects/error.h"
 
+#include <Cutelyst/Context>
+
 #include <QSqlError>
 #include <QTest>
 
@@ -20,6 +22,7 @@ public:
     }
 
 private slots:
+    void initTestCase();
     void testDefaultConstructor();
     void testNormaConstructor();
     void testSqlErrorConstructor();
@@ -27,7 +30,15 @@ private slots:
     void testMove();
     void testSwap();
     void testComparison();
+
+private:
+    std::unique_ptr<Cutelyst::Context> m_c;
 };
+
+void ErrorObjectTest::initTestCase()
+{
+    m_c = std::make_unique<Cutelyst::Context>();
+}
 
 void ErrorObjectTest::testDefaultConstructor()
 {
@@ -40,7 +51,7 @@ void ErrorObjectTest::testDefaultConstructor()
 
 void ErrorObjectTest::testNormaConstructor()
 {
-    Error e1{Cutelyst::Response::MethodNotAllowed, u"Only POST is allowed"_s};
+    Error e1 = Error::create(Cutelyst::Response::MethodNotAllowed, u"Only POST is allowed"_s);
     QCOMPARE(e1.status(), Cutelyst::Response::MethodNotAllowed);
     QCOMPARE(e1.text(), u"Only POST is allowed"_s);
     QVERIFY(e1.code().isNull());
@@ -51,16 +62,13 @@ void ErrorObjectTest::testNormaConstructor()
 
 void ErrorObjectTest::testSqlErrorConstructor()
 {
-    const QSqlError sqlError1{
-        u"Little Driver Text"_s, u"Little Database Text"_s, QSqlError::StatementError};
+    const QSqlError sqlError1{u"Little Driver Text"_s, u"Little Database Text"_s, QSqlError::StatementError};
     Error e1(sqlError1, u"Something failed in the database"_s);
     QCOMPARE(e1.text(), u"Something failed in the database"_s);
     QCOMPARE(e1.status(), Cutelyst::Response::InternalServerError);
 
-    const QSqlError sqlError2{u"Little Driver Text"_s,
-                              u"Little Database Text"_s,
-                              QSqlError::StatementError,
-                              u"db_error_code"_s};
+    const QSqlError sqlError2{
+        u"Little Driver Text"_s, u"Little Database Text"_s, QSqlError::StatementError, u"db_error_code"_s};
     Error e2(sqlError2, u"Something failed in the database"_s);
     QCOMPARE(e2.code(), u"DB_ERROR_CODE"_s);
 }

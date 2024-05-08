@@ -19,6 +19,13 @@ class QSqlQuery;
  */
 class Error
 {
+    Q_GADGET
+    Q_PROPERTY(Cutelyst::Response::HttpStatus status READ status CONSTANT)
+    Q_PROPERTY(QString title READ title CONSTANT)
+    Q_PROPERTY(QString text READ text CONSTANT)
+    Q_PROPERTY(QString sqlErrorText READ sqlErrorText CONSTANT)
+    Q_PROPERTY(QString code READ code CONSTANT)
+    Q_PROPERTY(bool isError READ isError CONSTANT)
 public:
     /*!
      * \brief Constructs a non-error.
@@ -26,23 +33,6 @@ public:
      * isError() will return \c false and status() will return Cutelyst::Response::Ok.
      */
     Error() noexcept = default;
-    /*!
-     * \brief Constructs a new error with the given parameters.
-     * \param status    The HTTP response status for this error.
-     * \param text      The text show for this error.
-     * \param code      The error code.
-     */
-    Error(Cutelyst::Response::HttpStatus status,
-          const QString &text,
-          const QString &code = QString());
-    /*!
-     * \brief Constructs a new error from \a sqlError with error \a text.
-     */
-    Error(const QSqlError &sqlError, const QString &text);
-    /*!
-     * \brief Constructs a new error from \a sqlQuery with error \a text.
-     */
-    Error(const QSqlQuery &sqlQuery, const QString &text);
     /*!
      * \brief Constructs a copy of \a other.
      */
@@ -86,9 +76,9 @@ public:
     [[nodiscard]] QString sqlErrorText() const noexcept;
 
     /*!
-     * \brief Returns a translated error title.
+     * \brief Returns the error title.
      */
-    [[nodiscard]] QString title(Cutelyst::Context *c) const;
+    [[nodiscard]] QString title() const noexcept;
 
     /*!
      * \brief Returns the error code.
@@ -133,10 +123,8 @@ public:
      * \param text      The error text.
      * \param detach    If set to \c true, the request will be detached to the error function.
      */
-    static void toStash(Cutelyst::Context *c,
-                        Cutelyst::Response::HttpStatus status,
-                        const QString &text,
-                        bool detach = false);
+    static void
+        toStash(Cutelyst::Context *c, Cutelyst::Response::HttpStatus status, const QString &text, bool detach = false);
 
     /*!
      * \brief Converts the error data to a JSON object.
@@ -155,7 +143,7 @@ public:
      * }
      * \endcode
      */
-    QJsonObject toJson(Cutelyst::Context *c) const;
+    QJsonObject toJson() const;
 
     /*!
      * \brief Returns \c true if the stash of the context \a c contains an \c error key.
@@ -172,6 +160,32 @@ public:
      */
     bool operator!=(const Error &other) const noexcept { return !(*this == other); }
 
+    /*!
+     * \brief Creates a new error object with the given parameters.
+     * \param c         Cutelyst context used for translations.
+     * \param status    The HTTP response status for this error.
+     * \param text      The text to show for this error.
+     * \param code      The error code.
+     */
+    static Error create(Cutelyst::Context *c,
+                        Cutelyst::Response::HttpStatus status,
+                        const QString &text,
+                        const QString &code = QString());
+
+    /*!
+     * \brief Creates a new error object from \a sqlError with error \a text.
+     *
+     * Contexte \c c is used for translations.
+     */
+    static Error create(Cutelyst::Context *c, const QSqlError &sqlError, const QString &text);
+
+    /*!
+     * \brief Creates a new error object from \a sqlQuery with error \a text.
+     *
+     * Contexte \c c is used for translations.
+     */
+    static Error create(Cutelyst::Context *c, const QSqlQuery &sqlQuery, const QString &text);
+
 private:
     class Data : public QSharedData // NOLINT(cppcoreguidelines-special-member-functions)
     {
@@ -184,7 +198,10 @@ private:
         Data &operator=(const Data &) = delete;
         ~Data() noexcept              = default;
 
+        void setTitle(Cutelyst::Context *c);
+
         Cutelyst::Response::HttpStatus status{Cutelyst::Response::OK};
+        QString title;
         QString text;
         QString code;
         QSqlError sqlError;

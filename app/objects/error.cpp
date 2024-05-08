@@ -36,19 +36,36 @@ Error::Data::Data(const QSqlQuery &_sqlQuery, QString _text)
 {
 }
 
-Error::Error(Cutelyst::Response::HttpStatus status, const QString &text, const QString &code)
-    : data{new Data{status, text, code}}
+void Error::Data::setTitle(Cutelyst::Context *c)
 {
-}
-
-Error::Error(const QSqlError &sqlError, const QString &text)
-    : data{new Data{sqlError, text}}
-{
-}
-
-Error::Error(const QSqlQuery &sqlQuery, const QString &text)
-    : data{new Data{sqlQuery, text}}
-{
+    switch (status) {
+    case Cutelyst::Response::BadRequest:
+        //: Error title
+        //% "Bad request"
+        title = c->qtTrId("hbnbota_error_title_badrequest");
+        break;
+    case Cutelyst::Response::Unauthorized:
+    case Cutelyst::Response::Forbidden:
+        //: Error title
+        //% "Access denied"
+        title = c->qtTrId("hbnbota_error_title_accessdenied");
+        break;
+    case Cutelyst::Response::NotFound:
+        //: Error title
+        //% "Not found"
+        title = c->qtTrId("hbnbota_error_title_notfound");
+        break;
+    case Cutelyst::Response::MethodNotAllowed:
+        //: Error title
+        //% "Method not allowed"
+        title = c->qtTrId("hnbota_error_title_notallowed");
+        break;
+    default:
+        //: Error title
+        //% "Internal server error"
+        title = c->qtTrId("hbnbota_error_title_internal");
+        break;
+    }
 }
 
 Cutelyst::Response::HttpStatus Error::status() const noexcept
@@ -66,37 +83,9 @@ QString Error::sqlErrorText() const noexcept
     return data ? data->sqlError.text() : QString();
 }
 
-QString Error::title(Cutelyst::Context *c) const
+QString Error::title() const noexcept
 {
-    Q_ASSERT(c);
-
-    if (!data) {
-        return {};
-    }
-
-    switch (data->status) {
-    case Cutelyst::Response::BadRequest:
-        //: Error title
-        //% "Bad request"
-        return c->qtTrId("hbnbota_error_title_badrequest");
-    case Cutelyst::Response::Unauthorized:
-    case Cutelyst::Response::Forbidden:
-        //: Error title
-        //% "Access denied"
-        return c->qtTrId("hbnbota_error_title_accessdenied");
-    case Cutelyst::Response::NotFound:
-        //: Error title
-        //% "Not found"
-        return c->qtTrId("hbnbota_error_title_notfound");
-    case Cutelyst::Response::MethodNotAllowed:
-        //: Error title
-        //% "Method not allowed"
-        return c->qtTrId("hnbota_error_title_notallowed");
-    default:
-        //: Error title
-        //% "Internal server error"
-        return c->qtTrId("hbnbota_error_title_internal");
-    }
+    return data ? data->title : QString();
 }
 
 QString Error::code() const noexcept
@@ -124,22 +113,20 @@ Error Error::fromStash(Cutelyst::Context *c)
     return c->stash(HBNBOTA_ERROR_STASH_KEY).value<Error>();
 }
 
-void Error::toStash(Cutelyst::Context *c,
-                    Cutelyst::Response::HttpStatus status,
-                    const QString &text,
-                    bool detach)
+void Error::toStash(Cutelyst::Context *c, Cutelyst::Response::HttpStatus status, const QString &text, bool detach)
 {
-    Error e{status, text};
+    Error e;
+    e.data = new Error::Data{status, text, {}};
+    e.data->setTitle(c);
     e.toStash(c, detach);
 }
 
-QJsonObject Error::toJson(Cutelyst::Context *c) const
+QJsonObject Error::toJson() const
 {
-    return QJsonObject{{u"error"_s,
-                        QJsonObject{{u"status"_s, static_cast<int>(status())},
-                                    {u"text"_s, text()},
-                                    {u"title"_s, title(c)},
-                                    {u"code"_s, code()}}}};
+    return QJsonObject{
+        {u"error"_s,
+         QJsonObject{
+             {u"status"_s, static_cast<int>(status())}, {u"text"_s, text()}, {u"title"_s, title()}, {u"code"_s, code()}}}};
 }
 
 bool Error::hasError(Cutelyst::Context *c) noexcept
@@ -171,6 +158,30 @@ bool Error::operator==(const Error &other) const noexcept
     }
 
     return true;
+}
+
+Error Error::create(Cutelyst::Context *c, Cutelyst::Response::HttpStatus status, const QString &text, const QString &code)
+{
+    Error e;
+    e.data = new Error::Data{status, text, code};
+    e.data->setTitle(c);
+    return e;
+}
+
+Error Error::create(Cutelyst::Context *c, const QSqlError &sqlError, const QString &text)
+{
+    Error e;
+    e.data = new Error::Data{sqlError, text};
+    e.data->setTitle(c);
+    return e;
+}
+
+Error Error::create(Cutelyst::Context *c, const QSqlQuery &sqlQuery, const QString &text)
+{
+    Error e;
+    e.data = new Error::Data{sqlQuery, text};
+    e.data->setTitle(c);
+    return e;
 }
 
 void swap(Error &a, Error &b) noexcept

@@ -57,12 +57,15 @@ void Login::index(Context *c)
                 c->res()->redirect(c->uriFor(u"/"_s));
                 return;
             } else {
-                qCWarning(HBNBOTA_AUTHN).noquote().nospace()
-                    << "Login failed: bad password for user identified by " << vr.value(u"email"_s)
-                    << ". IP: " << c->req()->addressString();
-                //% "Arrrgh, bad email address and/or password!"
-                c->setStash(u"error_msg"_s, c->qtTrId("hbnbota_error_login_failed"));
-                c->res()->setStatus(Response::Forbidden);
+                if (!Error::hasError(c)) {
+                    qCWarning(HBNBOTA_AUTHN).noquote().nospace()
+                        << "Login failed: bad password for user identified by " << vr.value(u"email"_s).toString()
+                        << ". IP: " << c->req()->addressString();
+                    const Error e =
+                        Error::create(c, Response::Forbidden, c->qtTrId("hbnbota_error_login_failed"), u"BAD_LOGIN"_s);
+                    e.toStash(c);
+                }
+                c->res()->setStatus(Error::fromStash(c).status());
             }
         }
     }

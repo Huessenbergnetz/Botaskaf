@@ -167,5 +167,9 @@
         <source>Arrrgh, bad email address and/or password!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_error_userstore_query_failed">
+        <source>Failed to execute database query to get user data.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
