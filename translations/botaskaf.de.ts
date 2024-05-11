@@ -171,5 +171,9 @@
         <source>Failed to execute database query to get user data.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_site_title_dashboard">
+        <source>Dashboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

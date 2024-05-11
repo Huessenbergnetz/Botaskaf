@@ -31,7 +31,6 @@
 @import "node_modules/bootstrap/scss/images";
 @import "node_modules/bootstrap/scss/containers";
 @import "node_modules/bootstrap/scss/grid";
-@import "node_modules/bootstrap/scss/helpers";
 
 // Bootstrap components
 @import "node_modules/bootstrap/scss/tables";
@@ -60,6 +59,9 @@
 @import "node_modules/bootstrap/scss/offcanvas";
 @import "node_modules/bootstrap/scss/placeholders";
 
+// Bootstrap helpers
+@import "node_modules/bootstrap/scss/helpers";
+
 // Bootstrap utilities API
 @import "node_modules/bootstrap/scss/utilities/api";
 
@@ -86,3 +88,14 @@ $bootstrap-icons-font-dir: "../fonts";
     }
 }
 // Button with icon and spinner - END
+
+// Navbar customiztaion - START
+
+.navbar-brand {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    background-color: rgba(0, 0, 0, .25);
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+// Navbar customiztaion - END

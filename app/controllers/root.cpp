@@ -7,6 +7,7 @@
 
 #include "objects/error.h"
 #include "objects/user.h"
+#include "settings.h"
 
 #include <Cutelyst/Plugins/Authentication/authentication.h>
 
@@ -19,7 +20,9 @@ Root::Root(QObject *parent)
 
 void Root::index(Context *c)
 {
-    c->response()->body() = "Welcome to Botaskaf!";
+    c->stash({{u"template"_s, u"index.html"_s},
+              //% "Dashboard"
+              {u"site_title"_s, c->qtTrId("hbnbota_site_title_dashboard")}});
 }
 
 void Root::defaultPage(Context *c)
@@ -43,6 +46,8 @@ bool Root::Auto(Context *c)
 
     Error e;
     User::toStash(c, e, user);
+
+    c->stash({{u"site_name"_s, Settings::siteName()}});
 
     return true;
 }

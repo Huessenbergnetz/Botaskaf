@@ -23,7 +23,7 @@ mix.copyDirectory('node_modules/@popperjs/core/dist/esm', 'static/js/popper');
 mix.copy('node_modules/bootstrap/js/index.esm.js', 'static/js/bootstrap');
 mix.copy('node_modules/bootstrap/js/src', 'static/js/bootstrap/src');
 
-// mix.copy('assets/js/index.js', 'static/js/').minify('static/js/index.js');
+mix.copy('assets/js/index.js', 'static/js/').minify('static/js/index.js');
 // mix.copy('assets/js/utils/icon.js', 'static/js/utils').minify('static/js/utils/icon.js');
 // mix.copy('assets/js/utils/alerts.js', 'static/js/utils').minify('static/js/utils/alerts.js');
 // mix.copy('assets/js/login/challenge.js', 'static/js/login').minify('static/js/login/challenge.js');

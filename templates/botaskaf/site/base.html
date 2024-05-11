@@ -1,2 +1,37 @@
 {# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de> #}
 {# SPDX-License-Identifier: AGPL-3.0-or-later #}
+
+{% include "header.html" %}
+
+<body>
+    <header class="navbar sticky-top bg-dark flex-lg-nowrap p-0 shadow" data-bs-theme="dark">
+        <a class="navbar-brand col-lg-3 col-xxl-2 me-0 px-3 fs-6 text-white" href="/">{{ site_name }}</a>
+        <ul class="navbar-nav flex-row d-lg-none">
+            <li class="nav-item text-nowrap">
+                <button type="button" class="nav-link px-3 text-white" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation"><i class="bi bi-list"></i></button>
+            </li>
+        </ul>
+
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="sidebar border border-right col-lg-3 col-xxl-2 p-0 bg-body-tertiary">
+                <div id="sidebarMenu" class="offcanvas-lg offcanvas-end bg-body-tertiary" tabindex="-1">
+                    <div class="offcanvas-header">
+                        <span id="sidebarMenuLabel" class="offcanvs-title h5">{{ site_name }}</span>
+                        <button class="btn-close" type="button" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
+                    </div>
+                </div>
+            </nav>
+
+            <main class="col-12 col-lg-9 col-xxl-10 min-vh-100">
+                {% include template %}
+            </main>
+        </div>
+    </div>
+</body>
+
+{% include  "footer.html" %}
