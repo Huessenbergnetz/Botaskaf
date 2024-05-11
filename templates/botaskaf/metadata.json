@@ -1,0 +1,45 @@
+{
+  "name": "Botaskaf",
+  "license": "GNU Affero General Public License 3.0",
+  "licenseUrl": "https://raw.githubusercontent.com/Huessenbergnetz/Botaskaf/master/LICENSES/AGPL-3.0-or-later.txt",
+  "version": "0.0.1",
+  "url": "https://github.com/Huessenbergnetz/Botaskaf",
+  "description": "",
+  "author": "Matthias Fehring",
+  "authorUrl": "https://www.huessenbergnetz.de",
+  "components": [
+    {
+      "name": "Popper.js",
+      "version": "2.11.8",
+      "url": "https://popper.js.org/",
+      "author": "Federico Zivolo",
+      "authorUrl": "https://fezvrasta.github.io/",
+      "license": "MIT License",
+      "licenseUrl": "https://github.com/FezVrasta/popper.js/blob/v2.11.8/LICENSE.md"
+    },
+    {
+      "name": "Bootstrap",
+      "version": "5.3.3",
+      "url": "http://getbootstrap.com/",
+      "author": "Bootstrap Core Team",
+      "authorUrl": "https://github.com/orgs/twbs/people",
+      "license": "MIT License",
+      "licenseUrl": "https://github.com/twbs/bootstrap/blob/v5.3.3/LICENSE"
+    },
+    {
+      "name": "Bootstrap Icons",
+      "version": "1.11.3",
+      "url": "https://icons.getbootstrap.com/",
+      "author": "Bootstrap Core Team",
+      "authorUrl": "https://github.com/orgs/twbs/people",
+      "license": "MIT License",
+      "licenseUrl": "https://github.com/twbs/icons/blob/v1.11.3/LICENSE.md"
+    }
+  ],
+  "icons": {
+    "userMenuSettings": "person-gear",
+    "userMenuLogout": "box-arrow-right",
+    "settingsUserMenuPersonal": "person-fill",
+    "settingsUserMenuSecurity": "person-fill-lock"
+  }
+}
