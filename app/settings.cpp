@@ -74,7 +74,7 @@ bool loadCore(const QVariantMap &core)
 
     if (Q_UNLIKELY(!tmplDirFi.isDir())) {
         qCCritical(HBNBOTA_SETTINGS) << "Template directory path" << tmplDirFi.absoluteFilePath()
-                                     << "dows not point to a directory";
+                                     << "does not point to a directory";
         return false;
     }
 
