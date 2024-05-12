@@ -64,6 +64,8 @@ QString tmplPath();
  */
 QString tmplPath(QStringView path);
 
+QString tmplIcon(const QString &name);
+
 /*!
  * \brief The main site name.
  */
@@ -88,13 +90,11 @@ QLocale defLocale();
 
 QTimeZone defTimeZone();
 
-QList<CutelystForms::Option *>
-    supportedLocales(Cutelyst::Context *c, const QLocale &selected, QObject *parent = nullptr);
+QList<CutelystForms::Option *> supportedLocales(Cutelyst::Context *c, const QLocale &selected, QObject *parent = nullptr);
 
 QStringList allowedLocaleIds();
 
-QList<CutelystForms::Option *> supportedTimeZones(const QByteArray &selected,
-                                                  QObject *parent = nullptr);
+QList<CutelystForms::Option *> supportedTimeZones(const QByteArray &selected, QObject *parent = nullptr);
 
 QStringList allowedTimeZoneIds();
 } // namespace Settings

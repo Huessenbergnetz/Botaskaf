@@ -97,10 +97,16 @@ bool loadCore(const QVariantMap &core)
         return false;
     }
 
-    const QJsonObject mdo = json.object();
+    const auto mdo = json.object();
     if (Q_UNLIKELY(mdo.isEmpty())) {
         qCCritical(HBNBOTA_SETTINGS) << "Template meta data file is empty";
         return false;
+    }
+
+    const auto icons = mdo.value("icons"_L1).toObject();
+    cfg->tmplIcons.reserve(icons.size());
+    for (auto i = icons.constBegin(), end = icons.constEnd(); i != end; ++i) {
+        cfg->tmplIcons.insert(i.key(), i.value().toString());
     }
 
     const QString _statPlugin =
@@ -250,6 +256,12 @@ QString Settings::tmplPath(QStringView path)
 {
     QReadLocker locker(&cfg->lock);
     return cfg->tmplDir + '/'_L1 + cfg->tmpl + '/'_L1 + path;
+}
+
+QString Settings::tmplIcon(const QString &name)
+{
+    QReadLocker locker(&cfg->lock);
+    return cfg->tmplIcons.value(name);
 }
 
 QString Settings::siteName()
