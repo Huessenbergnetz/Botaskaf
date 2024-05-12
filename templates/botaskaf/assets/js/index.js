@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Dropdown from '/js/bootstrap/src/dropdown.js';
-import Alert from '/js/bootstrap/src/alert.js';
-import Offcanvas from '/js/bootstrap/src/offcanvas.js';
+import Dropdown from 'bootstrap/dropdown.js';
+import Alert from 'bootstrap/alert.js';
+import Offcanvas from 'bootstrap/offcanvas.js';
 
 const bsMainMenuOffcanvas = new Offcanvas('#sidebarMenu');
 
