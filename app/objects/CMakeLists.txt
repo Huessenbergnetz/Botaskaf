@@ -7,4 +7,6 @@ target_sources(Botaskaf
         user.h
         error.cpp
         error.h
+        menuitem.cpp
+        menuitem.h
 )
