@@ -3,14 +3,5 @@
 
 target_sources(botaskaftemplate
     PRIVATE
-        base.html
-        footer.html
-        header.html
         index.html
-        wrapper.html
-        login.html
 )
-
-add_subdirectory(setup)
-add_subdirectory(users)
-add_subdirectory(parts)
