@@ -5,7 +5,9 @@
 
 #include "root.h"
 
+#include "logging.h"
 #include "objects/error.h"
+#include "objects/menuitem.h"
 #include "objects/user.h"
 #include "settings.h"
 
@@ -51,3 +53,35 @@ bool Root::Auto(Context *c)
 
     return true;
 }
+
+void Root::End(Context *c)
+{
+    if (c->controllerName() == "Login"_L1 || c->controllerName() == "Logout"_L1) {
+        return;
+    }
+
+    buildUserMenu(c);
+    buildMainMenu(c);
+}
+
+void Root::buildUserMenu(Context *c)
+{
+    MenuItemList userMenu;
+
+    //% "Logout"
+    userMenu.emplace_back(c, u"userMenuLogout"_s, c->qtTrId("hbnbota_usermenu_logout"), u"index"_s, u"logout"_s);
+
+    c->setStash(u"user_menu"_s, QVariant::fromValue<MenuItemList>(userMenu));
+}
+
+void Root::buildMainMenu(Context *c)
+{
+    MenuItemList mainMenu;
+
+    //% "Dashboard"
+    mainMenu.emplace_back(c, u"mainMenuDashboard"_s, c->qtTrId("hbnbota_mainmenu_dashboard"), u"index"_s);
+
+    c->setStash(u"main_menu"_s, QVariant::fromValue<MenuItemList>(mainMenu));
+}
+
+#include "moc_root.cpp"

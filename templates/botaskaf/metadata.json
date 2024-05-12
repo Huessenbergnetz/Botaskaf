@@ -37,8 +37,9 @@
     }
   ],
   "icons": {
+    "mainMenuDashboard": "house-fill",
     "userMenuSettings": "person-gear",
-    "userMenuLogout": "box-arrow-right",
+    "userMenuLogout": "door-closed",
     "settingsUserMenuPersonal": "person-fill",
     "settingsUserMenuSecurity": "person-fill-lock"
   }

@@ -99,3 +99,21 @@ $bootstrap-icons-font-dir: "../fonts";
 }
 
 // Navbar customiztaion - END
+
+// Sidebar - START
+
+.sidebar .nav-link {
+    font-size: .875rem;
+    font-weight: 500;
+}
+
+.sidebar .nav-link.active {
+    // color: #2470dc;
+    font-weight: 800;
+}
+
+.sidebar-heading {
+    font-size: .75rem;
+}
+
+// Sidebar - END

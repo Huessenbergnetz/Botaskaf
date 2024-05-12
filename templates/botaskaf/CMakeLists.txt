@@ -5,6 +5,7 @@ add_custom_target(botaskaftemplate
     SOURCES
         package.json
         webpack.mix.js
+        metadata.json
 )
 
 add_subdirectory(assets)

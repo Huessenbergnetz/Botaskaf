@@ -175,5 +175,13 @@
         <source>Dashboard</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_usermenu_logout">
+        <source>Logout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_mainmenu_dashboard">
+        <source>Dashboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
