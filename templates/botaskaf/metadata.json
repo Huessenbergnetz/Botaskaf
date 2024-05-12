@@ -38,6 +38,7 @@
   ],
   "icons": {
     "mainMenuDashboard": "house-fill",
+    "mainMenuUsers": "people",
     "userMenuSettings": "person-gear",
     "userMenuLogout": "door-closed",
     "settingsUserMenuPersonal": "person-fill",

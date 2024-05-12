@@ -10,6 +10,7 @@
 #include "controllers/logout.h"
 #include "controllers/root.h"
 #include "controllers/setup.h"
+#include "controllers/users.h"
 #include "logging.h"
 #include "migrations/m0001_create_users_table.h"
 #include "settings.h"
@@ -104,6 +105,7 @@ bool Botaskaf::init()
         new Root(this);
         new Login(this);
         new Logout(this);
+        new Users(this);
     }
 
     const auto statPluginType = Settings::staticPlugin();

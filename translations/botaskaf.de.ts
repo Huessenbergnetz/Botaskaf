@@ -183,5 +183,13 @@
         <source>Dashboard</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_site_title_users">
+        <source>Users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_mainmenu_users">
+        <source>Users</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

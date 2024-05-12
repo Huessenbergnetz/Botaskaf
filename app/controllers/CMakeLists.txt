@@ -11,4 +11,6 @@ target_sources(Botaskaf
         logout.h
         setup.cpp
         setup.h
+        users.cpp
+        users.h
 )
