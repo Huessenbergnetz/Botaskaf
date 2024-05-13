@@ -6,7 +6,13 @@
 <body>
     <main class="container">
         <div class="row">
-            <div class="col-12 col-lg-8 offset-lg-2 mt-5">
+            <div class="col-12 col-lg-8 offset-lg-2 my-5">
+
+                {% if hbnbota_error.isError %}
+                <div class="mt-3">
+                    {% include "parts/erroralert.html" %}
+                </div>
+                {% endif %}
 
                 <div class="card">
                     <h1 class="card-header h3">{{ form.label }}</h1>
