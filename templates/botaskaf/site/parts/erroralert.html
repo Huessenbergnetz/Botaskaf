@@ -1,0 +1,13 @@
+{# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de> #}
+{# SPDX-License-Identifier: AGPL-3.0-or-later #}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <h4 class="alert-heading">{{ hbnbota_error.title }}</h4>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <p>{{ hbnbota_error.text }}</p>
+    {% if hbnbota_error.sqlErrorText %}
+    <p>{{ hbnbota_error.sqlErrorText }}</p>
+    {% endif %}
+    <hr>
+    <p class="mb-0">HTTP Status: {{ hbnbota_error.status }}{% if hbnbota_error.code %}, Error Code: {{ hbnbota_error.code }}{% endif %}</p>
+</div>

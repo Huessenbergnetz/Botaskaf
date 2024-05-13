@@ -4,4 +4,5 @@
 target_sources(botaskaftemplate
     PRIVATE
         pageheader.html
+        erroralert.html
 )
