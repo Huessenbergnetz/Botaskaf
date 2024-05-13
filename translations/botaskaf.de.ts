@@ -257,5 +257,112 @@
         <extracomment>short format string for a QTime value, should fit to the output of JavaScript’s Intl.DateTimeFormat with timeStyle: medium</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_now">
+        <source>now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_yearsago" numerus="yes">
+        <source>%n year(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_monthsago" numerus="yes">
+        <source>%n month(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_weeksago" numerus="yes">
+        <source>%n week(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_daysago" numerus="yes">
+        <source>%n day(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_hoursago" numerus="yes">
+        <source>%n hour(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_minutesago" numerus="yes">
+        <source>%n minute(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_secondsago" numerus="yes">
+        <source>%n second(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_inyears" numerus="yes">
+        <source>in %n year(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_inweeks" numerus="yes">
+        <source>in %n week(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_indays" numerus="yes">
+        <source>in %n day(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_inhours" numerus="yes">
+        <source>in %n hour(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_inminutes" numerus="yes">
+        <source>in %n minute(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_never">
+        <source>never</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_inmonths" numerus="yes">
+        <source>in %n month(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_rel_inseconds" numerus="yes">
+        <source>in %n second(s)</source>
+        <oldsource>in %n second(s) ago</oldsource>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
 </context>
 </TS>

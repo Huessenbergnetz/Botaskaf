@@ -28,8 +28,12 @@
             <tr>
                 <td>{{ usr.displayName }}<br><small class="text-body-secondary">{{ usr.email }}</small></td>
                 <td>{{ usr.type.key }}</td>
-                <td><i class="bi bi-asterisk"></i>&nbsp;{% hbnbota_dateformat usr.created %}<br><i class="bi bi-floppy"></i>&nbsp;{% hbnbota_dateformat usr.updated %}</td>
-                <td>{% hbnbota_dateformat usr.lastSeen %}</td>
+                <td><i class="bi bi-asterisk"></i>&nbsp;<time datetime="{{ usr.created }}" title="{{ users_labels.created }}: {% hbnbota_dateformat usr.created %}">{% hbnbota_dateformat usr.created "relative" %}</time><br><i class="bi bi-floppy"></i>&nbsp;<time datetime="{{ usr.updated }}" title="{{ users_labels.updated }}: {% hbnbota_dateformat usr.updated %}">{% hbnbota_dateformat usr.updated "relative" %}</time></td>
+                {% if usr.lastSeen %}
+                <td><time datetime="{{ usr.lastSeen }}" title="{% hbnbota_dateformat usr.lastSeen %}">{% hbnbota_dateformat usr.lastSeen "relative" %}</time></td>
+                {% else %}
+                <td>{% hbnbota_dateformat usr.lastSeen "relative" %}</td>
+                {% endif %}
                 <td>{{ usr.id }}</td>
             </tr>
             {% endfor %}

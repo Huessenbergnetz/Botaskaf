@@ -11,6 +11,7 @@
 
 #include <Cutelyst/Context>
 #include <Cutelyst/Plugins/Session/Session>
+#include <chrono>
 #include <cutelee/exception.h>
 #include <cutelee/parser.h>
 
@@ -30,9 +31,116 @@ QString getFormat(const FilterExpression &f, Context *cc)
     return u"short"_s;
 }
 
+QString getRelative(Cutelyst::Context *c, qint64 secsTo)
+{
+    if (secsTo == 0) {
+        //% "now"
+        return c->qtTrId("hbnbota_cutelee_dateformattag_rel_now");
+    }
+
+    const std::chrono::seconds diff{std::abs(secsTo)};
+    if (secsTo < 0) {
+        if (diff >= std::chrono::years{1}) {
+            //% "%n year(s) ago"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_yearsago",
+                             std::chrono::round<std::chrono::years>(diff).count());
+        } else if (diff >= std::chrono::months{1}) {
+            //% "%n month(s) ago"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_monthsago",
+                             std::chrono::round<std::chrono::months>(diff).count());
+        } else if (diff >= std::chrono::weeks{1}) {
+            //% "%n week(s) ago"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_weeksago",
+                             std::chrono::round<std::chrono::weeks>(diff).count());
+        } else if (diff >= std::chrono::days{1}) {
+            //% "%n day(s) ago"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_daysago",
+                             std::chrono::round<std::chrono::days>(diff).count());
+        } else if (diff >= std::chrono::hours{1}) {
+            //% "%n hour(s) ago"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_hoursago",
+                             std::chrono::round<std::chrono::hours>(diff).count());
+        } else if (diff >= std::chrono::minutes{1}) {
+            //% "%n minute(s) ago"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_minutesago",
+                             std::chrono::round<std::chrono::minutes>(diff).count());
+        } else {
+            //% "%n second(s) ago"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_secondsago", diff.count());
+        }
+    } else {
+        if (diff >= std::chrono::years{1}) {
+            //% "in %n year(s)"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_inyears",
+                             std::chrono::round<std::chrono::years>(diff).count());
+        } else if (diff >= std::chrono::months{1}) {
+            //% "in %n month(s)"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_inmonths",
+                             std::chrono::round<std::chrono::months>(diff).count());
+        } else if (diff >= std::chrono::weeks{1}) {
+            //% "in %n week(s)"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_inweeks",
+                             std::chrono::round<std::chrono::weeks>(diff).count());
+        } else if (diff >= std::chrono::days{1}) {
+            //% "in %n day(s)"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_indays",
+                             std::chrono::round<std::chrono::days>(diff).count());
+        } else if (diff >= std::chrono::hours{1}) {
+            //% "in %n hour(s)"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_inhours",
+                             std::chrono::round<std::chrono::hours>(diff).count());
+        } else if (diff >= std::chrono::minutes{1}) {
+            //% "in %n minute(s)"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_inminutes",
+                             std::chrono::round<std::chrono::minutes>(diff).count());
+        } else {
+            //% "in %n second(s)"
+            return c->qtTrId("hbnbota_cutelee_dateformattag_rel_inseconds", diff.count());
+        }
+    }
+}
+
+QString getRelative(Cutelyst::Context *c, const QDateTime &dt)
+{
+    if (dt.isNull() || !dt.isValid()) {
+        //% "never"
+        return c->qtTrId("hbnbota_cutelee_dateformattag_rel_never");
+    }
+
+    const auto secsTo = QDateTime::currentDateTimeUtc().secsTo(dt);
+
+    return getRelative(c, secsTo);
+}
+
+QString getRelative(Cutelyst::Context *c, const QDate &date)
+{
+    if (date.isNull() || !date.isValid()) {
+        return c->qtTrId("hbnbota_cutelee_dateformattag_rel_never");
+    }
+
+    const auto secsTo = QDate::currentDate().daysTo(date) * 86400;
+
+    return getRelative(c, secsTo);
+}
+
+QString getRelative(Cutelyst::Context *c, const QTime &time)
+{
+    if (time.isNull() || !time.isValid()) {
+        return c->qtTrId("hbnbota_cutelee_dateformattag_rel_never");
+    }
+
+    const auto secsTo = QTime::currentTime().secsTo(time);
+
+    return getRelative(c, secsTo);
+}
+
 QString formatDateTime(Cutelyst::Context *c, const QVariant &dtVar, const QString &format)
 {
     QDateTime dt = dtVar.toDateTime();
+
+    if (format == "relative"_L1) {
+        return getRelative(c, dt);
+    }
 
     if (dt.isNull() || !dt.isValid()) {
         return {};
@@ -73,6 +181,10 @@ QString formatDate(Cutelyst::Context *c, const QVariant &dateVar, const QString 
 {
     const QDate d = dateVar.toDate();
 
+    if (format == "relative"_L1) {
+        return getRelative(c, d);
+    }
+
     if (d.isNull() || !d.isValid()) {
         return {};
     }
@@ -95,6 +207,10 @@ QString formatDate(Cutelyst::Context *c, const QVariant &dateVar, const QString 
 QString formatTime(Cutelyst::Context *c, const QVariant &timeVar, const QString &format)
 {
     const QTime t = timeVar.toTime();
+
+    if (format == "relative"_L1) {
+        return getRelative(c, t);
+    }
 
     if (t.isNull() || !t.isValid()) {
         return {};

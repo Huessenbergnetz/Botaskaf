@@ -21,8 +21,8 @@ using namespace Cutelee;
  * be converted into the user’s time zone.
  *
  * The \c hbnbota_dateformat tag provides an optional \a format argument that either recognizes the
- * keywords “short“ and “long” or a format string as used by QDateTime::toString(). “short“ and
- * “long“ will create strings according to <A
+ * keywords “short“, “long” and “relative“ or a format string as used by QDateTime::toString().
+ * “short“ and “long“ will create strings according to <A
  * HREF="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat">JavaScript’s
  * Intl.DateTimeFormat</A>. If the \a format argument is omitted, “short“ will be used.
  *
@@ -61,6 +61,10 @@ using namespace Cutelee;
  * The “long“ format for a QTime will create a localized string according to JavaScript’s
  * Intl.DateTimeFormat with option <TT>timeStyle: medium</TT>. The %Qt format string used for
  * the \a en_US locale is <TT>h:mm:ss AP</TT>.
+ *
+ * <H3>Relative format</H3>
+ * The “relative“ format will create a localized relative time string like <TT>5 day(s) ago</TT>
+ * or <TT>in 6 week(s)</TT>
  *
  * <H3>Examples</H3>
  *
