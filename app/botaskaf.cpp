@@ -11,6 +11,7 @@
 #include "controllers/root.h"
 #include "controllers/setup.h"
 #include "controllers/users.h"
+#include "cutelee/botaskafcutelee.h"
 #include "logging.h"
 #include "migrations/m0001_create_users_table.h"
 #include "settings.h"
@@ -97,6 +98,7 @@ bool Botaskaf::init()
     view->setWrapper(u"wrapper.html"_s);
     view->setIncludePaths({CutelystForms::Forms::templateDirPath(u"cutelee/bootstrap5"), Settings::tmplPath(u"site"_s)});
     view->engine()->addDefaultLibrary(u"cutelee_i18ntags"_s);
+    view->engine()->insertDefaultLibrary(u"cutelee_botaskaf"_s, new BotaskafCutelee(view->engine()));
     qCDebug(HBNBOTA_CORE) << "Template include paths:" << view->includePaths();
 
     if (!Settings::setupToken().isEmpty()) {
@@ -147,7 +149,7 @@ bool Botaskaf::init()
     auto lsp = new LangSelect(this, LangSelect::Session); // NOLINT(cppcoreguidelines-owning-memory)
     lsp->setFallbackLocale(QLocale(QLocale::English, QLocale::UnitedStates));
     lsp->setSupportedLocales(supportedLocales);
-    lsp->setSessionKey(u"lang"_s);
+    lsp->setSessionKey(u"locale"_s);
 
     new StatusMessage(this);
 

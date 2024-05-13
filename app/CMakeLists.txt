@@ -13,12 +13,14 @@ target_sources(Botaskaf
         settings.cpp
         userauthstoresql.cpp
         userauthstoresql.h
+        qtimezonevariant_p.h
 )
 
 add_subdirectory(controllers)
 add_subdirectory(objects)
 add_subdirectory(migrations)
 add_subdirectory(forms)
+add_subdirectory(cutelee)
 
 target_link_libraries(Botaskaf
     PRIVATE

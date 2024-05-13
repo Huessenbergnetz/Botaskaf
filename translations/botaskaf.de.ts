@@ -227,5 +227,35 @@
         <source>last seen</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_cutelee_dateformattag_datetime_short">
+        <source>M/d/yy, h:mm AP</source>
+        <extracomment>short format string for a QDateTime value, should fit to the output of JavaScript’s Intl.DateTimeFormat with dateStyle: short and timeStyle: short</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_datetime_long">
+        <source>MMMM d, yyyy &apos;at&apos; h:mm:ss AP</source>
+        <extracomment>long format string for a QDateTime value, should fit to the output of JavaScript’s Intl.DateTimeFormat with dateStyle: long and timeStyle: medium</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_date_short">
+        <source>M/d/yy</source>
+        <extracomment>short format string for a QDate value, should fit to the output of JavaScript’s Intl.DateTimeFormat with dateStyle: short</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_date_long">
+        <source>MMMM d, yyyy</source>
+        <extracomment>short format string for a QDate value, should fit to the output of JavaScript’s Intl.DateTimeFormat with dateStyle: long</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_time_short">
+        <source>h:mm AP</source>
+        <extracomment>short format string for a QTime value, should fit to the output of JavaScript’s Intl.DateTimeFormat with timeStyle: short</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_cutelee_dateformattag_time_long">
+        <source>h:mm:ss AP</source>
+        <extracomment>short format string for a QTime value, should fit to the output of JavaScript’s Intl.DateTimeFormat with timeStyle: medium</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
