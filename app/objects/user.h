@@ -357,6 +357,8 @@ public:
 
     static User get(Cutelyst::Context *c, Error &e, User::dbid_t id);
 
+    static QList<User> list(Cutelyst::Context *c, Error &e);
+
     static bool toStash(Cutelyst::Context *c, Error &e, User::dbid_t id);
 
     static bool toStash(Cutelyst::Context *c, Error &e, const Cutelyst::AuthenticationUser &authUser);

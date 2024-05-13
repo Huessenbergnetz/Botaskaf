@@ -418,6 +418,14 @@ User User::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
     QSqlQuery q =
         CPreparedSqlQueryThread(u"INSERT INTO users (type, email, displayName, password, created, updated, settings) "
                                 "VALUES (:type, :email, :displayName, :password, :created, :updated, :settings)"_s);
+
+    if (Q_UNLIKELY(q.lastError().isValid())) {
+        //% "Failed to insert new user “%1” into database."
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_user_failed_create_db").arg(email));
+        qCCritical(HBNBOTA_CORE) << "Failed to insert new user" << email << "into database:" << q.lastError().text();
+        return {};
+    }
+
     q.bindValue(u":type"_s, static_cast<int>(type));
     q.bindValue(u":email"_s, email);
     q.bindValue(u":displayName"_s, displayName);
@@ -427,7 +435,6 @@ User User::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
     q.bindValue(u":settings"_s, settings.toJson(QJsonDocument::Compact));
 
     if (Q_UNLIKELY(!q.exec())) {
-        //% "Failed to insert new user “%1” into database."
         e = Error::create(c, q, c->qtTrId("hbnbota_error_user_failed_create_db").arg(email));
         qCCritical(HBNBOTA_CORE) << "Failed to insert new user" << email << "into database:" << q.lastError().text();
         return {};
@@ -496,6 +503,46 @@ User User::get(Cutelyst::Context *c, Error &e, User::dbid_t id)
     u.toCache();
 
     return u;
+}
+
+QList<User> User::list(Cutelyst::Context *c, Error &e)
+{
+    QSqlQuery q = CPreparedSqlQueryThreadFO(
+        u"SELECT u1.id, u1.type, u1.email, u1.displayName, u1.created, u1.updated, u1.lastSeen, u1.lockedAt, u1.lockedBy, u2.displayName AS lockedByName, u1.settings FROM users u1 LEFT JOIN users u2 ON u2.id = u1.lockedBy"_s);
+
+    if (Q_UNLIKELY(q.lastError().isValid())) {
+        //% "Failed to query users from database."
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_user_list_query_failed"));
+        qCCritical(HBNBOTA_CORE) << "Failed to query users from database:" << q.lastError().text();
+        return {};
+    }
+
+    if (Q_UNLIKELY(!q.exec())) {
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_user_list_query_failed"));
+        qCCritical(HBNBOTA_CORE) << "Failed to query users from database:" << q.lastError().text();
+        return {};
+    }
+
+    QList<User> lst;
+    if (q.size() > 0) {
+        lst.reserve(q.size());
+    }
+
+    while (q.next()) {
+        lst << User{q.value(0).toUInt(),
+                    static_cast<User::Type>(q.value(01).toInt()),
+                    q.value(2).toString(),
+                    q.value(3).toString(),
+                    q.value(4).toDateTime(),
+                    q.value(5).toDateTime(),
+                    q.value(6).toDateTime(),
+                    q.value(7).toDateTime(),
+                    q.value(8).toUInt(),
+                    q.value(9).toString(),
+                    QJsonDocument::fromJson(q.value(10).toByteArray()).object().toVariantMap()};
+    }
+
+    return lst;
 }
 
 bool User::toStash(Cutelyst::Context *c, Error &e, User::dbid_t id)
