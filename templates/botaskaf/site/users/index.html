@@ -18,9 +18,9 @@
             <tr class="text-capitalize">
                 <th>{{ users_labels.displayName }} / {{ users_labels.email }}</th>
                 <th>{{ users_labels.type }}</th>
-                <th>{{ users_labels.created }} / {{ users_labels.updated }}</th>
-                <th>{{ users_labels.lastSeen }}</th>
-                <th>{{ users_labels.id }}</th>
+                <th class="d-none d-md-table-cell">{{ users_labels.created }} / {{ users_labels.updated }}</th>
+                <th class="d-none d-sm-table-cell">{{ users_labels.lastSeen }}</th>
+                <th class="text-end">{{ users_labels.id }}</th>
             </tr>
         </thead>
         <tbody>
@@ -28,13 +28,13 @@
             <tr>
                 <td>{{ usr.displayName }}<br><small class="text-body-secondary">{{ usr.email }}</small></td>
                 <td>{{ usr.type.key }}</td>
-                <td><i class="bi bi-asterisk"></i>&nbsp;<time datetime="{{ usr.created }}" title="{{ users_labels.created }}: {% hbnbota_dateformat usr.created %}">{% hbnbota_dateformat usr.created "relative" %}</time><br><i class="bi bi-floppy"></i>&nbsp;<time datetime="{{ usr.updated }}" title="{{ users_labels.updated }}: {% hbnbota_dateformat usr.updated %}">{% hbnbota_dateformat usr.updated "relative" %}</time></td>
+                <td class="d-none d-md-table-cell"><i class="bi bi-asterisk"></i>&nbsp;<time datetime="{{ usr.created }}" title="{{ users_labels.created }}: {% hbnbota_dateformat usr.created %}">{% hbnbota_dateformat usr.created "relative" %}</time><br><i class="bi bi-floppy"></i>&nbsp;<time datetime="{{ usr.updated }}" title="{{ users_labels.updated }}: {% hbnbota_dateformat usr.updated %}">{% hbnbota_dateformat usr.updated "relative" %}</time></td>
                 {% if usr.lastSeen %}
-                <td><time datetime="{{ usr.lastSeen }}" title="{% hbnbota_dateformat usr.lastSeen %}">{% hbnbota_dateformat usr.lastSeen "relative" %}</time></td>
+                <td class="d-none d-sm-table-cell"><time datetime="{{ usr.lastSeen }}" title="{% hbnbota_dateformat usr.lastSeen %}">{% hbnbota_dateformat usr.lastSeen "relative" %}</time></td>
                 {% else %}
-                <td>{% hbnbota_dateformat usr.lastSeen "relative" %}</td>
+                <td class="d-none d-sm-table-cell">{% hbnbota_dateformat usr.lastSeen "relative" %}</td>
                 {% endif %}
-                <td>{{ usr.id }}</td>
+                <td class="text-end">{{ usr.id }}</td>
             </tr>
             {% endfor %}
         </tbody>
