@@ -8,6 +8,7 @@
 #include "logging.h"
 #include "objects/error.h"
 #include "objects/user.h"
+#include "qtimezonevariant_p.h"
 #include "settings.h"
 
 #include <Cutelyst/Plugins/Authentication/authentication.h>
@@ -50,6 +51,22 @@ void Login::index(Context *c)
 
                 if (Q_LIKELY(!u.isNull())) {
                     u.toStash(c);
+
+                    QLocale locale{u.locale()};
+                    if (locale.language() == QLocale::C) {
+                        qCWarning(HBNBOTA_CORE) << "Invalid locale" << u.locale() << "selected by" << u << "Falling back to"
+                                                << Settings::defLocale();
+                        locale = Settings::defLocale();
+                    }
+                    Session::setValue(c, u"locale"_s, QVariant::fromValue<QLocale>(locale));
+
+                    QTimeZone tz{u.timezone().toLatin1()};
+                    if (!tz.isValid()) {
+                        qCWarning(HBNBOTA_CORE) << "Invalid time zone" << u.timezone() << "selected by" << u
+                                                << "Falling back to" << Settings::defTimeZone();
+                        tz = Settings::defTimeZone();
+                    }
+                    Session::setValue(c, u"tz"_s, QVariant::fromValue<QTimeZone>(tz));
                 }
 
                 qCInfo(HBNBOTA_AUTHN) << u << "successfully logged in";
