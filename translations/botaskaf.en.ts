@@ -191,5 +191,41 @@
         <source>Users</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_error_user_list_query_failed">
+        <source>Failed to query users from database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_general_forbidden">
+        <source>Sorry, but you do not have access authorization for this area.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_user_label_id">
+        <source>id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_user_label_type">
+        <source>type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_user_label_email">
+        <source>email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_user_label_displayname">
+        <source>display name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_user_label_created">
+        <source>created</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_user_label_updated">
+        <source>updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_user_label_lastseen">
+        <source>last seen</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

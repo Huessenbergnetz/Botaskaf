@@ -349,6 +349,8 @@ public:
      */
     static dbid_t toDbId(const QVariant &var, bool *ok = nullptr);
 
+    static QMap<QString, QString> labels(Cutelyst::Context *c);
+
     static User fromStash(Cutelyst::Context *c);
 
     void toStash(Cutelyst::Context *c) const;

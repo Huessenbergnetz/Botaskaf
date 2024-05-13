@@ -383,6 +383,26 @@ User::dbid_t User::toDbId(const QVariant &var, bool *ok)
     return 0;
 }
 
+QMap<QString, QString> User::labels(Cutelyst::Context *c)
+{
+    return {
+        //% "id"
+        {u"id"_s, c->qtTrId("hbnbota_user_label_id")},
+        //% "type"
+        {u"type"_s, c->qtTrId("hbnbota_user_label_type")},
+        //% "email"
+        {u"email"_s, c->qtTrId("hbnbota_user_label_email")},
+        //% "display name"
+        {u"displayName"_s, c->qtTrId("hbnbota_user_label_displayname")},
+        //% "created"
+        {u"created"_s, c->qtTrId("hbnbota_user_label_created")},
+        //% "updated"
+        {u"updated"_s, c->qtTrId("hbnbota_user_label_updated")},
+        //% "last seen"
+        {u"lastSeen"_s, c->qtTrId("hbnbota_user_label_lastseen")},
+    };
+}
+
 User User::fromStash(Cutelyst::Context *c)
 {
     Q_ASSERT(c);
