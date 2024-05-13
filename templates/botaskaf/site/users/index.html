@@ -12,18 +12,28 @@
 {% endif %}
 
 {% if users.size %}
-<table class="table">
-    <thead>
-        <tr class="text-capitalize">
-            <th>{{ users_labels.displayName }} / {{ users_labels.email }}</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for usr in users %}
-        <tr>
-            <td>{{ usr.displayName }}<br><small class="text-body-secondary">{{ usr.email }}</small></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table">
+        <thead class="table-dark">
+            <tr class="text-capitalize">
+                <th>{{ users_labels.displayName }} / {{ users_labels.email }}</th>
+                <th>{{ users_labels.type }}</th>
+                <th>{{ users_labels.created }} / {{ users_labels.updated }}</th>
+                <th>{{ users_labels.lastSeen }}</th>
+                <th>{{ users_labels.id }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usr in users %}
+            <tr>
+                <td>{{ usr.displayName }}<br><small class="text-body-secondary">{{ usr.email }}</small></td>
+                <td>{{ usr.type.key }}</td>
+                <td><i class="bi bi-asterisk"></i>&nbsp;{{ usr.created }}<br><i class="bi bi-floppy"></i>&nbsp;{{ usr.updated }}</td>
+                <td>{{ usr.lastSeen }}</td>
+                <td>{{ usr.id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endif %}
