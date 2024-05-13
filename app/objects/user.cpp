@@ -587,6 +587,32 @@ bool User::toStash(Cutelyst::Context *c, Error &e, const Cutelyst::Authenticatio
     return User::toStash(c, e, id);
 }
 
+void User::updateLastSeen(Cutelyst::Context *c)
+{
+    Q_UNUSED(c);
+
+    const auto ls = QDateTime::currentDateTimeUtc();
+
+    QSqlQuery q = CPreparedSqlQueryThread(u"UPDATE users SET lastSeen = :lastSeen WHERE id = :id"_s);
+
+    if (Q_UNLIKELY(q.lastError().isValid())) {
+        qCCritical(HBNBOTA_CORE) << "Failed to update lastSeen state of" << *this << "in database:" << q.lastError().text();
+        return;
+    }
+
+    q.bindValue(u":lastSeen"_s, ls);
+    q.bindValue(u":id"_s, id());
+
+    if (Q_UNLIKELY(!q.exec())) {
+        qCCritical(HBNBOTA_CORE) << "Failed to update lastSeen state of" << *this << "in database:" << q.lastError().text();
+        return;
+    }
+
+    data->lastSeen = ls;
+
+    toCache();
+}
+
 User User::fromCache(User::dbid_t id)
 {
     User u;

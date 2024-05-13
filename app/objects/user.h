@@ -365,6 +365,8 @@ public:
 
     static bool toStash(Cutelyst::Context *c, Error &e, const Cutelyst::AuthenticationUser &authUser);
 
+    void updateLastSeen(Cutelyst::Context *c);
+
 private:
     QSharedDataPointer<UserData> data;
 

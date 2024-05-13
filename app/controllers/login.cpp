@@ -47,7 +47,7 @@ void Login::index(Context *c)
 
                 auto authUser = Authentication::user(c);
                 Error e;
-                const auto u = User::get(c, e, authUser.id().toUInt());
+                auto u = User::get(c, e, authUser.id().toUInt());
 
                 if (Q_LIKELY(!u.isNull())) {
                     u.toStash(c);
@@ -67,6 +67,8 @@ void Login::index(Context *c)
                         tz = Settings::defTimeZone();
                     }
                     Session::setValue(c, u"tz"_s, QVariant::fromValue<QTimeZone>(tz));
+
+                    u.updateLastSeen(c);
                 }
 
                 qCInfo(HBNBOTA_AUTHN) << u << "successfully logged in";
