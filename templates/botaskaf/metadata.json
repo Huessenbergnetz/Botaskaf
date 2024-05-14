@@ -41,6 +41,7 @@
     "mainMenuUsers": "people",
     "userMenuSettings": "person-gear",
     "userMenuLogout": "door-closed",
+    "usersMenuAdd": "person-add",
     "settingsUserMenuPersonal": "person-fill",
     "settingsUserMenuSecurity": "person-fill-lock"
   }

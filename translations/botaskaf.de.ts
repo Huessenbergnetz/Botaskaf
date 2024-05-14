@@ -364,5 +364,21 @@
             <numerusform></numerusform>
         </translation>
     </message>
+    <message id="hbnbota_site_title_add_user">
+        <source>Add user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_user_type_label">
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_general_cancel">
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_usersmenu_add">
+        <source>Add user</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

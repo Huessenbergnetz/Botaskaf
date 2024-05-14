@@ -20,6 +20,9 @@ public:
     C_ATTR(index, :Path :Args(0))
     void index(Context *c);
 
+    C_ATTR(add, :Local :Args(0))
+    void add(Context *c);
+
 private:
     C_ATTR(Auto, :Private)
     bool Auto(Context *c);

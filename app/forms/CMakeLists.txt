@@ -7,3 +7,4 @@ target_sources(Botaskaf
 )
 
 add_subdirectory(setup)
+add_subdirectory(users)
