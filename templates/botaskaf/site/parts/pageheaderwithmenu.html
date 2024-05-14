@@ -1,0 +1,19 @@
+{# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de> #}
+{# SPDX-License-Identifier: AGPL-3.0-or-later #}
+
+{% extends "parts/pageheader.html" %}
+
+{% block toolbar %}
+{% if page_menu.size %}
+<div class="btn-toolbar mb-2 mb-md-3" role="toolbar">
+    <div class="btn-group btn-group-sm">
+        {% for item in page_menu %}
+        <a class="btn btn-outline-secondary" href="{{ item.url }}">
+            <i class="bi bi-{{ item.icon }}"></i>
+            {{ item.title }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
