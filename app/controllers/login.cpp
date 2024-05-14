@@ -100,7 +100,6 @@ void Login::index(Context *c)
               //: Site second level title, will be something like: Login - Botaskaf
               //% "Login"
               {u"site_title"_s, c->qtTrId("hbnbota_site_title_login")},
-              {u"site_name"_s, Settings::siteName()},
               {u"form"_s, QVariant::fromValue<CutelystForms::Form *>(form)}});
 }
 
