@@ -6,6 +6,8 @@
 #ifndef HBNBOTA_USER_H
 #define HBNBOTA_USER_H
 
+#include <CutelystForms/option.h>
+
 #include <QDateTime>
 #include <QJsonObject>
 #include <QObject>
@@ -309,11 +311,19 @@ public:
     static QString typeEnumToString(Type type);
 
     /*!
-     * \brief Returns a string list of supported user type names.
+     * \brief Returns a list of options with supported \link User::Types types\endlink.
      *
-     * This will contain the key names.
+     * \a selected will be used to mark one option as selected.
      */
-    static QStringList supportedTypes();
+    static QList<CutelystForms::Option *> supportedTypes(Type selected = User::Invalid);
+
+    /*!
+     * \brief Returns a list of options with supported \link User::Types types\endlink.
+     *
+     * Only types \a below a specific type will be returned. \a slected will be used
+     * to mark one option as selected.
+     */
+    static QList<CutelystForms::Option *> supportedTypesBelow(Type below, Type selected = User::Invalid);
 
     /*!
      * \brief Returns a string list of supported user type values.

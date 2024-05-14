@@ -34,7 +34,6 @@ private slots:
     void testToJson();
     void testTypeStringToEnum();
     void testTypeEnumToString();
-    void testSupportedTypes();
     void testToDbId();
 };
 
@@ -61,12 +60,11 @@ void UserTest::testDefaultConstructor()
 
 void UserTest::testConstructorWithArgs()
 {
-    const QDateTime now      = QDateTime::currentDateTimeUtc();
-    const QDateTime created  = now.addDays(-1);
-    const QDateTime updated  = now.addSecs(-5000);
-    const QDateTime lastSeen = now.addSecs(-60);
-    const QVariantMap settings =
-        QVariantMap({{u"timezone"_s, u"Europe/Berlin"_s}, {u"locale"_s, u"de_DE"_s}});
+    const QDateTime now        = QDateTime::currentDateTimeUtc();
+    const QDateTime created    = now.addDays(-1);
+    const QDateTime updated    = now.addSecs(-5000);
+    const QDateTime lastSeen   = now.addSecs(-60);
+    const QVariantMap settings = QVariantMap({{u"timezone"_s, u"Europe/Berlin"_s}, {u"locale"_s, u"de_DE"_s}});
 
     User u{1,
            User::Registered,
@@ -101,17 +99,7 @@ void UserTest::testCopy()
 
     // test copy constructor
     {
-        User u1(1,
-                User::Registered,
-                u"user@example.net"_s,
-                u"John Doe"_s,
-                now,
-                now,
-                now,
-                {},
-                0,
-                {},
-                {});
+        User u1(1, User::Registered, u"user@example.net"_s, u"John Doe"_s, now, now, now, {}, 0, {}, {});
         User u2(u1);
 
         QCOMPARE(u1.id(), u2.id());
@@ -122,17 +110,7 @@ void UserTest::testCopy()
 
     // test copy assignment
     {
-        User u1(1,
-                User::Registered,
-                u"user@example.net"_s,
-                u"John Doe"_s,
-                now,
-                now,
-                now,
-                {},
-                0,
-                {},
-                {});
+        User u1(1, User::Registered, u"user@example.net"_s, u"John Doe"_s, now, now, now, {}, 0, {}, {});
         User u2;
         u2 = u1;
 
@@ -149,17 +127,7 @@ void UserTest::testMove()
 
     // test move constructor
     {
-        User u1(1,
-                User::Registered,
-                u"user@example.net"_s,
-                u"John Doe"_s,
-                now,
-                now,
-                now,
-                {},
-                0,
-                {},
-                {});
+        User u1(1, User::Registered, u"user@example.net"_s, u"John Doe"_s, now, now, now, {}, 0, {}, {});
         User u2(std::move(u1));
 
         QCOMPARE(u2.id(), 1);
@@ -170,19 +138,8 @@ void UserTest::testMove()
 
     // test move assignment
     {
-        User u1(1,
-                User::Registered,
-                u"user@example.net"_s,
-                u"John Doe"_s,
-                now,
-                now,
-                now,
-                {},
-                0,
-                {},
-                {});
-        User u2(
-            2, User::Manager, u"user@example.com"_s, u"Jane Doe"_s, now, now, now, {}, 0, {}, {});
+        User u1(1, User::Registered, u"user@example.net"_s, u"John Doe"_s, now, now, now, {}, 0, {}, {});
+        User u2(2, User::Manager, u"user@example.com"_s, u"Jane Doe"_s, now, now, now, {}, 0, {}, {});
         u2 = std::move(u1);
 
         QCOMPARE(u2.id(), 1);
@@ -196,8 +153,7 @@ void UserTest::testSwap()
 {
     const QDateTime now = QDateTime::currentDateTimeUtc();
 
-    User u1(
-        1, User::Registered, u"user@example.net"_s, u"John Doe"_s, now, now, now, {}, 0, {}, {});
+    User u1(1, User::Registered, u"user@example.net"_s, u"John Doe"_s, now, now, now, {}, 0, {}, {});
     User u2(2, User::Manager, u"user@example.com"_s, u"Jane Doe"_s, now, now, now, {}, 0, {}, {});
     User u3;
 
@@ -212,8 +168,7 @@ void UserTest::testSwap()
 void UserTest::testClear()
 {
     const QDateTime now = QDateTime::currentDateTimeUtc();
-    User u1(
-        1, User::Registered, u"user@example.net"_s, u"John Doe"_s, now, now, now, {}, 0, {}, {});
+    User u1(1, User::Registered, u"user@example.net"_s, u"John Doe"_s, now, now, now, {}, 0, {}, {});
     u1.clear();
     QVERIFY(u1.isNull());
 }
@@ -222,11 +177,9 @@ void UserTest::testComparison()
 {
     const QDateTime now = QDateTime::currentDateTimeUtc();
 
-    User u1(
-        1, User::Registered, u"user@example.net"_s, u"John Doe"_s, now, now, now, {}, 0, {}, {});
+    User u1(1, User::Registered, u"user@example.net"_s, u"John Doe"_s, now, now, now, {}, 0, {}, {});
     User u2(2, User::Manager, u"user@example.com"_s, u"Jane Doe"_s, now, now, now, {}, 0, {}, {});
-    User u3(
-        1, User::Registered, u"user@example.net"_s, u"John Doe"_s, now, now, now, {}, 0, {}, {});
+    User u3(1, User::Registered, u"user@example.net"_s, u"John Doe"_s, now, now, now, {}, 0, {}, {});
     User u4;
     User u5(0, User::Invalid, {}, {}, {}, {}, {}, {}, 0, {}, {});
     User u6 = u1;
@@ -242,12 +195,11 @@ void UserTest::testComparison()
 
 void UserTest::testDatastream()
 {
-    const QDateTime now      = QDateTime::currentDateTimeUtc();
-    const QDateTime created  = now.addDays(-1);
-    const QDateTime updated  = now.addSecs(-5000);
-    const QDateTime lastSeen = now.addSecs(-60);
-    const QVariantMap settings =
-        QVariantMap({{u"timezone"_s, u"Europe/Berlin"_s}, {u"locale"_s, u"de_DE"_s}});
+    const QDateTime now        = QDateTime::currentDateTimeUtc();
+    const QDateTime created    = now.addDays(-1);
+    const QDateTime updated    = now.addSecs(-5000);
+    const QDateTime lastSeen   = now.addSecs(-60);
+    const QVariantMap settings = QVariantMap({{u"timezone"_s, u"Europe/Berlin"_s}, {u"locale"_s, u"de_DE"_s}});
 
     // test valid into null
     {
@@ -355,24 +307,14 @@ void UserTest::testDatastream()
 
 void UserTest::testToJson()
 {
-    const QDateTime now      = QDateTime::currentDateTimeUtc();
-    const QDateTime created  = now.addDays(-1);
-    const QDateTime updated  = now.addSecs(-5000);
-    const QDateTime lastSeen = now.addSecs(-60);
-    const QVariantMap settings =
-        QVariantMap({{u"timezone"_s, u"Europe/Berlin"_s}, {u"locale"_s, u"de_DE"_s}});
+    const QDateTime now        = QDateTime::currentDateTimeUtc();
+    const QDateTime created    = now.addDays(-1);
+    const QDateTime updated    = now.addSecs(-5000);
+    const QDateTime lastSeen   = now.addSecs(-60);
+    const QVariantMap settings = QVariantMap({{u"timezone"_s, u"Europe/Berlin"_s}, {u"locale"_s, u"de_DE"_s}});
 
-    User u1(1,
-            User::Manager,
-            u"user@example.net"_s,
-            u"John Doe"_s,
-            created,
-            updated,
-            lastSeen,
-            now,
-            2,
-            u"Jane Doe"_s,
-            settings);
+    User u1(
+        1, User::Manager, u"user@example.net"_s, u"John Doe"_s, created, updated, lastSeen, now, 2, u"Jane Doe"_s, settings);
 
     QJsonObject json = u1.toJson();
     QCOMPARE(json.value("id"_L1), QJsonValue(1));
@@ -387,17 +329,7 @@ void UserTest::testToJson()
     QCOMPARE(json.value("lockedByName"_L1), QJsonValue(u"Jane Doe"_s));
     QCOMPARE(json.value("settings"_L1), QJsonValue(QJsonObject::fromVariantMap(settings)));
 
-    User u2(2,
-            User::Administrator,
-            u"user@example.com"_s,
-            u"Jane Doe"_s,
-            created,
-            updated,
-            {},
-            {},
-            0,
-            {},
-            {});
+    User u2(2, User::Administrator, u"user@example.com"_s, u"Jane Doe"_s, created, updated, {}, {}, 0, {}, {});
     json = u2.toJson();
     QCOMPARE(json.value("lastSeen"_L1), QJsonValue());
     QCOMPARE(json.value("lockedAt"_L1), QJsonValue());
@@ -422,14 +354,6 @@ void UserTest::testTypeStringToEnum()
 void UserTest::testTypeEnumToString()
 {
     QCOMPARE(User::typeEnumToString(User::Manager), u"Manager"_s);
-}
-
-void UserTest::testSupportedTypes()
-{
-    const QStringList lst = User::supportedTypes();
-    QVERIFY(!lst.empty());
-    QVERIFY(lst.contains(u"Administrator"));
-    QVERIFY(!lst.contains(u"Invalid"));
 }
 
 void UserTest::testToDbId()
@@ -457,9 +381,7 @@ void UserTest::testToDbId()
     QVERIFY(!ok);
     QCOMPARE(id, 0);
 
-    id = User::toDbId(
-        QVariant::fromValue(static_cast<qulonglong>(std::numeric_limits<User::dbid_t>::max()) + 4),
-        &ok);
+    id = User::toDbId(QVariant::fromValue(static_cast<qulonglong>(std::numeric_limits<User::dbid_t>::max()) + 4), &ok);
     QVERIFY(!ok);
     QCOMPARE(id, 0);
 

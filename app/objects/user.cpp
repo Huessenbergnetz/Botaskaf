@@ -301,9 +301,10 @@ QString User::typeEnumToString(User::Type type)
     return {};
 }
 
-QStringList User::supportedTypes()
+QList<CutelystForms::Option *> User::supportedTypes(User::Type selected)
 {
-    QStringList lst;
+    QList<CutelystForms::Option *> lst;
+    const auto selectedInt = static_cast<int>(selected);
 
     const auto mo = User::staticMetaObject;
     const auto me = mo.enumerator(mo.indexOfEnumerator("Type"));
@@ -311,7 +312,27 @@ QStringList User::supportedTypes()
     lst.reserve(me.keyCount() - 1);
 
     for (int i = 1; i < me.keyCount(); ++i) {
-        lst.append(QString::fromLocal8Bit(me.key(i)));
+        const auto val = me.value(i);
+        lst << new CutelystForms::Option(QString::fromLocal8Bit(me.key(i)), QString::number(val), val == selectedInt);
+    }
+
+    return lst;
+}
+
+QList<CutelystForms::Option *> User::supportedTypesBelow(Type below, Type selected)
+{
+    QList<CutelystForms::Option *> lst;
+    const auto selectedInt = static_cast<int>(selected);
+    const auto belowInt    = static_cast<int>(below);
+
+    const auto mo = User::staticMetaObject;
+    const auto me = mo.enumerator(mo.indexOfEnumerator("Type"));
+
+    for (int i = 1; i < me.keyCount(); ++i) {
+        const auto val = me.value(i);
+        if (val < belowInt) {
+            lst << new CutelystForms::Option(QString::fromLocal8Bit(me.key(i)), QString::number(val), val == selectedInt);
+        }
     }
 
     return lst;
