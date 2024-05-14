@@ -34,6 +34,8 @@ void Root::defaultPage(Context *c)
 
 bool Root::Auto(Context *c)
 {
+    c->stash({{u"site_name"_s, Settings::siteName()}});
+
     if (c->controllerName() == "Login"_L1) {
         return true;
     }
@@ -48,8 +50,6 @@ bool Root::Auto(Context *c)
     Error e;
     User::toStash(c, e, user);
 
-    c->stash({{u"site_name"_s, Settings::siteName()}});
-
     return true;
 }
 
@@ -61,6 +61,15 @@ void Root::End(Context *c)
 
     buildUserMenu(c);
     buildMainMenu(c);
+}
+
+void Root::error(Context *c)
+{
+    const auto e = Error::fromStash(c);
+    c->res()->setStatus(e.status());
+
+    c->stash(
+        {{u"template"_s, u"error.html"_s}, {u"site_title"_s, e.title()}, {u"site_subtitle"_s, QString::number(e.status())}});
 }
 
 void Root::buildUserMenu(Context *c)

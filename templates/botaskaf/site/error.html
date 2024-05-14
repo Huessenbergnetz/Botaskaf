@@ -1,0 +1,20 @@
+{# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de> #}
+{# SPDX-License-Identifier: AGPL-3.0-or-later #}
+
+<!-- <div class="position-relative h-100">
+    <div class="position-absolute top-50 start-50 translate-middle"> -->
+<div class="row justify-content-center mt-5">
+    <div class="col-12 col-sm-8 col-lg-6 col-xl-4">
+        <div class="card">
+            <div class="card-header text-bg-danger">{{ hbnbota_error.status }} – {{ hbnbota_error.title }}</div>
+            <div class="card-body">
+                <p class="card-text text-danger">{{ hbnbota_error.text }}</p>
+                {% if hbnbot_error.sqlErrorText %}
+                <p class="card-text text-secondary">{{ hbnbota_error.sqlErrorText }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!--    </div>
+</div> -->

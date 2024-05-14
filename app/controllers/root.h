@@ -31,6 +31,9 @@ private:
     C_ATTR(Auto, :Private)
     bool Auto(Context *c);
 
+    C_ATTR(error, :Private)
+    void error(Context *c);
+
     void buildUserMenu(Context *c);
     void buildMainMenu(Context *c);
 };
