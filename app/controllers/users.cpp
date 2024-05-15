@@ -125,19 +125,9 @@ void Users::base(Context *c, const QString &id)
     c->setStash(u"current_user"_s, QVariant::fromValue<User>(user));
 }
 
-void Users::edit(Context *c, const QString &id)
+void Users::edit(Context *c)
 {
-    bool ok        = true;
-    const auto uid = User::toDbId(id, &ok);
-    if (Q_UNLIKELY(!ok)) {
-        Error::toStash(c, Response::BadRequest, c->qtTrId("hbnbota_error_invalid_user_id"), true);
-        return;
-    }
-
-    Error e;
-    auto user = User::get(c, e, uid);
-    if (Q_UNLIKELY(user.isNull())) {
-        e.toStash(c, true);
+    if (Error::hasError(c)) {
         return;
     }
 
@@ -152,8 +142,6 @@ void Users::remove(Context *c)
     if (Error::hasError(c)) {
         return;
     }
-
-    qCDebug(HBNBOTA_CORE) << "DAS SOLLTE NICHT ANGEZEIGT WERDEN!!!!!!!!";
 
     c->stash({{u"template"_s, u"users/remove.html"_s},
               //: Site title

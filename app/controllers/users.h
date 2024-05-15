@@ -29,8 +29,8 @@ public:
     C_ATTR(remove, :Chained("base") :PathPart("remove") :Args(0))
     void remove(Context *c);
 
-    C_ATTR(edit, :Local :Args(1))
-    void edit(Context *c, const QString &id);
+    C_ATTR(edit, :Chained("base") :PathPart("edit") :Args(0))
+    void edit(Context *c);
 
 private:
     C_ATTR(Auto, :Private)
