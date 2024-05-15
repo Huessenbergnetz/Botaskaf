@@ -80,6 +80,7 @@ public:
     QDateTime lockedAt;
     QVariantMap settings;
     QUrl editUrl;
+    QUrl removeUrl;
     User::dbid_t id{0};
     User::dbid_t lockedById{0};
     User::Type type{User::Invalid};
@@ -91,7 +92,11 @@ void UserData::setUrls(Cutelyst::Context *c)
     if (id == current.id()) {
         editUrl = c->uriFor(c->getAction(u"index", u"mysettings"));
     } else if (current.isAdmin()) {
-        editUrl = c->uriFor(c->getAction(u"edit", u"users"), {}, {QString::number(id)});
+        editUrl = c->uriFor(c->getAction(u"edit", u"users"), {QString::number(id)});
+    }
+
+    if (current.isAdmin()) {
+        removeUrl = c->uriFor(c->getAction(u"remove", u"users"), {QString::number(id)});
     }
 }
 
@@ -205,6 +210,11 @@ QString User::locale() const
 QUrl User::editUrl() const noexcept
 {
     return data ? data->editUrl : QUrl();
+}
+
+QUrl User::removeUrl() const noexcept
+{
+    return data ? data->removeUrl : QUrl();
 }
 
 bool User::isAdmin() const noexcept

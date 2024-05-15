@@ -88,6 +88,7 @@ class User
      */
     Q_PROPERTY(QString locale READ locale CONSTANT)
     Q_PROPERTY(QUrl editUrl READ editUrl CONSTANT)
+    Q_PROPERTY(QUrl removeUrl READ removeUrl CONSTANT)
     /*!
      * \brief \c true if this user is an administrator, otherwise \c false.
      */
@@ -251,6 +252,8 @@ public:
     [[nodiscard]] QString locale() const;
 
     [[nodiscard]] QUrl editUrl() const noexcept;
+
+    [[nodiscard]] QUrl removeUrl() const noexcept;
 
     /*!
      * \brief Returns \c true if this user is of type Administrator or higher.
