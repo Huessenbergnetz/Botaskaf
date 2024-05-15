@@ -14,7 +14,7 @@ MySettings::MySettings(QObject *parent)
 
 void MySettings::index(Context *c)
 {
-    c->stash({{u"tempalte"_s, u"mysettings/index.html"_s},
+    c->stash({{u"template"_s, u"mysettings/index.html"_s},
               //% "My settings"
               {u"site_title"_s, c->qtTrId("hbnbota_site_title_mysettings")}});
 }
