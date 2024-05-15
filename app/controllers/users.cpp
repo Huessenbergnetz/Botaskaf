@@ -36,11 +36,13 @@ void Users::index(Context *c)
     }
 
     MenuItemList usersMenu;
+    //: Page menu entry
     //% "Add user"
     usersMenu.emplaceBack(c, u"usersMenuAdd"_s, c->qtTrId("hbnbota_usersmenu_add"), u"add"_s, u"users"_s);
 
     c->stash({{u"template"_s, u"users/index.html"_s},
               {u"users"_s, QVariant::fromValue<QList<User>>(users)},
+              //: Site title
               //% "Users"
               {u"site_title"_s, c->qtTrId("hbnbota_site_title_users")},
               {u"users_menu"_s, QVariant::fromValue<MenuItemList>(usersMenu)}});
@@ -96,6 +98,7 @@ void Users::add(Context *c)
     }
 
     c->stash({{u"template"_s, u"users/add.html"_s},
+              //: Site title
               //% "Add user"
               {u"site_title"_s, c->qtTrId("hbnbota_site_title_add_user")},
               {u"form"_s, QVariant::fromValue<CutelystForms::Form *>(form)}});
@@ -106,6 +109,7 @@ void Users::edit(Context *c, const QString &id)
     bool ok        = true;
     const auto uid = User::toDbId(id, &ok);
     if (Q_UNLIKELY(!ok)) {
+        //: Error message
         //% "The provided user ID is not a valid integer."
         Error::toStash(c, Response::BadRequest, c->qtTrId("hbnbota_error_invalid_user_id"), true);
         return;
@@ -119,6 +123,7 @@ void Users::edit(Context *c, const QString &id)
     }
 
     c->stash({{u"template"_s, u"users/edit.html"_s},
+              //: Site title
               //% "Edit user"
               {u"site_title"_s, c->qtTrId("hbnbota_site_title_edit_user")}});
 }
@@ -126,6 +131,7 @@ void Users::edit(Context *c, const QString &id)
 bool Users::Auto(Context *c)
 {
     if (User::fromStash(c).type() < User::Administrator) {
+        //: Error message
         //% "Sorry, but you do not have access authorization for this area."
         Error::toStash(c, Response::Forbidden, c->qtTrId("hbnbota_error_general_forbidden"), true);
         qCWarning(HBNBOTA_AUTHZ) << User::fromStash(c) << "tried to access restricted area" << c->req()->uri().path();

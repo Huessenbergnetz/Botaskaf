@@ -62,6 +62,7 @@ Form {
         htmlId: "type"
         name: "type"
         required: true
+        //: Form field label
         //% "Type"
         label: cTrId("hbnbota_user_type_label")
     }
@@ -69,6 +70,7 @@ Form {
     buttons: [
         FormButton {
             htmlId: "cancelBtn"
+            //: Form button text
             //% "Cancel"
             text: cTrId("hbnbota_general_cancel")
         },

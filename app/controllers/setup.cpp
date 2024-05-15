@@ -122,6 +122,7 @@ void Setup::finished(Context *c)
               //: Site third level title, will be something like: Finished - Setup - Botaskaf
               //% "Finished"
               {u"site_subtitle"_s, c->qtTrId("hbnbota_setup_finished_subtitle")},
+              //: Message shown to the user when the setup has been finished successfully
               //% "You have successfully completed the setup and created your first user "
               //% "“%1” (%2). Now remove the “setuptoken“ entry from your configuration file "
               //% "and restart the application."

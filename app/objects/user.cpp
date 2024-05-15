@@ -425,18 +425,25 @@ User::dbid_t User::toDbId(const QVariant &var, bool *ok)
 QMap<QString, QString> User::labels(Cutelyst::Context *c)
 {
     return {
+        //: User data label, used eg. in table headers
         //% "id"
         {u"id"_s, c->qtTrId("hbnbota_user_label_id")},
+        //: User data label, used eg. in table headers
         //% "type"
         {u"type"_s, c->qtTrId("hbnbota_user_label_type")},
+        //: User data label, used eg. in table headers
         //% "email"
         {u"email"_s, c->qtTrId("hbnbota_user_label_email")},
+        //: User data label, used eg. in table headers
         //% "display name"
         {u"displayName"_s, c->qtTrId("hbnbota_user_label_displayname")},
+        //: User data label, used eg. in table headers
         //% "created"
         {u"created"_s, c->qtTrId("hbnbota_user_label_created")},
+        //: User data label, used eg. in table headers
         //% "updated"
         {u"updated"_s, c->qtTrId("hbnbota_user_label_updated")},
+        //: User data label, used eg. in table headers
         //% "last seen"
         {u"lastSeen"_s, c->qtTrId("hbnbota_user_label_lastseen")},
     };
@@ -468,6 +475,7 @@ User User::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
     if (Q_UNLIKELY(passwordHash.isEmpty())) {
         e = Error::create(c,
                           Cutelyst::Response::InternalServerError,
+                          //: Error message
                           //% "Failed to hash the password."
                           c->qtTrId("hbnbota_error_failed_hashing_pw"));
         qCCritical(HBNBOTA_CORE) << "Failed to hash the password for new user identified by email" << email;
@@ -479,6 +487,7 @@ User User::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
                                 "VALUES (:type, :email, :displayName, :password, :created, :updated, :settings)"_s);
 
     if (Q_UNLIKELY(q.lastError().isValid())) {
+        //: Error message
         //% "Failed to insert new user “%1” into database."
         e = Error::create(c, q, c->qtTrId("hbnbota_error_user_failed_create_db").arg(email));
         qCCritical(HBNBOTA_CORE) << "Failed to insert new user" << email << "into database:" << q.lastError().text();
@@ -534,6 +543,7 @@ User User::get(Cutelyst::Context *c, Error &e, User::dbid_t id)
     q.bindValue(u":id"_s, id);
 
     if (Q_UNLIKELY(!q.exec())) {
+        //: Error message
         //% "Failed to get user with ID %1 from database."
         e = Error::create(c, q, c->qtTrId("hbnbota_error_user_get_query_failed").arg(id));
         qCCritical(HBNBOTA_CORE) << "Failed to get user with ID" << id << "from database:" << q.lastError().text();
@@ -541,6 +551,7 @@ User User::get(Cutelyst::Context *c, Error &e, User::dbid_t id)
     }
 
     if (Q_UNLIKELY(!q.next())) {
+        //: Error message
         //% "Can not find user with ID %1 in the database."
         e = Error::create(c, Cutelyst::Response::NotFound, c->qtTrId("hbnbota_error_user_get_not_found").arg(id));
         qCCritical(HBNBOTA_CORE) << "Can not find user ID" << id << "in the database";
@@ -571,6 +582,7 @@ QList<User> User::list(Cutelyst::Context *c, Error &e)
         u"SELECT u1.id, u1.type, u1.email, u1.displayName, u1.created, u1.updated, u1.lastSeen, u1.lockedAt, u1.lockedBy, u2.displayName AS lockedByName, u1.settings FROM users u1 LEFT JOIN users u2 ON u2.id = u1.lockedBy"_s);
 
     if (Q_UNLIKELY(q.lastError().isValid())) {
+        //: Error message
         //% "Failed to query users from database."
         e = Error::create(c, q, c->qtTrId("hbnbota_error_user_list_query_failed"));
         qCCritical(HBNBOTA_CORE) << "Failed to query users from database:" << q.lastError().text();

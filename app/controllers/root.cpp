@@ -22,6 +22,7 @@ Root::Root(QObject *parent)
 void Root::index(Context *c)
 {
     c->stash({{u"template"_s, u"index.html"_s},
+              //: Site title
               //% "Dashboard"
               {u"site_title"_s, c->qtTrId("hbnbota_site_title_dashboard")}});
 }
@@ -76,6 +77,10 @@ void Root::buildUserMenu(Context *c)
 {
     MenuItemList userMenu;
 
+    //: User menu entry
+    //% "My settings"
+    userMenu.emplace_back(c, u"userMenuSettings"_s, c->qtTrId("hbnbota_usermenu_mysettings"), u"index"_s, u"mysettings"_s);
+    //: User menu entry
     //% "Logout"
     userMenu.emplace_back(c, u"userMenuLogout"_s, c->qtTrId("hbnbota_usermenu_logout"), u"index"_s, u"logout"_s);
 
@@ -86,9 +91,11 @@ void Root::buildMainMenu(Context *c)
 {
     MenuItemList mainMenu;
 
+    //: Main menu entry
     //% "Dashboard"
     mainMenu.emplace_back(c, u"mainMenuDashboard"_s, c->qtTrId("hbnbota_mainmenu_dashboard"), u"index"_s);
     if (User::fromStash(c).type() >= User::Administrator) {
+        //: Main menu entry
         //% "Users"
         mainMenu.emplace_back(c, u"mainMenuUsers"_s, c->qtTrId("hbnbota_mainmenu_users"), u"index"_s, u"users"_s);
     }

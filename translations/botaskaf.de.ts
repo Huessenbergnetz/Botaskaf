@@ -5,66 +5,82 @@
     <name></name>
     <message id="hbnbota_form_setup_index_label">
         <source>Welcome to the Botaskaf setup</source>
+        <extracomment>Form label, migth be used as form header</extracomment>
         <translation>Willkommen zur Einrichtung von Botaskaf</translation>
     </message>
     <message id="hbnbota_form_setup_index_desc">
         <source>To begin the setup process, please enter the keyword you set in your configuration file in the “core” section under the key “setuptoken”.</source>
+        <extracomment>Form description</extracomment>
         <translation>Um die Einrichtung zu beginnen, geben Sie bitte das Schlüsselwort ein, das Sie in Ihrer Konfigurationsdatei im Abschnitt „core“ unter dem Schlüssel „setuptoken“ eingetragen haben.</translation>
     </message>
     <message id="hbnbota_form_setup_index_setuptoken_label">
         <source>Setup token</source>
+        <extracomment>Form field label</extracomment>
         <translation>Setup‐Token</translation>
     </message>
     <message id="hbnbota_general_next">
         <source>Next</source>
+        <extracomment>Form button text</extracomment>
         <translation>Weiter</translation>
     </message>
     <message id="hbnbota_form_setup_setup_label">
         <source>Create your admin user</source>
+        <extracomment>Form label, migth be used as form header</extracomment>
         <translation>Erstellen Sie Ihren Administrator</translation>
     </message>
     <message id="hbnbota_form_setup_setup_desc">
         <source>Create your first user that acts as super administrator.</source>
+        <extracomment>Form description</extracomment>
         <translation>Erstellen Sie Ihren erstesn Benutzer, der auch Ihr Hauptadministrator ist.</translation>
     </message>
     <message id="hbnbota_email_label">
         <source>Email address</source>
+        <extracomment>Form field label</extracomment>
         <translation>E‐Mail‐Adresse</translation>
     </message>
     <message id="hbnbota_user_email_desc">
         <source>The user’s email address. Will be used for login and for system notifications.</source>
+        <extracomment>Form field description</extracomment>
         <translation>Die E‐Mail‐Adresse des Benutzers. Wird zur Anmeldung und für Systembenachrichtigungen benutzt.</translation>
     </message>
     <message id="hbnbota_email_placeholder">
         <source>your.name@example.com</source>
+        <extracomment>Form field placeholder</extracomment>
         <translation>ihr.name@beispiel.de</translation>
     </message>
     <message id="hbnbota_password_label">
         <source>Password</source>
+        <extracomment>Form field label</extracomment>
         <translation>Passwort</translation>
     </message>
     <message id="hbnbota_password_confirmation_label">
         <source>Password confirmation</source>
+        <extracomment>Form field label</extracomment>
         <translation>Passwort bestätigen</translation>
     </message>
     <message id="hbnbota_password_confirmation_desc">
         <source>Please confirm your selected password by enter it again.</source>
+        <extracomment>Form field description</extracomment>
         <translation>Bitte bestätigen Sie Ihr Passwort indem Sie es erneut eingeben.</translation>
     </message>
     <message id="hbnbota_general_create">
         <source>Create</source>
+        <extracomment>Form button text</extracomment>
         <translation>Erstellen</translation>
     </message>
     <message id="hbnbota_displayname_label">
         <source>Display name</source>
+        <extracomment>Form field label</extracomment>
         <translation>Anzeigename</translation>
     </message>
     <message id="hbnbota_user_displayname_desc">
         <source>The display name will be shown instead of the email address. Feel free to use a real name or a nickmane.</source>
+        <extracomment>Form field description</extracomment>
         <translation>Der Anzeigename wird an Stelle der E‐Mail‐Adresse gezeigt. Geben Sie Ihren Namen oder Ihren Spitznamen ein.</translation>
     </message>
     <message id="hbnbota_displayname_placeholder">
         <source>John Doe</source>
+        <extracomment>Form field placeholder</extracomment>
         <translation>Max Mustermann</translation>
     </message>
     <message id="hbnbota_locale_option_text">
@@ -74,14 +90,17 @@
     </message>
     <message id="hbnbota_user_locale_label">
         <source>Localization</source>
+        <extracomment>Form field label</extracomment>
         <translation>Lokalisierung</translation>
     </message>
     <message id="hbnbota_user_timezone_label">
         <source>Time zone</source>
+        <extracomment>Form field label</extracomment>
         <translation>Zeitzone</translation>
     </message>
     <message id="hbnbota_error_failed_hashing_pw">
         <source>Failed to hash the password.</source>
+        <extracomment>Error message</extracomment>
         <translation>Konnte kein Hash des Passworts erstellen.</translation>
     </message>
     <message id="hbnbota_error_title_badrequest">
@@ -131,6 +150,7 @@
     </message>
     <message id="hbnbota_info_setup_finished">
         <source>You have successfully completed the setup and created your first user “%1” (%2). Now remove the “setuptoken“ entry from your configuration file and restart the application.</source>
+        <extracomment>Message shown to the user when the setup has been finished successfully</extracomment>
         <translation>Sie haben die Einrichtung erfolgreich abgeschlossen und Ihren ersten Benutzer „%1“ (%2) erstellt. Entfernen Sie nun den Eintrag „setuptoken“ aus Ihrer Konfigurationsdatei und starten Sie die Anwendung neu.</translation>
     </message>
     <message id="hbnbota_site_title_setup">
@@ -140,14 +160,17 @@
     </message>
     <message id="hbnbota_error_user_failed_create_db">
         <source>Failed to insert new user “%1” into database.</source>
+        <extracomment>Error message</extracomment>
         <translation>Der neue Benutzer „%1“ konnte nicht in der Datenbank angelegt werden.</translation>
     </message>
     <message id="hbnbota_error_user_get_query_failed">
         <source>Failed to get user with ID %1 from database.</source>
+        <extracomment>Error message</extracomment>
         <translation>Konnte den Benutzer mit ID %1 nicht aus der Datenbank abrufen.</translation>
     </message>
     <message id="hbnbota_error_user_get_not_found">
         <source>Can not find user with ID %1 in the database.</source>
+        <extracomment>Error message</extracomment>
         <translation>Kann den Benutzer mit der ID %1 nicht in der Datenbank finden.</translation>
     </message>
     <message id="hbnbota_form_login_label">
@@ -173,58 +196,72 @@
     </message>
     <message id="hbnbota_site_title_dashboard">
         <source>Dashboard</source>
+        <extracomment>Site title</extracomment>
         <translation>Übersicht</translation>
     </message>
     <message id="hbnbota_usermenu_logout">
         <source>Logout</source>
+        <extracomment>User menu entry</extracomment>
         <translation>Abmelden</translation>
     </message>
     <message id="hbnbota_mainmenu_dashboard">
         <source>Dashboard</source>
+        <extracomment>Main menu entry</extracomment>
         <translation>Übersicht</translation>
     </message>
     <message id="hbnbota_site_title_users">
         <source>Users</source>
+        <extracomment>Site title</extracomment>
         <translation>Benutzer</translation>
     </message>
     <message id="hbnbota_mainmenu_users">
         <source>Users</source>
+        <extracomment>Main menu entry</extracomment>
         <translation>Benutzer</translation>
     </message>
     <message id="hbnbota_error_user_list_query_failed">
         <source>Failed to query users from database.</source>
+        <extracomment>Error message</extracomment>
         <translation>Die Datenbankabfrage zum Abrufen der Benutzerdaten konnte nicht ausgeführt werden.</translation>
     </message>
     <message id="hbnbota_error_general_forbidden">
         <source>Sorry, but you do not have access authorization for this area.</source>
+        <extracomment>Error message</extracomment>
         <translation>Es tut uns leid, aber Sie haben für diesen Bereich keine Zugriffsberechtigung.</translation>
     </message>
     <message id="hbnbota_user_label_id">
         <source>id</source>
+        <extracomment>User data label, used eg. in table headers</extracomment>
         <translation>ID</translation>
     </message>
     <message id="hbnbota_user_label_type">
         <source>type</source>
+        <extracomment>User data label, used eg. in table headers</extracomment>
         <translation>Typ</translation>
     </message>
     <message id="hbnbota_user_label_email">
         <source>email</source>
+        <extracomment>User data label, used eg. in table headers</extracomment>
         <translation>E‐Mail</translation>
     </message>
     <message id="hbnbota_user_label_displayname">
         <source>display name</source>
+        <extracomment>User data label, used eg. in table headers</extracomment>
         <translation>Anzeigename</translation>
     </message>
     <message id="hbnbota_user_label_created">
         <source>created</source>
+        <extracomment>User data label, used eg. in table headers</extracomment>
         <translation>Erstellt</translation>
     </message>
     <message id="hbnbota_user_label_updated">
         <source>updated</source>
+        <extracomment>User data label, used eg. in table headers</extracomment>
         <translation>Aktualisiert</translation>
     </message>
     <message id="hbnbota_user_label_lastseen">
         <source>last seen</source>
+        <extracomment>User data label, used eg. in table headers</extracomment>
         <translation>Zuletzt gesehen</translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_datetime_short">
@@ -259,10 +296,12 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_now">
         <source>now</source>
+        <extracomment>relative time</extracomment>
         <translation>jetzt</translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_yearsago" numerus="yes">
         <source>%n year(s) ago</source>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>vor %n Jahr</numerusform>
             <numerusform>vor %n Jahren</numerusform>
@@ -270,6 +309,7 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_monthsago" numerus="yes">
         <source>%n month(s) ago</source>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>vor %n Monat</numerusform>
             <numerusform>vor %n Monaten</numerusform>
@@ -277,6 +317,7 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_weeksago" numerus="yes">
         <source>%n week(s) ago</source>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>vor %n Woche</numerusform>
             <numerusform>vor %n Wochen</numerusform>
@@ -284,6 +325,7 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_daysago" numerus="yes">
         <source>%n day(s) ago</source>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>vor %n Tag</numerusform>
             <numerusform>vor %n Tagen</numerusform>
@@ -291,6 +333,7 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_hoursago" numerus="yes">
         <source>%n hour(s) ago</source>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>vor %n Stunde</numerusform>
             <numerusform>vor %n Stunden</numerusform>
@@ -298,6 +341,7 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_minutesago" numerus="yes">
         <source>%n minute(s) ago</source>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>vor %n Minute</numerusform>
             <numerusform>vor %n Minuten</numerusform>
@@ -305,6 +349,7 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_secondsago" numerus="yes">
         <source>%n second(s) ago</source>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>vor %n Sekunde</numerusform>
             <numerusform>vor %n Sekunden</numerusform>
@@ -312,6 +357,7 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_inyears" numerus="yes">
         <source>in %n year(s)</source>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>in %n Jahr</numerusform>
             <numerusform>in %n Jahren</numerusform>
@@ -319,6 +365,7 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_inweeks" numerus="yes">
         <source>in %n week(s)</source>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>in %n Woche</numerusform>
             <numerusform>in %n Wochen</numerusform>
@@ -326,6 +373,7 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_indays" numerus="yes">
         <source>in %n day(s)</source>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>in %n Tag</numerusform>
             <numerusform>in %n Tagen</numerusform>
@@ -333,6 +381,7 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_inhours" numerus="yes">
         <source>in %n hour(s)</source>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>in %n Stunde</numerusform>
             <numerusform>in %n Stunden</numerusform>
@@ -340,6 +389,7 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_inminutes" numerus="yes">
         <source>in %n minute(s)</source>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>in %n Minute</numerusform>
             <numerusform>in %n Minuten</numerusform>
@@ -347,10 +397,12 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_never">
         <source>never</source>
+        <extracomment>relative time</extracomment>
         <translation>nie</translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_inmonths" numerus="yes">
         <source>in %n month(s)</source>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>in %n Monat</numerusform>
             <numerusform>in %n Monaten</numerusform>
@@ -359,6 +411,7 @@
     <message id="hbnbota_cutelee_dateformattag_rel_inseconds" numerus="yes">
         <source>in %n second(s)</source>
         <oldsource>in %n second(s) ago</oldsource>
+        <extracomment>relative time</extracomment>
         <translation>
             <numerusform>in %n Sekunde</numerusform>
             <numerusform>in %n Sekunden</numerusform>
@@ -366,31 +419,43 @@
     </message>
     <message id="hbnbota_site_title_add_user">
         <source>Add user</source>
+        <extracomment>Site title</extracomment>
         <translation>Benutzer hinzufügen</translation>
     </message>
     <message id="hbnbota_user_type_label">
         <source>Type</source>
+        <extracomment>Form field label</extracomment>
         <translation>Typ</translation>
     </message>
     <message id="hbnbota_general_cancel">
         <source>Cancel</source>
+        <extracomment>Form button text</extracomment>
         <translation>Abbrechen</translation>
     </message>
     <message id="hbnbota_usersmenu_add">
         <source>Add user</source>
+        <extracomment>Page menu entry</extracomment>
         <translation>Benutzer hinzufügen</translation>
     </message>
     <message id="hbnbota_site_title_mysettings">
         <source>My settings</source>
+        <extracomment>Site title</extracomment>
         <translation>Meine Einstellungen</translation>
     </message>
     <message id="hbnbota_error_invalid_user_id">
         <source>The provided user ID is not a valid integer.</source>
+        <extracomment>Error message</extracomment>
         <translation>Die angegebene Benutzer‐ID ist keine ganze Zahl.</translation>
     </message>
     <message id="hbnbota_site_title_edit_user">
         <source>Edit user</source>
+        <extracomment>Site title</extracomment>
         <translation>Benutzer bearbeiten</translation>
+    </message>
+    <message id="hbnbota_usermenu_mysettings">
+        <source>My settings</source>
+        <extracomment>User menu entry</extracomment>
+        <translation type="unfinished">Meine Einstellungen</translation>
     </message>
 </context>
 </TS>
