@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="en">
 <context>
     <name></name>
     <message id="hbnbota_form_setup_index_label">
@@ -263,74 +263,86 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_yearsago" numerus="yes">
         <source>%n year(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n year ago</numerusform>
+            <numerusform>%n years ago</numerusform>
         </translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_monthsago" numerus="yes">
         <source>%n month(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n month ago</numerusform>
+            <numerusform>%n months ago</numerusform>
         </translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_weeksago" numerus="yes">
         <source>%n week(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n week ago</numerusform>
+            <numerusform>%n weeks ago</numerusform>
         </translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_daysago" numerus="yes">
         <source>%n day(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n day ago</numerusform>
+            <numerusform>%n days ago</numerusform>
         </translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_hoursago" numerus="yes">
         <source>%n hour(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n hour ago</numerusform>
+            <numerusform>%n hours ago</numerusform>
         </translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_minutesago" numerus="yes">
         <source>%n minute(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n minute ago</numerusform>
+            <numerusform>%n minutes ago</numerusform>
         </translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_secondsago" numerus="yes">
         <source>%n second(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n second ago</numerusform>
+            <numerusform>%n seconds ago</numerusform>
         </translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_inyears" numerus="yes">
         <source>in %n year(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>in %n year</numerusform>
+            <numerusform>in %n years</numerusform>
         </translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_inweeks" numerus="yes">
         <source>in %n week(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>in %n week</numerusform>
+            <numerusform>in %n weeks</numerusform>
         </translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_indays" numerus="yes">
         <source>in %n day(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>in %n day</numerusform>
+            <numerusform>in %n days</numerusform>
         </translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_inhours" numerus="yes">
         <source>in %n hour(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>in %n hour</numerusform>
+            <numerusform>in %n hours</numerusform>
         </translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_inminutes" numerus="yes">
         <source>in %n minute(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>in %n minute</numerusform>
+            <numerusform>in %n minutes</numerusform>
         </translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_never">
@@ -339,15 +351,17 @@
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_inmonths" numerus="yes">
         <source>in %n month(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>in %n month</numerusform>
+            <numerusform>in %n months</numerusform>
         </translation>
     </message>
     <message id="hbnbota_cutelee_dateformattag_rel_inseconds" numerus="yes">
         <source>in %n second(s)</source>
         <oldsource>in %n second(s) ago</oldsource>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>in %n second</numerusform>
+            <numerusform>in %n seconds</numerusform>
         </translation>
     </message>
     <message id="hbnbota_site_title_add_user">
