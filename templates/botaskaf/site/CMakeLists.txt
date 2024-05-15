@@ -15,3 +15,4 @@ target_sources(botaskaftemplate
 add_subdirectory(setup)
 add_subdirectory(users)
 add_subdirectory(parts)
+add_subdirectory(mysettings)

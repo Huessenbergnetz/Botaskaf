@@ -366,5 +366,9 @@
         <source>Add user</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_site_title_mysettings">
+        <source>My settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
