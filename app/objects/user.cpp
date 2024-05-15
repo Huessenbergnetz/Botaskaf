@@ -69,6 +69,8 @@ public:
     UserData &operator=(const UserData &) = delete;
     ~UserData() noexcept                  = default;
 
+    void setUrls(Cutelyst::Context *c);
+
     QString email;
     QString displayName;
     QString lockedByName;
@@ -77,10 +79,21 @@ public:
     QDateTime lastSeen;
     QDateTime lockedAt;
     QVariantMap settings;
+    QUrl editUrl;
     User::dbid_t id{0};
     User::dbid_t lockedById{0};
     User::Type type{User::Invalid};
 };
+
+void UserData::setUrls(Cutelyst::Context *c)
+{
+    User current = User::fromStash(c);
+    if (id == current.id()) {
+        editUrl = c->uriFor(c->getAction(u"index", u"mysettings"));
+    } else if (current.isAdmin()) {
+        editUrl = c->uriFor(c->getAction(u"edit", u"users"), {}, {QString::number(id)});
+    }
+}
 
 User::User() noexcept = default;
 
@@ -187,6 +200,11 @@ QString User::timezone() const
 QString User::locale() const
 {
     return setting(u"locale"_s, u"en_US"_s).toString();
+}
+
+QUrl User::editUrl() const noexcept
+{
+    return data ? data->editUrl : QUrl();
 }
 
 bool User::isAdmin() const noexcept
@@ -505,6 +523,7 @@ User User::get(Cutelyst::Context *c, Error &e, User::dbid_t id)
 {
     User u = User::fromCache(id);
     if (!u.isNull()) {
+        u.data->setUrls(c);
         return u;
     }
 
@@ -540,7 +559,7 @@ User User::get(Cutelyst::Context *c, Error &e, User::dbid_t id)
     const QVariantMap settings    = QJsonDocument::fromJson(q.value(9).toByteArray()).object().toVariantMap();
 
     u = User{id, type, email, displayName, created, updated, lastSeen, lockedAt, lockedById, lockedByName, settings};
-
+    u.data->setUrls(c);
     u.toCache();
 
     return u;
@@ -570,17 +589,19 @@ QList<User> User::list(Cutelyst::Context *c, Error &e)
     }
 
     while (q.next()) {
-        lst << User{q.value(0).toUInt(),
-                    static_cast<User::Type>(q.value(01).toInt()),
-                    q.value(2).toString(),
-                    q.value(3).toString(),
-                    q.value(4).toDateTime(),
-                    q.value(5).toDateTime(),
-                    q.value(6).toDateTime(),
-                    q.value(7).toDateTime(),
-                    q.value(8).toUInt(),
-                    q.value(9).toString(),
-                    QJsonDocument::fromJson(q.value(10).toByteArray()).object().toVariantMap()};
+        User u{q.value(0).toUInt(),
+               static_cast<User::Type>(q.value(01).toInt()),
+               q.value(2).toString(),
+               q.value(3).toString(),
+               q.value(4).toDateTime(),
+               q.value(5).toDateTime(),
+               q.value(6).toDateTime(),
+               q.value(7).toDateTime(),
+               q.value(8).toUInt(),
+               q.value(9).toString(),
+               QJsonDocument::fromJson(q.value(10).toByteArray()).object().toVariantMap()};
+        u.data->setUrls(c);
+        lst << u;
     }
 
     return lst;

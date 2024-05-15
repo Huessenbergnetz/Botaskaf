@@ -87,6 +87,7 @@ class User
      * \brief Locale of the user in the form language_TERRITORY.
      */
     Q_PROPERTY(QString locale READ locale CONSTANT)
+    Q_PROPERTY(QUrl editUrl READ editUrl CONSTANT)
     /*!
      * \brief \c true if this user is an administrator, otherwise \c false.
      */
@@ -248,6 +249,8 @@ public:
      * Defaults to \c 'en_US'. On a null user an empty string will be returned.
      */
     [[nodiscard]] QString locale() const;
+
+    [[nodiscard]] QUrl editUrl() const noexcept;
 
     /*!
      * \brief Returns \c true if this user is of type Administrator or higher.
