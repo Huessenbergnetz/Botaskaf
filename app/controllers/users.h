@@ -23,6 +23,12 @@ public:
     C_ATTR(add, :Local :Args(0))
     void add(Context *c);
 
+    C_ATTR(base, :Chained("/") :PathPart("users") :CaptureArgs(1))
+    void base(Context *c, const QString &id);
+
+    C_ATTR(remove, :Chained("base") :PathPart("remove") :Args(0))
+    void remove(Context *c);
+
     C_ATTR(edit, :Local :Args(1))
     void edit(Context *c, const QString &id);
 

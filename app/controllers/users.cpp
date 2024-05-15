@@ -104,7 +104,7 @@ void Users::add(Context *c)
               {u"form"_s, QVariant::fromValue<CutelystForms::Form *>(form)}});
 }
 
-void Users::edit(Context *c, const QString &id)
+void Users::base(Context *c, const QString &id)
 {
     bool ok        = true;
     const auto uid = User::toDbId(id, &ok);
@@ -122,10 +122,43 @@ void Users::edit(Context *c, const QString &id)
         return;
     }
 
+    c->setStash(u"current_user"_s, QVariant::fromValue<User>(user));
+}
+
+void Users::edit(Context *c, const QString &id)
+{
+    bool ok        = true;
+    const auto uid = User::toDbId(id, &ok);
+    if (Q_UNLIKELY(!ok)) {
+        Error::toStash(c, Response::BadRequest, c->qtTrId("hbnbota_error_invalid_user_id"), true);
+        return;
+    }
+
+    Error e;
+    auto user = User::get(c, e, uid);
+    if (Q_UNLIKELY(user.isNull())) {
+        e.toStash(c, true);
+        return;
+    }
+
     c->stash({{u"template"_s, u"users/edit.html"_s},
               //: Site title
               //% "Edit user"
               {u"site_title"_s, c->qtTrId("hbnbota_site_title_edit_user")}});
+}
+
+void Users::remove(Context *c)
+{
+    if (Error::hasError(c)) {
+        return;
+    }
+
+    qCDebug(HBNBOTA_CORE) << "DAS SOLLTE NICHT ANGEZEIGT WERDEN!!!!!!!!";
+
+    c->stash({{u"template"_s, u"users/remove.html"_s},
+              //: Site title
+              //% "Remove user"
+              {u"site_title"_s, c->qtTrId("hbnbota_site_title_remove_user")}});
 }
 
 bool Users::Auto(Context *c)

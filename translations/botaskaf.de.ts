@@ -457,5 +457,10 @@
         <extracomment>User menu entry</extracomment>
         <translation type="unfinished">Meine Einstellungen</translation>
     </message>
+    <message id="hbnbota_site_title_remove_user">
+        <source>Remove user</source>
+        <extracomment>Site title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

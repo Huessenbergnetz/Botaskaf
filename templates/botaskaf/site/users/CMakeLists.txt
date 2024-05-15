@@ -7,4 +7,5 @@ target_sources(botaskaftemplate
         add.html
         add_header.html
         edit.html
+        remove.html
 )
