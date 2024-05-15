@@ -88,8 +88,10 @@ void Root::buildMainMenu(Context *c)
 
     //% "Dashboard"
     mainMenu.emplace_back(c, u"mainMenuDashboard"_s, c->qtTrId("hbnbota_mainmenu_dashboard"), u"index"_s);
-    //% "Users"
-    mainMenu.emplace_back(c, u"mainMenuUsers"_s, c->qtTrId("hbnbota_mainmenu_users"), u"index"_s, u"users"_s);
+    if (User::fromStash(c).type() >= User::Administrator) {
+        //% "Users"
+        mainMenu.emplace_back(c, u"mainMenuUsers"_s, c->qtTrId("hbnbota_mainmenu_users"), u"index"_s, u"users"_s);
+    }
 
     c->setStash(u"main_menu"_s, QVariant::fromValue<MenuItemList>(mainMenu));
 }
