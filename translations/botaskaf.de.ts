@@ -384,5 +384,13 @@
         <source>My settings</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_error_invalid_user_id">
+        <source>The provided user ID is not a valid integer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_site_title_edit_user">
+        <source>Edit user</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

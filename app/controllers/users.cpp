@@ -101,6 +101,28 @@ void Users::add(Context *c)
               {u"form"_s, QVariant::fromValue<CutelystForms::Form *>(form)}});
 }
 
+void Users::edit(Context *c, const QString &id)
+{
+    bool ok        = true;
+    const auto uid = User::toDbId(id, &ok);
+    if (Q_UNLIKELY(!ok)) {
+        //% "The provided user ID is not a valid integer."
+        Error::toStash(c, Response::BadRequest, c->qtTrId("hbnbota_error_invalid_user_id"), true);
+        return;
+    }
+
+    Error e;
+    auto user = User::get(c, e, uid);
+    if (Q_UNLIKELY(user.isNull())) {
+        e.toStash(c, true);
+        return;
+    }
+
+    c->stash({{u"template"_s, u"users/edit.html"_s},
+              //% "Edit user"
+              {u"site_title"_s, c->qtTrId("hbnbota_site_title_edit_user")}});
+}
+
 bool Users::Auto(Context *c)
 {
     if (User::fromStash(c).type() < User::Administrator) {
