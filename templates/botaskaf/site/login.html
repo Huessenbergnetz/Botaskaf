@@ -46,14 +46,8 @@
                 </div>
 
                 {% if hbnbota_error.isError %}
-                <div class="alert alert-danger mt-3" role="alert">
-                    <h4 class="alert-heading">{{ hbnbota_error.title }}</h4>
-                    <p>{{ hbnbota_error.text }}</p>
-                    {% if hbnbota_error.sqlErrorText %}
-                    <p>{{ hbnbota_error.sqlErrorText }}</p>
-                    {% endif %}
-                    <hr>
-                    <p class="mb-0">HTTP Status: {{ hbnbota_error.status }}{% if hbnbota_error.code %}, Error Code: {{ hbnbota_error.code }}{% endif %}</p>
+                <div class="mt-3">
+                    {% include "parts/erroralert.html" %}
                 </div>
                 {% endif %}
 
