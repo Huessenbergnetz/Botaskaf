@@ -14,3 +14,10 @@ const bsDropdownList = [...bsDropdownElementList].map(dropdownToggleEl => new Dr
 
 const bsAlertElementList = document.querySelectorAll('.alert');
 const bsAlertList = [...bsAlertElementList].map(alertEl => new Alert(alertEl));
+
+const bsTooltipElementList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+if (bsTooltipElementList.length > 0) {
+    import('bootstrap/tooltip.js').then((Tooltip) => {
+        [...bsTooltipElementList].map(el => new Tooltip.default(el))
+    });
+}
