@@ -4,7 +4,7 @@
 {% include "header.html" %}
 
 <body>
-    <header class="navbar sticky-top bg-dark flex-lg-nowrap p-0 shadow" data-bs-theme="dark">
+    <header class="navbar fixed-top bg-dark flex-lg-nowrap p-0 shadow" data-bs-theme="dark">
         <a class="navbar-brand col-lg-3 col-xxl-2 me-0 px-3 fs-6 text-white" href="/">{{ site_name }}</a>
         <ul class="navbar-nav flex-row d-lg-none">
             <li class="nav-item text-nowrap">
@@ -16,7 +16,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <nav class="sidebar border border-right col-lg-3 col-xxl-2 p-0 bg-body-tertiary">
+            <nav class="sidebar border border-right col-lg-3 col-xxl-2 p-0 pt-lg-5 bg-body-tertiary">
                 <div id="sidebarMenu" class="offcanvas-lg offcanvas-end bg-body-tertiary" tabindex="-1">
                     <div class="offcanvas-header">
                         <span id="sidebarMenuLabel" class="offcanvs-title h5">{{ site_name }}</span>
@@ -48,7 +48,7 @@
                 </div>
             </nav>
 
-            <main class="col-lg-9 ms-sm-auto col-xxl-10 px-md-4 min-vh-100">
+            <main class="col-lg-9 ms-sm-auto col-xxl-10 px-md-4 min-vh-100 pt-5">
                 {% include template %}
             </main>
         </div>
