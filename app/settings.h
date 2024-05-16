@@ -97,6 +97,10 @@ QStringList allowedLocaleIds();
 QList<CutelystForms::Option *> supportedTimeZones(const QByteArray &selected, QObject *parent = nullptr);
 
 QStringList allowedTimeZoneIds();
+
+QList<CutelystForms::Option *> supportedSmtpAuthMethods(Cutelyst::Context *c, const QString &selected);
+
+QStringList allowedSmtpAuthMethods();
 } // namespace Settings
 
 #endif // HBNBOTA_SETTINGS

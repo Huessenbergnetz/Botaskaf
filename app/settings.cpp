@@ -352,3 +352,21 @@ QStringList Settings::allowedTimeZoneIds()
     }
     return lst;
 }
+
+QList<CutelystForms::Option *> Settings::supportedSmtpAuthMethods(Cutelyst::Context *c, const QString &selected)
+{
+    QList<CutelystForms::Option *> lst;
+    lst.reserve(4);
+    //: SMTP authentication method option name for no authentication
+    //% "None"
+    lst << new CutelystForms::Option(u"NONE"_s, c->qtTrId("hbnbota_smtp_authmtehod_none"), selected == "none"_L1);
+    lst << new CutelystForms::Option(u"PLAIN"_s, u"PLAIN"_s, selected == "PLAIN"_L1);
+    lst << new CutelystForms::Option(u"LOGIN"_s, u"LOGIN"_s, selected == "LOGIN"_L1);
+    lst << new CutelystForms::Option(u"CRAM-MD5"_s, u"CRAM-MD5"_s, selected == "CRAM-MD5"_L1);
+    return lst;
+}
+
+QStringList Settings::allowedSmtpAuthMethods()
+{
+    return {u"NONE"_s, u"PLAIN"_s, u"LOGIN"_s, u"CRAM-MD5"_s};
+}
