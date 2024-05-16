@@ -15,6 +15,7 @@
 #include "cutelee/botaskafcutelee.h"
 #include "logging.h"
 #include "migrations/m0001_create_users_table.h"
+#include "migrations/m0002_createformstable.h"
 #include "settings.h"
 #include "userauthstoresql.h"
 
@@ -251,6 +252,7 @@ bool Botaskaf::initializeDb(const QString &conName) const
 {
     Firfuorida::Migrator mig{conName, u"migrations"_s};
     new M0001_CreateUsersTable(&mig);
+    new M0002_CreateFormsTable(&mig);
 
     const QByteArray mode = qgetenv("HBNBOTA_DB_MIGRATION").toLower();
 
