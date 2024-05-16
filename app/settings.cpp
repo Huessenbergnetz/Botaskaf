@@ -359,14 +359,32 @@ QList<CutelystForms::Option *> Settings::supportedSmtpAuthMethods(Cutelyst::Cont
     lst.reserve(4);
     //: SMTP authentication method option name for no authentication
     //% "None"
-    lst << new CutelystForms::Option(u"NONE"_s, c->qtTrId("hbnbota_smtp_authmtehod_none"), selected == "none"_L1);
-    lst << new CutelystForms::Option(u"PLAIN"_s, u"PLAIN"_s, selected == "PLAIN"_L1);
-    lst << new CutelystForms::Option(u"LOGIN"_s, u"LOGIN"_s, selected == "LOGIN"_L1);
-    lst << new CutelystForms::Option(u"CRAM-MD5"_s, u"CRAM-MD5"_s, selected == "CRAM-MD5"_L1);
+    lst << new CutelystForms::Option(c->qtTrId("hbnbota_smtp_authmtehod_none"), u"NONE"_s, selected == "NONE"_L1);
+    for (const QString &m : {u"PLAIN"_s, u"LOGIN"_s, u"CRAM-MD5"_s}) {
+        lst << new CutelystForms::Option(m, m == selected);
+    }
     return lst;
 }
 
 QStringList Settings::allowedSmtpAuthMethods()
 {
     return {u"NONE"_s, u"PLAIN"_s, u"LOGIN"_s, u"CRAM-MD5"_s};
+}
+
+QList<CutelystForms::Option *> Settings::supportedSmtpEncryption(Cutelyst::Context *c, const QString &selected)
+{
+    QList<CutelystForms::Option *> lst;
+    lst.reserve(3);
+    //: SMTP encryption method option name for no encryption
+    //% "None"
+    lst << new CutelystForms::Option(c->qtTrId("hbnbota_smtp_encmethod_none"), u"none"_s, selected == "none"_L1);
+    for (const QString &e : {u"TLS"_s, u"StartTLS"_s}) {
+        lst << new CutelystForms::Option(e, e == selected);
+    }
+    return lst;
+}
+
+QStringList Settings::allowedSmtpEncryption()
+{
+    return {u"none"_s, u"TLS"_s, u"StartTLS"_s};
 }

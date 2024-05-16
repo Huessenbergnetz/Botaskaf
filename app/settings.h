@@ -101,6 +101,10 @@ QStringList allowedTimeZoneIds();
 QList<CutelystForms::Option *> supportedSmtpAuthMethods(Cutelyst::Context *c, const QString &selected);
 
 QStringList allowedSmtpAuthMethods();
+
+QList<CutelystForms::Option *> supportedSmtpEncryption(Cutelyst::Context *c, const QString &selected);
+
+QStringList allowedSmtpEncryption();
 } // namespace Settings
 
 #endif // HBNBOTA_SETTINGS
