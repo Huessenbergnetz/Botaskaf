@@ -38,10 +38,12 @@
   ],
   "icons": {
     "mainMenuDashboard": "house-fill",
+    "mainMenuForms": "window",
+    "formsMenuAdd": "window-plus",
     "mainMenuUsers": "people",
+    "usersMenuAdd": "person-add",
     "userMenuSettings": "person-gear",
     "userMenuLogout": "door-closed",
-    "usersMenuAdd": "person-add",
     "settingsUserMenuPersonal": "person-fill",
     "settingsUserMenuSecurity": "person-fill-lock"
   }

@@ -94,6 +94,9 @@ void Root::buildMainMenu(Context *c)
     //: Main menu entry
     //% "Dashboard"
     mainMenu.emplace_back(c, u"mainMenuDashboard"_s, c->qtTrId("hbnbota_mainmenu_dashboard"), u"index"_s);
+    //: Main menu entry
+    //% "Contact forms"
+    mainMenu.emplace_back(c, u"mainMenuForms"_s, c->qtTrId("hbnbota_mainmenu_forms"), u"index"_s, u"forms"_s);
     if (User::fromStash(c).type() >= User::Administrator) {
         //: Main menu entry
         //% "Users"

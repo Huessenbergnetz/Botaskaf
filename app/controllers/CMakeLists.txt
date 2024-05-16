@@ -15,4 +15,6 @@ target_sources(Botaskaf
         users.h
         mysettings.cpp
         mysettings.h
+        forms.cpp
+        forms.h
 )

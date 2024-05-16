@@ -462,5 +462,135 @@
         <extracomment>Site title</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_mainmenu_forms">
+        <source>Contact forms</source>
+        <oldsource>Main menu entry
+Contact forms</oldsource>
+        <extracomment>Main menu entry</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_site_title_forms">
+        <source>Contact forms</source>
+        <extracomment>Site title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_site_title_add_form">
+        <source>Add contact form</source>
+        <extracomment>Site title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_formsmenu_add">
+        <source>Add form</source>
+        <extracomment>Page menu entry</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_general_fieldset_legend">
+        <source>General settings</source>
+        <extracomment>Fieldset legend</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_name_label">
+        <source>Name</source>
+        <extracomment>Form field label, name of the contact form</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_name_desc">
+        <source>The name for the contact form is used internally as a hint for the user.</source>
+        <extracomment>Form field description</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_domain_label">
+        <source>Domain</source>
+        <extracomment>Form field label, domain the contact form will be used on</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_domain_desc">
+        <source>The domain the form will be used on. Includes all subdomains.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_description_label">
+        <source>Description (optional)</source>
+        <extracomment>Form field label, description for the contact form, used internally</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_description_desc">
+        <source>The description is only used internally.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_fieldset_legend">
+        <source>Form fields</source>
+        <extracomment>Fieldset legend</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_honeypots_fieldset_legend">
+        <source>Honeypots</source>
+        <extracomment>Fieldset legend</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_sender_fieldset_legend">
+        <source>Sender data</source>
+        <extracomment>Fieldset legend</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_sender_frommail_label">
+        <source>Email address</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_sender_frommail_desc">
+        <source>The email address of the sender.</source>
+        <extracomment>Form field description</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_sender_fromname_label">
+        <source>Name</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_sender_fromname_desc">
+        <source>Optional sender name.</source>
+        <extracomment>Form field description</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_sender_smtphost_label">
+        <source>SMTP host</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_sender_smtpport_label">
+        <source>SMTP port</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_sender_smtpuser_label">
+        <source>SMTP user</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_sender_smtppassword_label">
+        <source>SMTP password</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_sender_smtpencryption_label">
+        <source>SMTP encryption method</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_sender_smtpauthentication_label">
+        <source>SMTP authentication method</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_smtp_authmtehod_none">
+        <source>None</source>
+        <extracomment>SMTP authentication method option name for no authentication</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_smtp_encmethod_none">
+        <source>None</source>
+        <extracomment>SMTP encryption method option name for no encryption</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
