@@ -398,7 +398,7 @@ Q_DECLARE_METATYPE(User)
 Q_DECLARE_TYPEINFO(User, Q_RELOCATABLE_TYPE); // NOLINT(modernize-type-traits)
 
 /*!
- * \related
+ * \related User
  * \brief Writes the \a user to the debug stream \a dbg and returns a reference to the stream.
  */
 QDebug operator<<(QDebug dbg, const User &user);
@@ -411,7 +411,7 @@ QDataStream &operator<<(QDataStream &out, const User &user);
 
 /*!
  * \related User
- * \brief Reds a user from stream \a in into \a user. Returns a reference to the stream.
+ * \brief Reads a user from stream \a in into \a user. Returns a reference to the stream.
  */
 QDataStream &operator>>(QDataStream &in, User &user);
 
