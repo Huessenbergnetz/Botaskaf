@@ -31,9 +31,7 @@
 
                 {% with fieldsById.description as field %}
                 <div class="col-12 mb-3">
-                    <label for="{{ field.htmlId }}" class="form-label">{{ field.label }}</label>
-                    <textarea {{ field.attrs|safe }} class="form-control" rows="3" aria-describedby="descriptionDesc"></textarea>
-                    <div id="descriptionDesc" class="form-text">{{ field.description }}</div>
+                    {% include "cutelystforms/fieldwithlabel.html" %}
                 </div>
                 {% endwith %}
             {% endwith %}
@@ -52,7 +50,7 @@
 
             {% with fs.fieldById.honeypots as field %}
             <div class="col-12 mb-3">
-                <textarea {{field.attrs|safe }} class="form-control"></textarea>
+                {% include "cutelystforms/field.html" %}
             </div>
             {% endwith %}
         </fieldset>
