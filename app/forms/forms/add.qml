@@ -57,6 +57,101 @@ Form {
             //% "Form fields"
             legend: cTrId("hbnbota_form_fields_fieldset_legend")
 
+            TextForm {
+                htmlId: "formFieldSenderName"
+                name: "formFieldSenderName"
+                //: Form field label
+                //% "Sender name field name"
+                label: cTrId("hbnbota_form_fields_name_label")
+            }
+
+            CheckBoxForm {
+                htmlId: "formFieldSenderNameRequired"
+                name: "formFieldSenderNameRequired"
+                //: Form checkbox label
+                //% "Sender name required"
+                label: cTrId("hbnbota_form_fields_name_required_label")
+            }
+
+            TextForm {
+                htmlId: "formFieldSenderEmail"
+                name: "formFieldSenderEmail"
+                //: Form field label
+                //% "Sender email address field name"
+                label: cTrId("hbnbota_form_fields_email_label")
+            }
+
+            CheckBoxForm {
+                htmlId: "formFieldSenderEmailRequired"
+                name: "formFieldSenderEmailRequired"
+                //: Form checkbox label
+                //% "Sender email address required"
+                label: cTrId("hbnbota_form_fields_email_required_label")
+            }
+
+            TextForm {
+                htmlId: "formFieldSenderPhone"
+                name: "formFieldSenderPhone"
+                //: Form field label
+                //% "Sender phone number field name"
+                label: cTrId("hbnbota_form_fields_phone_label")
+            }
+
+            CheckBoxForm {
+                htmlId: "formFieldSenderPhoneRequired"
+                name: "formFieldSenderPhoneRequired"
+                //: Form checkbox label
+                //% "Sender phone number required"
+                label: cTrId("hbnbota_form_fields_phone_required_label")
+            }
+
+            TextForm {
+                htmlId: "formFieldSenderUrl"
+                name: "formFieldSenderUrl"
+                //: Form field label
+                //% "Sender URL field name"
+                label: cTrId("hbnbota_form_fields_url_label")
+            }
+
+            CheckBoxForm {
+                htmlId: "formFieldSenderUrlRequired"
+                name: "formFieldSenderUrlRequired"
+                //: Form checkbox label
+                //% "Sender URL required"
+                label: cTrId("hbnbota_form_fields_url_required_label")
+            }
+
+            TextForm {
+                htmlId: "formFieldSubject"
+                name: "formFieldSubject"
+                //: Form field label
+                //% "Message subject field name"
+                label: cTrId("hbnbota_form_fields_subject_label")
+            }
+
+            CheckBoxForm {
+                htmlId: "formFieldSubjectRequired"
+                name: "formFieldSubjectRequired"
+                //: Form checkbox label
+                //% "Message subject required"
+                label: cTrId("hbnbota_form_fields_subject_required_label")
+            }
+
+            TextForm {
+                htmlId: "formFieldContent"
+                name: "formFieldContent"
+                //: Form field label
+                //% "Message content field name"
+                label: cTrId("hbnbota_form_fields_content_label")
+            }
+
+            CheckBoxForm {
+                htmlId: "formFieldContentRequired"
+                name: "formFieldContentRequired"
+                //: Form checkbox label
+                //% "Message content required"
+                label: cTrId("hbnbota_form_fields_content_required_label")
+            }
         },
         Fieldset {
             htmlId: "addFormHoneypots"

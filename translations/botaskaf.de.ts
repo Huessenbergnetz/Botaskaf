@@ -577,5 +577,67 @@ Contact forms</oldsource>
         <extracomment>Form field label</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_form_fields_name_label">
+        <source>Sender name field name</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_name_required_label">
+        <source>Sender name required</source>
+        <extracomment>Form checkbox label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_email_label">
+        <source>Sender email address field name</source>
+        <oldsource>Sender email field name</oldsource>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_email_required_label">
+        <source>Sender email address required</source>
+        <oldsource>Sender email required</oldsource>
+        <extracomment>Form checkbox label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_phone_label">
+        <source>Sender phone number field name</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_phone_required_label">
+        <source>Sender phone number required</source>
+        <extracomment>Form checkbox label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_url_label">
+        <source>Sender URL field name</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_url_required_label">
+        <source>Sender URL required</source>
+        <extracomment>Form checkbox label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_subject_label">
+        <source>Message subject field name</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_subject_required_label">
+        <source>Message subject required</source>
+        <extracomment>Form checkbox label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_content_label">
+        <source>Message content field name</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_content_required_label">
+        <source>Message content required</source>
+        <extracomment>Form checkbox label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

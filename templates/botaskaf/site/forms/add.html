@@ -15,7 +15,7 @@
     {% c_csrf_token %}
     {% with form.fieldsetById as fieldsetsById %}
         {% with fieldsetsById.addFormGeneral as fs %}
-        <fieldset class="row mb-2">
+        <fieldset class="row mb-3">
             <legend>{{ fs.legend }}</legend>
             {% with fs.fieldById as fieldsById %}
                 {% with fieldsById.name as field %}
@@ -40,13 +40,62 @@
         {% endwith %}
 
         {% with fieldsetsById.addFormFields as fs %}
-        <fieldset class="row mb-2">
+        <fieldset class="row mb-3">
             <legend>{{ fs.legend }}</legend>
+            {% with fs.fieldById as fields %}
+                {% with fields.formFieldSenderNameRequired as checkbox %}
+                {% with fields.formFieldSenderName as field %}
+                <div class="col-12 col-md-6 mb-3">
+                    {% include "parts/inputwithcheckboxandlabel.html" %}
+                </div>
+                {% endwith %}
+                {% endwith %}
+
+                {% with fields.formFieldSenderEmailRequired as checkbox %}
+                {% with fields.formFieldSenderEmail as field %}
+                <div class="col-12 col-md-6 mb-3">
+                    {% include "parts/inputwithcheckboxandlabel.html" %}
+                </div>
+                {% endwith %}
+                {% endwith %}
+
+                {% with fields.formFieldSenderPhoneRequired as checkbox %}
+                {% with fields.formFieldSenderPhone as field %}
+                <div class="col-12 col-md-6 mb-3">
+                    {% include "parts/inputwithcheckboxandlabel.html" %}
+                </div>
+                {% endwith %}
+                {% endwith %}
+
+                {% with fields.formFieldSenderUrlRequired as checkbox %}
+                {% with fields.formFieldSenderUrl as field %}
+                <div class="col-12 col-md-6 mb-3">
+                    {% include "parts/inputwithcheckboxandlabel.html" %}
+                </div>
+                {% endwith %}
+                {% endwith %}
+
+                {% with fields.formFieldSubjectRequired as checkbox %}
+                {% with fields.formFieldSubject as field %}
+                <div class="col-12 col-md-6 mb-3">
+                    {% include "parts/inputwithcheckboxandlabel.html" %}
+                </div>
+                {% endwith %}
+                {% endwith %}
+
+                {% with fields.formFieldContentRequired as checkbox %}
+                {% with fields.formFieldContent as field %}
+                <div class="col-12 col-md-6 mb-3">
+                    {% include "parts/inputwithcheckboxandlabel.html" %}
+                </div>
+                {% endwith %}
+                {% endwith %}
+            {% endwith %}
         </fieldset>
         {% endwith %}
 
         {% with fieldsetsById.addFormHoneypots as fs %}
-        <fieldset class="row mb-2">
+        <fieldset class="row mb-3">
             <legend>{{ fs.legend }}</legend>
 
             {% with fs.fieldById.honeypots as field %}
