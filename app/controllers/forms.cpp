@@ -36,6 +36,7 @@ void Forms::add(Context *c)
 
     auto form            = CutelystForms::Forms::getForm(u"forms/add.qml"_s, c, CutelystForms::Forms::DoNotFillContext);
     auto addFormSenderFs = form->fieldsetById(u"addFormSender"_s);
+    addFormSenderFs->fieldById(u"senderType"_s)->appendOptions(Settings::supportedSenderTypes(c, u"SMTP"_s));
     addFormSenderFs->fieldById(u"smtpEncryption"_s)->appendOptions(Settings::supportedSmtpEncryption(c, u"TLS"_s));
     addFormSenderFs->fieldById(u"smtpAuthentication"_s)->appendOptions(Settings::supportedSmtpAuthMethods(c, u"PLAIN"_s));
 

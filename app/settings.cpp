@@ -388,3 +388,19 @@ QStringList Settings::allowedSmtpEncryption()
 {
     return {u"none"_s, u"TLS"_s, u"StartTLS"_s};
 }
+
+QList<CutelystForms::Option *> Settings::supportedSenderTypes(Cutelyst::Context *c, const QString &selected)
+{
+    QList<CutelystForms::Option *> lst;
+    lst.reserve(1);
+    Q_UNUSED(c)
+    for (const QString &t : {u"SMTP"_s}) {
+        lst << new CutelystForms::Option(t, t == selected);
+    }
+    return lst;
+}
+
+QStringList Settings::allowedSenderTypes()
+{
+    return {u"SMTP"_s};
+}

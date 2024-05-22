@@ -75,6 +75,15 @@ Form {
             //% "Sender data"
             legend: cTrId("hbnbota_form_sender_fieldset_legend")
 
+            Select {
+                htmlId: "senderType"
+                name: "senderType"
+                required: true
+                //: Form field label
+                //% "Mailer"
+                label: cTrId("hbnbota_form_sender_sendertype_label")
+            }
+
             TextForm {
                 htmlId: "smtpHost"
                 name: "smtpHost"

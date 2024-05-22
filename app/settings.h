@@ -105,6 +105,10 @@ QStringList allowedSmtpAuthMethods();
 QList<CutelystForms::Option *> supportedSmtpEncryption(Cutelyst::Context *c, const QString &selected);
 
 QStringList allowedSmtpEncryption();
+
+QList<CutelystForms::Option *> supportedSenderTypes(Cutelyst::Context *c, const QString &selected);
+
+QStringList allowedSenderTypes();
 } // namespace Settings
 
 #endif // HBNBOTA_SETTINGS

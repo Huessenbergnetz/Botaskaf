@@ -532,26 +532,6 @@ Contact forms</oldsource>
         <extracomment>Fieldset legend</extracomment>
         <translation type="unfinished"></translation>
     </message>
-    <message id="hbnbota_form_sender_frommail_label">
-        <source>Email address</source>
-        <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="hbnbota_form_sender_frommail_desc">
-        <source>The email address of the sender.</source>
-        <extracomment>Form field description</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="hbnbota_form_sender_fromname_label">
-        <source>Name</source>
-        <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="hbnbota_form_sender_fromname_desc">
-        <source>Optional sender name.</source>
-        <extracomment>Form field description</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
     <message id="hbnbota_form_sender_smtphost_label">
         <source>SMTP host</source>
         <extracomment>Form field label</extracomment>
@@ -590,6 +570,11 @@ Contact forms</oldsource>
     <message id="hbnbota_smtp_encmethod_none">
         <source>None</source>
         <extracomment>SMTP encryption method option name for no encryption</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_sender_sendertype_label">
+        <source>Mailer</source>
+        <extracomment>Form field label</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
