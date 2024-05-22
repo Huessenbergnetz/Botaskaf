@@ -75,30 +75,6 @@ Form {
             //% "Sender data"
             legend: cTrId("hbnbota_form_sender_fieldset_legend")
 
-            EmailForm {
-                htmlId: "fromMail"
-                name: "fromMail"
-                required: true
-                //: Form field label
-                //% "Email address"
-                label: cTrId("hbnbota_form_sender_frommail_label")
-                //: Form field description
-                //% "The email address of the sender."
-                description: cTrId("hbnbota_form_sender_frommail_desc")
-                placeholder: cTrId("hbnbota_email_placeholder")
-            }
-
-            TextForm {
-                htmlId: "fromName"
-                name: "fromName"
-                //: Form field label
-                //% "Name"
-                label: cTrId("hbnbota_form_sender_fromname_label")
-                //: Form field description
-                //% "Optional sender name."
-                description: cTrId("hbnbota_form_sender_fromname_desc")
-            }
-
             TextForm {
                 htmlId: "smtpHost"
                 name: "smtpHost"
