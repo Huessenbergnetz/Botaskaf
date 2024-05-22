@@ -6,4 +6,6 @@ target_sources(botaskaftemplate
         pageheader.html
         pageheaderwithmenu.html
         erroralert.html
+        inputwithcheckbox.html
+        inputwithcheckboxandlabel.html
 )

@@ -1,0 +1,15 @@
+{# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de> #}
+{# SPDX-License-Identifier: AGPL-3.0-or-later #}
+
+<div class="input-group">
+    <div class="input-group-text">
+        <input type="checkbox" class="form-check-input mt-0" {{ checkbox.attrs|safe }}{% if checkbox.label %} aria-label="{{ checkbox.label }}"{% endif %}>
+    </div>
+    <input type="{{ field.typeString }}" class="form-control{% if inputPlaintext %}-plaintext{% endif %}{% if inputSize %} form-control-{{ inputSize }}{% endif %}{% if field.errors %} is-invalid{%endif %}" {{ field.attrs|safe }}{% if field.description or field.errors %} aria-describedby="{% if field.description %}{{ field.htmlId }}Desc{% endif %}{% if field.errors %} {{ field.htmlId }}Feedback{% endif %}"{% endif %}>
+</div>
+{% if field.description %}
+<div id="{{ field.htmlId }}Desc" class="form-text">{{ field.description }}</div>
+{% endif %}
+{% if field.errors %}
+<div id="{{ field.htmlId }}Feeback" class="invalid-feedback">{{ field.errors|join:"<br>" }}</div>
+{% endif %}

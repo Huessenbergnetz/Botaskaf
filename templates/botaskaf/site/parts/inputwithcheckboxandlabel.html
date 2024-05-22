@@ -1,0 +1,7 @@
+{# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de> #}
+{# SPDX-License-Identifier: AGPL-3.0-or-later #}
+
+{% if field.label %}
+<label for="{{ field.htmlId }}" class="form-label">{{ field.label }}</label>
+{% endif %}
+{% include "parts/inputwithcheckbox.html" %}
