@@ -12,6 +12,8 @@
                     <h1 class="card-header h3">{{ form.label }}</h1>
                     <div class="card-body">
                         <form {{ form.attrs|safe }}>
+                            {% c_csrf_token %}
+
                             {% with form.fieldByName.email as field %}
                             <div class="mb-3">
                                 <div class="input-group">

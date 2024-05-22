@@ -12,6 +12,7 @@
 {% endif %}
 
 <form {{ form.attrs|safe }}>
+    {% c_csrf_token %}
     {% with form.fieldsetById as fieldsetsById %}
         {% with fieldsetsById.addFormGeneral as fs %}
         <fieldset class="row mb-2">

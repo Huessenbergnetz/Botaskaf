@@ -156,6 +156,8 @@ bool Botaskaf::init()
     lsp->setSupportedLocales(supportedLocales);
     lsp->setSessionKey(u"locale"_s);
 
+    new CSRFProtection(this);
+
     new StatusMessage(this);
 
     auto forms = new CutelystForms::Forms(this); // NOLINT(cppcoreguidelines-owning-memory)

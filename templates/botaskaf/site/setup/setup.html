@@ -19,6 +19,8 @@
                     <div class="card-body">
                         <p class="card-text">{{ form.description }}</p>
                         <form {{ form.attrs|safe }}>
+                            {% c_csrf_token %}
+
                             {% for field in form.fieldList %}
                             <div class="mb-3">
                                 {% include "cutelystforms/fieldwithlabel.html" %}

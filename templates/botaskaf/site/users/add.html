@@ -12,6 +12,7 @@
 {% endif %}
 
 <form {{ form.attrs|safe }}>
+    {% c_csrf_token %}
     <div class="row">
     {% for field in form.fieldList %}
         <div class="col-12 col-md-6 mb-3">

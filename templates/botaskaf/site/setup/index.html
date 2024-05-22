@@ -13,6 +13,7 @@
                     <div class="card-body">
                         <p class="card-text">{{ form.description }}</p>
                         <form {{ form.attrs|safe }}>
+                            {% c_csrf_token %}
                             {% with form.fieldById.setuptoken as field %}
                             {% include "cutelystforms/input.html" %}
                             {% endwith %}
