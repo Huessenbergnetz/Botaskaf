@@ -492,9 +492,8 @@ User User::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
         return {};
     }
 
-    QSqlQuery q =
-        CPreparedSqlQueryThread(u"INSERT INTO users (type, email, displayName, password, created, updated, settings) "
-                                "VALUES (:type, :email, :displayName, :password, :created, :updated, :settings)"_s);
+    QSqlQuery q = CPreparedSqlQueryThread(u"INSERT INTO users (type, email, displayName, password, created, settings) "
+                                          "VALUES (:type, :email, :displayName, :password, :created, :settings)"_s);
 
     if (Q_UNLIKELY(q.lastError().isValid())) {
         //: Error message
@@ -509,7 +508,6 @@ User User::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
     q.bindValue(u":displayName"_s, displayName);
     q.bindValue(u":password"_s, passwordHash);
     q.bindValue(u":created"_s, now);
-    q.bindValue(u":updated"_s, now);
     q.bindValue(u":settings"_s, settings.toJson(QJsonDocument::Compact));
 
     if (Q_UNLIKELY(!q.exec())) {
