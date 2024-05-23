@@ -16,16 +16,16 @@ void M0002_CreateFormsTable::up()
 {
     auto t = create(u"forms"_s);
     t->increments();
-    t->varChar(u"uuid"_s)->unique()->charset(u"ascii"_s);
-    t->integer(u"userId"_s)->unSigned()->nullable();
-    t->varChar(u"secret"_s);
     t->varChar(u"name"_s);
     t->varChar(u"domain"_s);
-    t->text(u"description"_s)->nullable();
+    t->integer(u"userId"_s)->unSigned()->nullable();
+    t->varChar(u"uuid"_s)->unique()->charset(u"ascii"_s);
+    t->varChar(u"secret"_s)->charset(u"ascii"_s);
+    t->text(u"description"_s)->nullable()->defaultValue(u"NULL"_s);
     t->dateTime(u"created"_s);
-    t->dateTime(u"updated"_s);
-    t->dateTime(u"lockedAt"_s)->nullable();
-    t->integer(u"lockedBy"_s)->unSigned()->nullable();
+    t->dateTime(u"updated"_s)->nullable()->defaultValue(u"NULL"_s);
+    t->dateTime(u"lockedAt"_s)->nullable()->defaultValue(u"NULL"_s);
+    t->integer(u"lockedBy"_s)->unSigned()->nullable()->defaultValue(u"NULL"_s);
     t->json(u"settings"_s);
     t->foreignKey(u"userId"_s, u"users"_s, u"id"_s, u"forms_userId_idx"_s)->onDelete(u"SET NULL"_s)->onUpdate(u"CASCADE"_s);
 

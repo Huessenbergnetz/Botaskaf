@@ -21,10 +21,10 @@ void M0001_CreateUsersTable::up()
     t->varChar(u"displayName"_s);
     t->varChar(u"password"_s)->nullable()->charset(u"ascii"_s);
     t->dateTime(u"created"_s);
-    t->dateTime(u"updated"_s);
-    t->dateTime(u"lastSeen"_s)->nullable();
-    t->dateTime(u"lockedAt"_s)->nullable();
-    t->integer(u"lockedBy"_s)->unSigned()->nullable();
+    t->dateTime(u"updated"_s)->nullable()->defaultValue(u"NULL"_s);
+    t->dateTime(u"lastSeen"_s)->nullable()->defaultValue(u"NULL"_s);
+    t->dateTime(u"lockedAt"_s)->nullable()->defaultValue(u"NULL"_s);
+    t->integer(u"lockedBy"_s)->unSigned()->nullable()->defaultValue(u"NULL"_s);
     t->json(u"settings"_s);
 
     switch (dbType()) {
