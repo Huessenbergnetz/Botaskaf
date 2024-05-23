@@ -528,7 +528,7 @@ User User::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
         id = User::toDbId(q.value(0));
     }
 
-    User u{id, type, email, displayName, now, now, {}, {}, 0, {}, settings.object().toVariantMap()};
+    User u{id, type, email, displayName, now, {}, {}, {}, 0, {}, settings.object().toVariantMap()};
     u.toCache();
 
     qCInfo(HBNBOTA_CORE) << User::fromStash(c) << "created new" << u;
