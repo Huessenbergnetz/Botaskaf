@@ -315,6 +315,10 @@ QList<CutelystForms::Option *> Settings::supportedLocales(Cutelyst::Context *c, 
             l == selected,
             parent);
     }
+    if (Q_LIKELY(!lst.empty())) {
+        CutelystForms::OptionCollator collator{c->locale()};
+        std::sort(lst.begin(), lst.end(), collator);
+    }
 
     return lst;
 }
@@ -330,14 +334,18 @@ QStringList Settings::allowedLocaleIds()
     return lst;
 }
 
-QList<CutelystForms::Option *> Settings::supportedTimeZones(const QByteArray &selected, QObject *parent)
+QList<CutelystForms::Option *>
+    Settings::supportedTimeZones(Cutelyst::Context *c, const QByteArray &selected, QObject *parent)
 {
     QList<CutelystForms::Option *> lst;
     const QList<QByteArray> tzIds = QTimeZone::availableTimeZoneIds();
     lst.reserve(tzIds.size());
     for (const QByteArray &tzId : tzIds) {
-        const QString tzIdStr = QString::fromLatin1(tzId);
-        lst << new CutelystForms::Option(tzIdStr, tzIdStr, tzId == selected, parent);
+        lst << new CutelystForms::Option(QString::fromLatin1(tzId), tzId == selected, parent);
+    }
+    if (Q_LIKELY(!lst.empty())) {
+        CutelystForms::OptionCollator collator{c->locale()};
+        std::sort(lst.begin(), lst.end(), collator);
     }
     return lst;
 }

@@ -101,7 +101,7 @@ void Setup::setup(Context *c)
     form->fieldByName(u"locale"_s)
         ->appendOptions(Settings::supportedLocales(c, inputLocale != QLocale::c() ? inputLocale : Settings::defLocale(), c));
     form->fieldByName(u"timezone"_s)
-        ->appendOptions(Settings::supportedTimeZones(inputTz.isValid() ? inputTz.id() : Settings::defTimeZone().id()));
+        ->appendOptions(Settings::supportedTimeZones(c, inputTz.isValid() ? inputTz.id() : Settings::defTimeZone().id()));
     if (!vr || Error::hasError(c)) {
         form->setErrors(vr.errors());
         form->setValues(c->req()->bodyParameters());

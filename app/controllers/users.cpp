@@ -88,7 +88,7 @@ void Users::add(Context *c)
     form->fieldByName(u"locale"_s)
         ->appendOptions(Settings::supportedLocales(c, inputLocale != QLocale::c() ? inputLocale : Settings::defLocale()));
     form->fieldByName(u"timezone"_s)
-        ->appendOptions(Settings::supportedTimeZones(inputTz.isValid() ? inputTz.id() : Settings::defTimeZone().id()));
+        ->appendOptions(Settings::supportedTimeZones(c, inputTz.isValid() ? inputTz.id() : Settings::defTimeZone().id()));
     form->fieldByName(u"type"_s)->appendOptions(
         User::supportedTypes(inputType != User::Invalid ? inputType : User::Type::Registered));
 

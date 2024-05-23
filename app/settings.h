@@ -94,7 +94,8 @@ QList<CutelystForms::Option *> supportedLocales(Cutelyst::Context *c, const QLoc
 
 QStringList allowedLocaleIds();
 
-QList<CutelystForms::Option *> supportedTimeZones(const QByteArray &selected, QObject *parent = nullptr);
+QList<CutelystForms::Option *>
+    supportedTimeZones(Cutelyst::Context *c, const QByteArray &selected, QObject *parent = nullptr);
 
 QStringList allowedTimeZoneIds();
 
