@@ -6,12 +6,18 @@
 #include "form.h"
 
 #include "logging.h"
+#include "objects/error.h"
 #include "settings.h"
 
 #include <Cutelyst/Context>
 #include <Cutelyst/Plugins/Memcached/memcached.h>
 #include <Cutelyst/Plugins/Utils/sql.h>
 
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QSqlDriver>
+#include <QSqlError>
+#include <QSqlQuery>
 #include <QUuid>
 #include <QVariant>
 
@@ -180,18 +186,96 @@ void Form::toStash(Cutelyst::Context *c) const
 
 Form Form::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
 {
-    const User user = User::get(c, e, User::toDbId(values.value(u"userId"_s)));
+    const User user = User::fromStash(c);
     if (!user.isValid()) {
         return {};
     }
-    // const QString uuid = QUuid::createUuid().toString(QUuid::Id128).toLower();
-    // const QString secret = QUuid::createUuid().toString(QUuid::Id128).toUpper();
-    // const QString name = values.value(u"name"_s).toString();
-    // const QString domain = values.value(u"domain"_s).toString();
-    // const QString description = values.value(u"description"_s).toString();
-    // const QDateTime now = QDateTime::currentDateTimeUtc();
 
-    return {};
+    const QString uuid        = QUuid::createUuid().toString(QUuid::Id128).toLower();
+    const QString secret      = QUuid::createUuid().toString(QUuid::Id128).toUpper();
+    const QString name        = values.value(u"name"_s).toString();
+    const QString domain      = values.value(u"domain"_s).toString();
+    const QString description = values.value(u"description"_s).toString();
+    const QDateTime now       = QDateTime::currentDateTimeUtc();
+    QVariantMap settings;
+    settings.insert(u"honeypots"_s, values.value(u"honeypots"_s).toString().split(','_L1, Qt::SkipEmptyParts));
+    QVariantMap fields;
+    fields.insert(u"name"_s,
+                  QVariantMap({{u"name"_s, values.value(u"formFieldSenderName"_s)},
+                               {u"required"_s, values.value(u"formFieldSenderNameRequired"_s)}}));
+    fields.insert(u"email"_s,
+                  QVariantMap({{u"name"_s, values.value(u"formFieldSenderEmail"_s)},
+                               {u"required"_s, values.value(u"formFieldSenderEmailRequired"_s)}}));
+    fields.insert(u"phone"_s,
+                  QVariantMap({{u"name"_s, values.value(u"formFieldSenderPhone"_s)},
+                               {u"required"_s, values.value(u"formFieldSenderPhoneRequired"_s)}}));
+    fields.insert(u"url"_s,
+                  QVariantMap({{u"name"_s, values.value(u"formFieldSenderUrl"_s)},
+                               {u"required"_s, values.value(u"formFieldSenderUrlRequired"_s)}}));
+    fields.insert(u"subject"_s,
+                  QVariantMap({{u"name"_s, values.value(u"formFieldSubject"_s)},
+                               {u"required"_s, values.value(u"formFieldSubjectRequired"_s)}}));
+    fields.insert(u"content"_s,
+                  QVariantMap({{u"name"_s, values.value(u"formFieldContent"_s)},
+                               {u"required"_s, values.value(u"formFieldContentRequired"_s)}}));
+    settings.insert(u"fields"_s, fields);
+    QVariantMap mailer;
+    mailer.insert(u"type"_s, values.value(u"senderType"_s));
+    QVariantMap smtp;
+    smtp.insert(u"host"_s, values.value(u"smtpHost"_s));
+    smtp.insert(u"port"_s, values.value(u"smtpPort"_s));
+    smtp.insert(u"user"_s, values.value(u"smtpUser"_s));
+    smtp.insert(u"password"_s, values.value(u"smtpPassword"_s));
+    smtp.insert(u"encryption"_s, values.value(u"smtpEncryption"_s));
+    smtp.insert(u"authentication"_s, values.value(u"smtpAuthentication"_s));
+    mailer.insert(u"smtp"_s, smtp);
+    settings.insert(u"mailer"_s, mailer);
+    const QByteArray jsonSettings = QJsonDocument(QJsonObject::fromVariantMap(settings)).toJson(QJsonDocument::Compact);
+
+    QSqlQuery q =
+        CPreparedSqlQueryThread(u"INSERT INTO forms (name, domain, userId, uuid, secret, description, created, settings) "
+                                "VALUES (:name, :domain, :userId, :uuid, :secret, :description, :created, :settings)"_s);
+    if (Q_UNLIKELY(q.lastError().isValid())) {
+        //: Error message, %1 will be replaced by the form name
+        //% "Failed to insert new form “%1” into database."
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_form_failed_create_db").arg(name));
+        qCCritical(HBNBOTA_CORE) << "Failed to insert new form" << name << "into database:" << q.lastError().text();
+        return {};
+    }
+
+    q.bindValue(u":name"_s, name);
+    q.bindValue(u":domain"_s, domain);
+    q.bindValue(u":userId"_s, user.id());
+    q.bindValue(u":uuid"_s, uuid);
+    q.bindValue(u":secret"_s, secret);
+    q.bindValue(u":description"_s, description);
+    q.bindValue(u":created"_s, now);
+    q.bindValue(u":settings"_s, jsonSettings);
+
+    if (Q_UNLIKELY(!q.exec())) {
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_form_failed_create_db").arg(name));
+        qCCritical(HBNBOTA_CORE) << "Failed to insert new form" << name << "into database:" << q.lastError().text();
+        return {};
+    }
+
+    Form::dbid_t id = 0;
+
+    if (q.driver()->hasFeature(QSqlDriver::LastInsertId)) {
+        id = Form::toDbId(q.lastInsertId());
+    } else {
+        q = CPreparedSqlQueryThreadFO(u"SELECT id FROM forms WHERE uuid = :uuid"_s);
+        q.bindValue(u":uuid"_s, uuid);
+        q.exec();
+        q.next();
+        id = Form::toDbId(q.value(0));
+    }
+
+    Form f{id, uuid, user, secret, name, domain, description, now, {}, {}, User(), settings};
+    f.toCache();
+
+    qCInfo(HBNBOTA_CORE) << user << "created new" << f;
+
+    return f;
 }
 
 Form Form::fromCache(Form::dbid_t id)

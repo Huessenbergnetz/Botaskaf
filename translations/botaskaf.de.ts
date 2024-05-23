@@ -639,5 +639,30 @@ Contact forms</oldsource>
         <extracomment>Form checkbox label</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_error_form_failed_create_db">
+        <source>Failed to insert new form “%1” into database.</source>
+        <extracomment>Error message, %1 will be replaced by the form name</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_policy_label">
+        <source>Policy field name</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_policy_required_label">
+        <source>Policy required</source>
+        <extracomment>Form checkbox label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_time_label">
+        <source>Time token field name</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_fields_time_required_label">
+        <source>Time token required</source>
+        <extracomment>Form checkbox label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

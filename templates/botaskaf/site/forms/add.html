@@ -90,6 +90,22 @@
                 </div>
                 {% endwith %}
                 {% endwith %}
+
+                {% with fields.formFieldPolicyRequired as checkbox %}
+                {% with fields.formFieldPolicy as field %}
+                <div class="col-12 col-md-6 mb-3">
+                    {% include "parts/inputwithcheckboxandlabel.html" %}
+                </div>
+                {% endwith %}
+                {% endwith %}
+
+                {% with fields.formFieldTimeRequired as checkbox %}
+                {% with fields.formFieldTime as field %}
+                <div class="col-12 col-md-6 mb-3">
+                    {% include "parts/inputwithcheckboxandlabel.html" %}
+                </div>
+                {% endwith %}
+                {% endwith %}
             {% endwith %}
         </fieldset>
         {% endwith %}

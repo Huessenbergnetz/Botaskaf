@@ -68,6 +68,7 @@ Form {
             CheckBoxForm {
                 htmlId: "formFieldSenderNameRequired"
                 name: "formFieldSenderNameRequired"
+                value: "true"
                 //: Form checkbox label
                 //% "Sender name required"
                 label: cTrId("hbnbota_form_fields_name_required_label")
@@ -84,6 +85,7 @@ Form {
             CheckBoxForm {
                 htmlId: "formFieldSenderEmailRequired"
                 name: "formFieldSenderEmailRequired"
+                value: "true"
                 //: Form checkbox label
                 //% "Sender email address required"
                 label: cTrId("hbnbota_form_fields_email_required_label")
@@ -100,6 +102,7 @@ Form {
             CheckBoxForm {
                 htmlId: "formFieldSenderPhoneRequired"
                 name: "formFieldSenderPhoneRequired"
+                value: "true"
                 //: Form checkbox label
                 //% "Sender phone number required"
                 label: cTrId("hbnbota_form_fields_phone_required_label")
@@ -116,6 +119,7 @@ Form {
             CheckBoxForm {
                 htmlId: "formFieldSenderUrlRequired"
                 name: "formFieldSenderUrlRequired"
+                value: "true"
                 //: Form checkbox label
                 //% "Sender URL required"
                 label: cTrId("hbnbota_form_fields_url_required_label")
@@ -132,6 +136,7 @@ Form {
             CheckBoxForm {
                 htmlId: "formFieldSubjectRequired"
                 name: "formFieldSubjectRequired"
+                value: "true"
                 //: Form checkbox label
                 //% "Message subject required"
                 label: cTrId("hbnbota_form_fields_subject_required_label")
@@ -148,9 +153,47 @@ Form {
             CheckBoxForm {
                 htmlId: "formFieldContentRequired"
                 name: "formFieldContentRequired"
+                value: "true"
                 //: Form checkbox label
                 //% "Message content required"
                 label: cTrId("hbnbota_form_fields_content_required_label")
+            }
+
+            TextForm {
+                htmlId: "formFieldPolicy"
+                name: "formFieldPolicy"
+                //: Form field label
+                //% "Policy field name"
+                label: cTrId("hbnbota_form_fields_policy_label")
+            }
+
+            CheckBoxForm {
+                htmlId: "formFieldPolicyRequired"
+                name: "formFieldPolicyRequired"
+                value: "true"
+                //: Form checkbox label
+                //% "Policy required"
+                label: cTrId("hbnbota_form_fields_policy_required_label")
+            }
+
+            TextForm {
+                htmlId: "formFieldTime"
+                name: "formFieldTime"
+                value: "token"
+                //: Form field label
+                //% "Time token field name"
+                label: cTrId("hbnbota_form_fields_time_label")
+            }
+
+            CheckBoxForm {
+                htmlId: "formFieldTimeRequired"
+                name: "formFieldTimeRequired"
+                value: "true"
+                checked: true
+                disabled: true
+                //: Form checkbox label
+                //% "Time token required"
+                label: cTrId("hbnbota_form_fields_time_required_label")
             }
         },
         Fieldset {
