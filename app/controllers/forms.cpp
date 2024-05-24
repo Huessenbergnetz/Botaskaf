@@ -114,4 +114,46 @@ void Forms::add(Context *c)
               {u"form"_s, QVariant::fromValue<CutelystForms::Form *>(form)}});
 }
 
+void Forms::baseForm(Context *c, const QString &id)
+{
+    Q_UNUSED(c)
+    Q_UNUSED(id)
+}
+
+void Forms::removeForm(Context *c)
+{
+    Q_UNUSED(c)
+}
+
+void Forms::editForm(Context *c)
+{
+    Q_UNUSED(c)
+}
+
+void Forms::recipients(Context *c)
+{
+    Q_UNUSED(c)
+}
+
+void Forms::addRecipient(Context *c)
+{
+    Q_UNUSED(c)
+}
+
+void Forms::baseRecipient(Context *c, const QString &id)
+{
+    Q_UNUSED(c)
+    Q_UNUSED(id)
+}
+
+void Forms::editRecipient(Context *c)
+{
+    Q_UNUSED(c)
+}
+
+void Forms::removeRecipient(Context *c)
+{
+    Q_UNUSED(c)
+}
+
 #include "moc_forms.cpp"
