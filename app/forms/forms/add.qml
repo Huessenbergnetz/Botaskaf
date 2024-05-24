@@ -63,6 +63,7 @@ Form {
                 //: Form field label
                 //% "Sender name field name"
                 label: cTrId("hbnbota_form_fields_name_label")
+                pattern: "^[A-Za-z][A-Za-z0-9_:.-]*$"
             }
 
             CheckBoxForm {
@@ -80,6 +81,7 @@ Form {
                 //: Form field label
                 //% "Sender email address field name"
                 label: cTrId("hbnbota_form_fields_email_label")
+                pattern: "^[A-Za-z][A-Za-z0-9_:.-]*$"
             }
 
             CheckBoxForm {
@@ -97,6 +99,7 @@ Form {
                 //: Form field label
                 //% "Sender phone number field name"
                 label: cTrId("hbnbota_form_fields_phone_label")
+                pattern: "^[A-Za-z][A-Za-z0-9_:.-]*$"
             }
 
             CheckBoxForm {
@@ -114,6 +117,7 @@ Form {
                 //: Form field label
                 //% "Sender URL field name"
                 label: cTrId("hbnbota_form_fields_url_label")
+                pattern: "^[A-Za-z][A-Za-z0-9_:.-]*$"
             }
 
             CheckBoxForm {
@@ -131,6 +135,7 @@ Form {
                 //: Form field label
                 //% "Message subject field name"
                 label: cTrId("hbnbota_form_fields_subject_label")
+                pattern: "^[A-Za-z][A-Za-z0-9_:.-]*$"
             }
 
             CheckBoxForm {
@@ -148,6 +153,7 @@ Form {
                 //: Form field label
                 //% "Message content field name"
                 label: cTrId("hbnbota_form_fields_content_label")
+                pattern: "^[A-Za-z][A-Za-z0-9_:.-]*$"
             }
 
             CheckBoxForm {
@@ -165,6 +171,7 @@ Form {
                 //: Form field label
                 //% "Policy field name"
                 label: cTrId("hbnbota_form_fields_policy_label")
+                pattern: "^[A-Za-z][A-Za-z0-9_:.-]*$"
             }
 
             CheckBoxForm {
@@ -183,6 +190,7 @@ Form {
                 //: Form field label
                 //% "Time token field name"
                 label: cTrId("hbnbota_form_fields_time_label")
+                pattern: "^[A-Za-z][A-Za-z0-9_:.-]*$"
             }
 
             CheckBoxForm {

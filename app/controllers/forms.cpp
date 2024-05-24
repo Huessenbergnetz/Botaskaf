@@ -15,6 +15,7 @@
 #include <Cutelyst/Plugins/Utils/validatorboolean.h>
 #include <Cutelyst/Plugins/Utils/validatordomain.h>
 #include <Cutelyst/Plugins/Utils/validatorin.h>
+#include <Cutelyst/Plugins/Utils/validatorregularexpression.h>
 #include <Cutelyst/Plugins/Utils/validatorrequired.h>
 #include <Cutelyst/Plugins/Utils/validatorrequiredif.h>
 #include <CutelystForms/forms.h>
@@ -44,27 +45,37 @@ void Forms::add(Context *c)
 {
     ValidatorResult vr;
     if (c->req()->isPost()) {
-        static Validator v({new ValidatorRequired(u"name"_s),
-                            new ValidatorRequired(u"domain"_s),
-                            new ValidatorDomain(u"domain"_s),
-                            new ValidatorBoolean(u"formFieldSenderNameRequired"_s),
-                            new ValidatorBoolean(u"formFieldSenderEmailRequired"_s),
-                            new ValidatorBoolean(u"formFieldSenderPhoneRequired"_s),
-                            new ValidatorBoolean(u"formFieldSenderUrlRequired"_s),
-                            new ValidatorBoolean(u"formFieldSubjectRequired"_s),
-                            new ValidatorBoolean(u"formFieldContentRequired"_s),
-                            new ValidatorBoolean(u"formFieldPolicyRequired"_s),
-                            new ValidatorRequired(u"senderType"_s),
-                            new ValidatorIn(u"senderType"_s, Settings::allowedSenderTypes()),
-                            new ValidatorRequiredIf(u"smtpHost"_s, u"senderType"_s, {u"SMTP"_s}),
-                            new ValidatorRequiredIf(u"smtpPort"_s, u"senderType"_s, {u"SMTP"_s}),
-                            new ValidatorBetween(u"smtpPort"_s, QMetaType::Int, 1, 65535),
-                            new ValidatorRequiredIf(u"smtpUser"_s, u"senderType"_s, {u"SMTP"_s}),
-                            new ValidatorRequiredIf(u"smtpPassword"_s, u"senderType"_s, {u"SMTP"_s}),
-                            new ValidatorRequiredIf(u"smtpEncryption"_s, u"senderType"_s, {u"SMTP"_s}),
-                            new ValidatorIn(u"smtpEncryption"_s, Settings::allowedSmtpEncryption()),
-                            new ValidatorRequiredIf(u"smtpAuthentication"_s, u"senderType"_s, {u"SMTP"_s}),
-                            new ValidatorIn(u"smtpAuthentication"_s, Settings::allowedSmtpAuthMethods())});
+        static QRegularExpression fieldNameRegEx{uR"(^[A-Za-z][A-Za-z0-9_:.-]*$)"_s};
+        static Validator v(
+            {new ValidatorRequired(u"name"_s),
+             new ValidatorRequired(u"domain"_s),
+             new ValidatorDomain(u"domain"_s),
+             new ValidatorRegularExpression(u"formFieldSenderName"_s, fieldNameRegEx),
+             new ValidatorBoolean(u"formFieldSenderNameRequired"_s),
+             new ValidatorRegularExpression(u"formFieldSenderEmail"_s, fieldNameRegEx),
+             new ValidatorBoolean(u"formFieldSenderEmailRequired"_s),
+             new ValidatorRegularExpression(u"formFieldSenderPhone"_s, fieldNameRegEx),
+             new ValidatorBoolean(u"formFieldSenderPhoneRequired"_s),
+             new ValidatorRegularExpression(u"formFieldSenderUrl"_s, fieldNameRegEx),
+             new ValidatorBoolean(u"formFieldSenderUrlRequired"_s),
+             new ValidatorRegularExpression(u"formFieldSubject"_s, fieldNameRegEx),
+             new ValidatorBoolean(u"formFieldSubjectRequired"_s),
+             new ValidatorRegularExpression(u"formFieldContent"_s, fieldNameRegEx),
+             new ValidatorBoolean(u"formFieldContentRequired"_s),
+             new ValidatorRegularExpression(u"formFieldPolicyRequired"_s, fieldNameRegEx),
+             new ValidatorBoolean(u"formFieldPolicyRequired"_s),
+             new ValidatorRegularExpression(u"honeypots"_s, QRegularExpression{uR"(^[A-Za-z][A-Za-z0-9_:.,-]*$)"_s}),
+             new ValidatorRequired(u"senderType"_s),
+             new ValidatorIn(u"senderType"_s, Settings::allowedSenderTypes()),
+             new ValidatorRequiredIf(u"smtpHost"_s, u"senderType"_s, {u"SMTP"_s}),
+             new ValidatorRequiredIf(u"smtpPort"_s, u"senderType"_s, {u"SMTP"_s}),
+             new ValidatorBetween(u"smtpPort"_s, QMetaType::Int, 1, 65535),
+             new ValidatorRequiredIf(u"smtpUser"_s, u"senderType"_s, {u"SMTP"_s}),
+             new ValidatorRequiredIf(u"smtpPassword"_s, u"senderType"_s, {u"SMTP"_s}),
+             new ValidatorRequiredIf(u"smtpEncryption"_s, u"senderType"_s, {u"SMTP"_s}),
+             new ValidatorIn(u"smtpEncryption"_s, Settings::allowedSmtpEncryption()),
+             new ValidatorRequiredIf(u"smtpAuthentication"_s, u"senderType"_s, {u"SMTP"_s}),
+             new ValidatorIn(u"smtpAuthentication"_s, Settings::allowedSmtpAuthMethods())});
         vr = v.validate(c, Validator::FillStashOnError | Validator::BodyParamsOnly);
         if (vr) {
             Error e;

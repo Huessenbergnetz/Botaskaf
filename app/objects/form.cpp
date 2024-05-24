@@ -202,22 +202,22 @@ Form Form::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
     QVariantMap fields;
     fields.insert(u"name"_s,
                   QVariantMap({{u"name"_s, values.value(u"formFieldSenderName"_s)},
-                               {u"required"_s, values.value(u"formFieldSenderNameRequired"_s)}}));
+                               {u"required"_s, values.value(u"formFieldSenderNameRequired"_s, false)}}));
     fields.insert(u"email"_s,
                   QVariantMap({{u"name"_s, values.value(u"formFieldSenderEmail"_s)},
-                               {u"required"_s, values.value(u"formFieldSenderEmailRequired"_s)}}));
+                               {u"required"_s, values.value(u"formFieldSenderEmailRequired"_s, false)}}));
     fields.insert(u"phone"_s,
                   QVariantMap({{u"name"_s, values.value(u"formFieldSenderPhone"_s)},
-                               {u"required"_s, values.value(u"formFieldSenderPhoneRequired"_s)}}));
+                               {u"required"_s, values.value(u"formFieldSenderPhoneRequired"_s, false)}}));
     fields.insert(u"url"_s,
                   QVariantMap({{u"name"_s, values.value(u"formFieldSenderUrl"_s)},
-                               {u"required"_s, values.value(u"formFieldSenderUrlRequired"_s)}}));
+                               {u"required"_s, values.value(u"formFieldSenderUrlRequired"_s, false)}}));
     fields.insert(u"subject"_s,
                   QVariantMap({{u"name"_s, values.value(u"formFieldSubject"_s)},
-                               {u"required"_s, values.value(u"formFieldSubjectRequired"_s)}}));
+                               {u"required"_s, values.value(u"formFieldSubjectRequired"_s, false)}}));
     fields.insert(u"content"_s,
                   QVariantMap({{u"name"_s, values.value(u"formFieldContent"_s)},
-                               {u"required"_s, values.value(u"formFieldContentRequired"_s)}}));
+                               {u"required"_s, values.value(u"formFieldContentRequired"_s, false)}}));
     settings.insert(u"fields"_s, fields);
     QVariantMap mailer;
     mailer.insert(u"type"_s, values.value(u"senderType"_s));
