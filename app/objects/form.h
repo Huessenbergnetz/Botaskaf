@@ -25,11 +25,11 @@ class Form
 {
     Q_GADGET
     Q_PROPERTY(Form::dbid_t id READ id CONSTANT)
-    Q_PROPERTY(QString uuid READ uuid CONSTANT)
-    Q_PROPERTY(User user READ user CONSTANT)
-    Q_PROPERTY(QString secret READ secret CONSTANT)
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(QString domain READ domain CONSTANT)
+    Q_PROPERTY(User user READ user CONSTANT)
+    Q_PROPERTY(QString uuid READ uuid CONSTANT)
+    Q_PROPERTY(QString secret READ secret CONSTANT)
     Q_PROPERTY(QString description READ description CONSTANT)
     Q_PROPERTY(QDateTime created READ created CONSTANT)
     Q_PROPERTY(QDateTime updated READ updated CONSTANT)
@@ -41,11 +41,11 @@ public:
 
     Form() noexcept = default;
     Form(dbid_t id,
-         const QString &uuid,
-         const User &user,
-         const QString &secret,
          const QString &name,
          const QString &domain,
+         const User &user,
+         const QString &uuid,
+         const QString &secret,
          const QString &description,
          const QDateTime &created,
          const QDateTime &updated,
@@ -127,11 +127,11 @@ private:
     public:
         Data() noexcept = default;
         Data(Form::dbid_t _id,
-             const QString &_uuid,
-             const User &_user,
-             const QString &_secret,
              const QString &_name,
              const QString &_domain,
+             const User &_user,
+             const QString &_uuid,
+             const QString &_secret,
              const QString &_description,
              const QDateTime &_created,
              const QDateTime &_updated,

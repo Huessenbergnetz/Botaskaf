@@ -27,11 +27,11 @@ using namespace Qt::Literals::StringLiterals;
 #define HBNBOTA_FORM_MEMC_GROUP_KEY "forms"_ba
 
 Form::Data::Data(Form::dbid_t _id,
-                 const QString &_uuid,
-                 const User &_user,
-                 const QString &_secret,
                  const QString &_name,
                  const QString &_domain,
+                 const User &_user,
+                 const QString &_uuid,
+                 const QString &_secret,
                  const QString &_description,
                  const QDateTime &_created,
                  const QDateTime &_updated,
@@ -60,18 +60,18 @@ Form::Data::Data(Form::dbid_t _id,
 }
 
 Form::Form(dbid_t id,
-           const QString &uuid,
-           const User &user,
-           const QString &secret,
            const QString &name,
            const QString &domain,
+           const User &user,
+           const QString &uuid,
+           const QString &secret,
            const QString &description,
            const QDateTime &created,
            const QDateTime &updated,
            const QDateTime &lockedAt,
            const User &lockedBy,
            const QVariantMap &settings)
-    : data{new Form::Data{id, uuid, user, secret, name, domain, description, created, updated, lockedAt, lockedBy, settings}}
+    : data{new Form::Data{id, name, domain, user, uuid, secret, description, created, updated, lockedAt, lockedBy, settings}}
 {
 }
 
@@ -270,7 +270,7 @@ Form Form::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
         id = Form::toDbId(q.value(0));
     }
 
-    Form f{id, uuid, user, secret, name, domain, description, now, {}, {}, User(), settings};
+    Form f{id, name, domain, user, uuid, secret, description, now, {}, {}, {}, settings};
     f.toCache();
 
     qCInfo(HBNBOTA_CORE) << user << "created new" << f;
