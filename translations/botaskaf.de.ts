@@ -664,5 +664,40 @@ Contact forms</oldsource>
         <extracomment>Form checkbox label</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_error_form_list_query_failed">
+        <source>Failed to query forms from database.</source>
+        <extracomment>Error message</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_label_id">
+        <source>id</source>
+        <extracomment>Form data labek, used eg. in table headers</extracomment>
+        <translation type="unfinished">ID</translation>
+    </message>
+    <message id="hbnbota_form_label_name">
+        <source>name</source>
+        <extracomment>Form data labek, used eg. in table headers</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_label_domain">
+        <source>domain</source>
+        <extracomment>Form data labek, used eg. in table headers</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_label_owner">
+        <source>owner</source>
+        <extracomment>Form data labek, used eg. in table headers</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_label_created">
+        <source>created</source>
+        <extracomment>Form data labek, used eg. in table headers</extracomment>
+        <translation type="unfinished">Erstellt</translation>
+    </message>
+    <message id="hbnbota_form_label_updated">
+        <source>updated</source>
+        <extracomment>Form data labek, used eg. in table headers</extracomment>
+        <translation type="unfinished">Aktualisiert</translation>
+    </message>
 </context>
 </TS>
