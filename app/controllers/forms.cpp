@@ -5,6 +5,7 @@
 
 #include "forms.h"
 
+#include "logging.h"
 #include "objects/error.h"
 #include "objects/form.h"
 #include "objects/menuitem.h"
@@ -125,8 +126,30 @@ void Forms::add(Context *c)
 
 void Forms::baseForm(Context *c, const QString &id)
 {
-    Q_UNUSED(c)
-    Q_UNUSED(id)
+    bool ok        = true;
+    const auto fid = Form::toDbId(id, &ok);
+    if (Q_UNLIKELY(!ok)) {
+        //: Error message
+        //% "The provided contact form ID is not a valid integer."
+        Error::toStash(c, Response::BadRequest, c->qtTrId("hbnbota_error_invalid_form_id"), true);
+        return;
+    }
+
+    Error e;
+    auto form = Form::get(c, e, fid);
+    if (Q_UNLIKELY(form.isNull())) {
+        e.toStash(c, true);
+        return;
+    }
+
+    const auto user = User::fromStash(c);
+    if (!form.canEdit(user)) {
+        Error::toStash(c, Response::Forbidden, c->qtTrId("hbnbota_error_general_forbidden"), true);
+        qCWarning(HBNBOTA_AUTHZ) << user << "tried to access restricted area" << c->req()->uri().path();
+        return;
+    }
+
+    c->setStash(u"current_form"_s, QVariant::fromValue<Form>(form));
 }
 
 void Forms::removeForm(Context *c)
@@ -136,7 +159,14 @@ void Forms::removeForm(Context *c)
 
 void Forms::editForm(Context *c)
 {
-    Q_UNUSED(c)
+    if (Error::hasError(c)) {
+        return;
+    }
+
+    c->stash({{u"template"_s, u"forms/edit.html"_s},
+              //: Site title
+              //% "Edit contact form"
+              {u"site_title"_s, c->qtTrId("hbnbota_site_title_edit_form")}});
 }
 
 void Forms::recipients(Context *c)

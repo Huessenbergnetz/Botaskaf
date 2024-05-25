@@ -699,5 +699,25 @@ Contact forms</oldsource>
         <extracomment>Form data labek, used eg. in table headers</extracomment>
         <translation type="unfinished">Aktualisiert</translation>
     </message>
+    <message id="hbnbota_error_invalid_form_id">
+        <source>The provided contact form ID is not a valid integer.</source>
+        <extracomment>Error message</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_site_title_edit_form">
+        <source>Edit contact form</source>
+        <extracomment>Site title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_form_get_query_failed">
+        <source>Failed to get contact form with ID %1 from database.</source>
+        <extracomment>Error message</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_form_get_not_found">
+        <source>Can not find contact form with ID %1 in the database.</source>
+        <extracomment>Error message</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
