@@ -131,6 +131,8 @@ public:
 
     static QList<Form> list(Cutelyst::Context *c, Error &e);
 
+    static Form get(Cutelyst::Context *c, Error &e, Form::dbid_t id);
+
 private:
     class Data : public QSharedData // NOLINT(cppcoreguidelines-special-member-functions)
     {

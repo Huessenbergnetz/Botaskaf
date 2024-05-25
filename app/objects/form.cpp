@@ -410,6 +410,77 @@ QList<Form> Form::list(Cutelyst::Context *c, Error &e)
     return lst;
 }
 
+Form Form::get(Cutelyst::Context *c, Error &e, Form::dbid_t id)
+{
+    Form f = Form::fromCache(id);
+    if (f.isNull()) {
+        f.data->setUrls(c);
+        return f;
+    }
+
+    qCDebug(HBNBOTA_CORE) << "Query form with ID" << id << "from the database";
+
+    QSqlQuery q = CPreparedSqlQueryThreadFO(
+        u"SELECT name, domain, userId, uuid, secret, description, created, updated, lockedAt, lockedBy, settings FROM forms WHERE id = :id"_s);
+
+    if (Q_UNLIKELY(q.lastError().isValid())) {
+        //: Error message
+        //% "Failed to get contact form with ID %1 from database."
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_form_get_query_failed").arg(id));
+        qCCritical(HBNBOTA_CORE) << "Failed to get form with ID" << id << "from database:" << q.lastError().text();
+        return {};
+    }
+
+    q.bindValue(u":id"_s, id);
+
+    if (Q_UNLIKELY(!q.next())) {
+        //: Error message
+        //% "Can not find contact form with ID %1 in the database."
+        e = Error::create(c, Cutelyst::Response::NotFound, c->qtTrId("hbnbota_error_form_get_not_found").arg(id));
+        qCCritical(HBNBOTA_CORE) << "Can not find contact form ID" << id << "in the databse";
+        return {};
+    }
+
+    const auto user    = User::fromStash(c);
+    const auto ownerId = User::toDbId(q.value(2));
+    User owner;
+    if (ownerId > 0) {
+        if (ownerId == user.id()) {
+            owner = user;
+        } else {
+            Error _e;
+            owner = User::get(c, _e, ownerId);
+        }
+    }
+    const auto lockedById = User::toDbId(q.value(9));
+    User lockedBy;
+    if (lockedById > 0) {
+        if (lockedById == user.id()) {
+            lockedBy = user;
+        } else {
+            Error _e;
+            lockedBy = User::get(c, _e, lockedById);
+        }
+    }
+
+    f = Form{id,
+             q.value(0).toString(),
+             q.value(1).toString(),
+             owner,
+             q.value(3).toString(),
+             q.value(4).toString(),
+             q.value(5).toString(),
+             q.value(6).toDateTime(),
+             q.value(7).toDateTime(),
+             q.value(8).toDateTime(),
+             lockedBy,
+             QJsonDocument::fromJson(q.value(10).toByteArray()).object().toVariantMap()};
+    f.data->setUrls(c);
+    f.toCache();
+
+    return f;
+}
+
 Form Form::fromCache(Form::dbid_t id)
 {
     Form f;
