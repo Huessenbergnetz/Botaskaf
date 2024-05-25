@@ -95,6 +95,10 @@ public:
 
     [[nodiscard]] bool isNull() const noexcept { return !data; };
 
+    [[nodiscard]] bool canEdit(const User &user) const;
+
+    [[nodiscard]] bool canEdit(Cutelyst::Context *c) const;
+
     void clear()
     {
         if (!isNull())

@@ -160,6 +160,24 @@ bool Form::isValid() const noexcept
     return data && data->id > 0;
 }
 
+bool Form::canEdit(const User &user) const
+{
+    if (user.isNull()) {
+        return false;
+    }
+
+    if (user.isAdmin()) {
+        return true;
+    }
+
+    return data && data->owner.id() == user.id();
+}
+
+bool Form::canEdit(Cutelyst::Context *c) const
+{
+    return canEdit(User::fromStash(c));
+}
+
 Form::dbid_t Form::toDbId(qulonglong id, bool *ok)
 {
     if (id > static_cast<qulonglong>(std::numeric_limits<Form::dbid_t>::max())) {
@@ -413,7 +431,7 @@ QList<Form> Form::list(Cutelyst::Context *c, Error &e)
 Form Form::get(Cutelyst::Context *c, Error &e, Form::dbid_t id)
 {
     Form f = Form::fromCache(id);
-    if (f.isNull()) {
+    if (!f.isNull()) {
         f.data->setUrls(c);
         return f;
     }
@@ -432,6 +450,12 @@ Form Form::get(Cutelyst::Context *c, Error &e, Form::dbid_t id)
     }
 
     q.bindValue(u":id"_s, id);
+
+    if (Q_UNLIKELY(!q.exec())) {
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_form_get_query_failed").arg(id));
+        qCCritical(HBNBOTA_CORE) << "Failed to get form with ID" << id << "from database:" << q.lastError().text();
+        return {};
+    }
 
     if (Q_UNLIKELY(!q.next())) {
         //: Error message
