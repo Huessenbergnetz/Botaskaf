@@ -29,7 +29,7 @@ using namespace Qt::Literals::StringLiterals;
 Form::Data::Data(Form::dbid_t _id,
                  const QString &_name,
                  const QString &_domain,
-                 const User &_user,
+                 const User &_owner,
                  const QString &_uuid,
                  const QString &_secret,
                  const QString &_description,
@@ -39,7 +39,7 @@ Form::Data::Data(Form::dbid_t _id,
                  const User &_lockedBy,
                  const QVariantMap &_settings)
     : QSharedData()
-    , user{_user}
+    , owner{_owner}
     , lockedBy{_lockedBy}
     , uuid{_uuid}
     , secret{_secret}
@@ -62,7 +62,7 @@ Form::Data::Data(Form::dbid_t _id,
 void Form::Data::setUrls(Cutelyst::Context *c)
 {
     const auto currentUser = User::fromStash(c);
-    if (currentUser.isAdmin() || currentUser == user) {
+    if (currentUser.isAdmin() || currentUser == owner) {
         editUrl   = c->uriForAction(u"/forms/editForm", {QString::number(id)});
         removeUrl = c->uriForAction(u"/forms/removeForm", {QString::number(id)});
     }
@@ -71,7 +71,7 @@ void Form::Data::setUrls(Cutelyst::Context *c)
 Form::Form(dbid_t id,
            const QString &name,
            const QString &domain,
-           const User &user,
+           const User &owner,
            const QString &uuid,
            const QString &secret,
            const QString &description,
@@ -80,7 +80,8 @@ Form::Form(dbid_t id,
            const QDateTime &lockedAt,
            const User &lockedBy,
            const QVariantMap &settings)
-    : data{new Form::Data{id, name, domain, user, uuid, secret, description, created, updated, lockedAt, lockedBy, settings}}
+    : data{
+          new Form::Data{id, name, domain, owner, uuid, secret, description, created, updated, lockedAt, lockedBy, settings}}
 {
 }
 
@@ -94,9 +95,9 @@ QString Form::uuid() const noexcept
     return data ? data->uuid : QString();
 }
 
-User Form::user() const noexcept
+User Form::owner() const noexcept
 {
-    return data ? data->user : User();
+    return data ? data->owner : User();
 }
 
 QString Form::secret() const noexcept
@@ -453,7 +454,7 @@ QDebug operator<<(QDebug dbg, const Form &form)
 QDataStream &operator<<(QDataStream &out, const Form &form)
 {
     if (!form.isNull()) {
-        out << form.data->id << form.data->uuid << form.data->user << form.data->secret << form.data->name
+        out << form.data->id << form.data->uuid << form.data->owner << form.data->secret << form.data->name
             << form.data->domain << form.data->description << form.data->created << form.data->updated << form.data->lockedAt
             << form.data->lockedBy << form.data->settings;
     } else {
@@ -477,7 +478,7 @@ QDataStream &operator>>(QDataStream &in, Form &form)
 
         form.data->id = id;
         in >> form.data->uuid;
-        in >> form.data->user;
+        in >> form.data->owner;
         in >> form.data->secret;
         in >> form.data->name;
         in >> form.data->domain;

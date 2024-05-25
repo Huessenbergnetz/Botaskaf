@@ -27,7 +27,7 @@ class Form
     Q_PROPERTY(Form::dbid_t id READ id CONSTANT)
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(QString domain READ domain CONSTANT)
-    Q_PROPERTY(User user READ user CONSTANT)
+    Q_PROPERTY(User owner READ owner CONSTANT)
     Q_PROPERTY(QString uuid READ uuid CONSTANT)
     Q_PROPERTY(QString secret READ secret CONSTANT)
     Q_PROPERTY(QString description READ description CONSTANT)
@@ -45,7 +45,7 @@ public:
     Form(dbid_t id,
          const QString &name,
          const QString &domain,
-         const User &user,
+         const User &owner,
          const QString &uuid,
          const QString &secret,
          const QString &description,
@@ -67,7 +67,7 @@ public:
 
     [[nodiscard]] QString uuid() const noexcept;
 
-    [[nodiscard]] User user() const noexcept;
+    [[nodiscard]] User owner() const noexcept;
 
     [[nodiscard]] QString secret() const noexcept;
 
@@ -139,7 +139,7 @@ private:
         Data(Form::dbid_t _id,
              const QString &_name,
              const QString &_domain,
-             const User &_user,
+             const User &_owner,
              const QString &_uuid,
              const QString &_secret,
              const QString &_description,
@@ -155,7 +155,7 @@ private:
 
         void setUrls(Cutelyst::Context *c);
 
-        User user;
+        User owner;
         User lockedBy;
         QString uuid;
         QString secret;
