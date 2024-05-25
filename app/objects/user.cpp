@@ -33,24 +33,24 @@ public:
     UserData() noexcept = default;
     UserData(User::dbid_t _id,
              User::Type _type,
-             const QString &_email,
-             const QString &_displayName,
-             const QDateTime &_created,
-             const QDateTime &_updated,
-             const QDateTime &_lastSeen,
-             const QDateTime &_lockedAt,
+             QString _email,
+             QString _displayName,
+             QDateTime _created,
+             QDateTime _updated,
+             QDateTime _lastSeen,
+             QDateTime _lockedAt,
              User::dbid_t _lockedById,
-             const QString &_lockedByName,
-             const QVariantMap &_settings)
+             QString _lockedByName,
+             QVariantMap _settings)
         : QSharedData()
-        , email{_email}
-        , displayName{_displayName}
-        , lockedByName{_lockedByName}
-        , created{_created}
-        , updated{_updated}
-        , lastSeen{_lastSeen}
-        , lockedAt{_lockedAt}
-        , settings{_settings}
+        , email{std::move(_email)}
+        , displayName{std::move(_displayName)}
+        , lockedByName{std::move(_lockedByName)}
+        , created{std::move(_created)}
+        , updated{std::move(_updated)}
+        , lastSeen{std::move(_lastSeen)}
+        , lockedAt{std::move(_lockedAt)}
+        , settings{std::move(_settings)}
         , id{_id}
         , lockedById{_lockedById}
         , type{_type}
