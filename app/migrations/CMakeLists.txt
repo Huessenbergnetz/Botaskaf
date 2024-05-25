@@ -7,4 +7,6 @@ target_sources(Botaskaf
         m0001_create_users_table.h
         m0002_createformstable.cpp
         m0002_createformstable.h
+        m0003_createrecipientstable.cpp
+        m0003_createrecipientstable.h
 )
