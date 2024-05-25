@@ -24,7 +24,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-#define HBNBOTA_USER_STASH_KEY u"user"_s
+#define HBNBOTA_USER_STASH_KEY u"current_user"_s
 #define HBNBOTA_USER_MEMC_GROUP_KEY "users"_ba
 
 class UserData : public QSharedData // NOLINT(cppcoreguidelines-special-member-functions)
