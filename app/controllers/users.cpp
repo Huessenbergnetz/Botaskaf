@@ -122,7 +122,7 @@ void Users::base(Context *c, const QString &id)
         return;
     }
 
-    c->setStash(u"current_user"_s, QVariant::fromValue<User>(user));
+    c->setStash(u"user"_s, QVariant::fromValue<User>(user));
 }
 
 void Users::edit(Context *c)
