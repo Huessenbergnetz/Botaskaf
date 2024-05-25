@@ -36,6 +36,8 @@ class Form
     Q_PROPERTY(QDateTime lockedAt READ lockedAt CONSTANT)
     Q_PROPERTY(User lockedBy READ lockedBy CONSTANT)
     Q_PROPERTY(QVariantMap settings READ settings CONSTANT)
+    Q_PROPERTY(QUrl editUrl READ editUrl CONSTANT)
+    Q_PROPERTY(QUrl removeUrl READ removeUrl CONSTANT)
 public:
     using dbid_t = quint32;
 
@@ -85,6 +87,10 @@ public:
 
     [[nodiscard]] QVariantMap settings() const noexcept;
 
+    [[nodiscard]] QUrl editUrl() const noexcept;
+
+    [[nodiscard]] QUrl removeUrl() const noexcept;
+
     [[nodiscard]] bool isValid() const noexcept;
 
     [[nodiscard]] bool isNull() const noexcept { return !data; };
@@ -115,11 +121,15 @@ public:
      */
     static dbid_t toDbId(const QVariant &var, bool *ok = nullptr);
 
+    static QMap<QString, QString> labels(Cutelyst::Context *c);
+
     static Form fromStash(Cutelyst::Context *c);
 
     void toStash(Cutelyst::Context *c) const;
 
     static Form create(Cutelyst::Context *c, Error &e, const QVariantHash &values);
+
+    static QList<Form> list(Cutelyst::Context *c, Error &e);
 
 private:
     class Data : public QSharedData // NOLINT(cppcoreguidelines-special-member-functions)
@@ -143,6 +153,8 @@ private:
         Data &operator=(const Data &) = delete;
         ~Data() noexcept              = default;
 
+        void setUrls(Cutelyst::Context *c);
+
         User user;
         User lockedBy;
         QString uuid;
@@ -154,6 +166,8 @@ private:
         QDateTime updated;
         QDateTime lockedAt;
         QVariantMap settings;
+        QUrl editUrl;
+        QUrl removeUrl;
         Form::dbid_t id{0};
     };
 

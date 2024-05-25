@@ -59,6 +59,15 @@ Form::Data::Data(Form::dbid_t _id,
     }
 }
 
+void Form::Data::setUrls(Cutelyst::Context *c)
+{
+    const auto currentUser = User::fromStash(c);
+    if (currentUser.isAdmin() || currentUser == user) {
+        editUrl   = c->uriForAction(u"/forms/editForm", {QString::number(id)});
+        removeUrl = c->uriForAction(u"/forms/removeForm", {QString::number(id)});
+    }
+}
+
 Form::Form(dbid_t id,
            const QString &name,
            const QString &domain,
@@ -135,6 +144,16 @@ QVariantMap Form::settings() const noexcept
     return data ? data->settings : QVariantMap();
 }
 
+QUrl Form::editUrl() const noexcept
+{
+    return data ? data->editUrl : QUrl();
+}
+
+QUrl Form::removeUrl() const noexcept
+{
+    return data ? data->removeUrl : QUrl();
+}
+
 bool Form::isValid() const noexcept
 {
     return data && data->id > 0;
@@ -170,6 +189,28 @@ Form::dbid_t Form::toDbId(const QVariant &var, bool *ok)
     }
 
     return 0;
+}
+
+QMap<QString, QString> Form::labels(Cutelyst::Context *c)
+{
+    return {//: Form data labek, used eg. in table headers
+            //% "id"
+            {u"id"_s, c->qtTrId("hbnbota_form_label_id")},
+            //: Form data labek, used eg. in table headers
+            //% "name"
+            {u"name"_s, c->qtTrId("hbnbota_form_label_name")},
+            //: Form data labek, used eg. in table headers
+            //% "domain"
+            {u"domain"_s, c->qtTrId("hbnbota_form_label_domain")},
+            //: Form data labek, used eg. in table headers
+            //% "owner"
+            {u"owner"_s, c->qtTrId("hbnbota_form_label_owner")},
+            //: Form data labek, used eg. in table headers
+            //% "created"
+            {u"created"_s, c->qtTrId("hbnbota_form_label_created")},
+            //: Form data labek, used eg. in table headers
+            //% "updated"
+            {u"updated"_s, c->qtTrId("hbnbota_form_label_updated")}};
 }
 
 Form Form::fromStash(Cutelyst::Context *c)
@@ -276,6 +317,96 @@ Form Form::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
     qCInfo(HBNBOTA_CORE) << user << "created new" << f;
 
     return f;
+}
+
+QList<Form> Form::list(Cutelyst::Context *c, Error &e)
+{
+    auto user = User::fromStash(c);
+    QSqlQuery q;
+    if (user.isAdmin()) {
+        q = CPreparedSqlQueryThreadFO(
+            u"SELECT id, name, domain, userId, uuid, secret, description, created, updated, lockedAt, lockedBy, settings FROM forms"_s);
+    } else {
+        q = CPreparedSqlQueryThreadFO(
+            u"SELECT id, name, domain, userId, uuid, secret, description, created, updated, lockedAt, lockedBy, settings FROM forms WHERE userId = :userId"_s);
+    }
+
+    if (Q_UNLIKELY(q.lastError().isValid())) {
+        //: Error message
+        //% "Failed to query forms from database."
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_form_list_query_failed"));
+        qCCritical(HBNBOTA_CORE) << "Failed to query forms from database:" << q.lastError().text();
+        return {};
+    }
+
+    if (Q_UNLIKELY(!q.exec())) {
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_form_list_query_failed"));
+        qCCritical(HBNBOTA_CORE) << "Failed to query forms from database:" << q.lastError().text();
+        return {};
+    }
+
+    QList<Form> lst;
+    if (q.size() > 0) {
+        lst.reserve(q.size());
+    }
+
+    if (user.isAdmin()) {
+        while (q.next()) {
+            const auto ownerId = User::toDbId(q.value(3));
+            User owner;
+            if (ownerId > 0) {
+                Error _e;
+                owner = User::get(c, _e, ownerId);
+            }
+            const auto lockedById = User::toDbId(q.value(10));
+            User lockedBy;
+            if (lockedById > 0) {
+                Error _e;
+                lockedBy = User::get(c, _e, lockedById);
+            }
+
+            Form f{Form::toDbId(q.value(0)),
+                   q.value(1).toString(),
+                   q.value(2).toString(),
+                   owner,
+                   q.value(4).toString(),
+                   q.value(5).toString(),
+                   q.value(6).toString(),
+                   q.value(7).toDateTime(),
+                   q.value(8).toDateTime(),
+                   q.value(9).toDateTime(),
+                   lockedBy,
+                   QJsonDocument::fromJson(q.value(11).toByteArray()).object().toVariantMap()};
+            f.data->setUrls(c);
+            lst << f;
+        }
+    } else {
+        while (q.next()) {
+            const auto lockedById = User::toDbId(q.value(10));
+            User lockedBy;
+            if (lockedById > 0) {
+                Error _e;
+                lockedBy = User::get(c, _e, lockedById);
+            }
+
+            Form f{Form::toDbId(q.value(0)),
+                   q.value(1).toString(),
+                   q.value(2).toString(),
+                   user,
+                   q.value(4).toString(),
+                   q.value(5).toString(),
+                   q.value(6).toString(),
+                   q.value(7).toDateTime(),
+                   q.value(8).toDateTime(),
+                   q.value(9).toDateTime(),
+                   lockedBy,
+                   QJsonDocument::fromJson(q.value(11).toByteArray()).object().toVariantMap()};
+            f.data->setUrls(c);
+            lst << f;
+        }
+    }
+
+    return lst;
 }
 
 Form Form::fromCache(Form::dbid_t id)
