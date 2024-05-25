@@ -171,7 +171,14 @@ void Forms::editForm(Context *c)
 
 void Forms::recipients(Context *c)
 {
-    Q_UNUSED(c)
+    if (Error::hasError(c)) {
+        return;
+    }
+
+    c->stash({{u"template"_s, u"forms/recipients/index.html"_s},
+              //: Site title
+              //% "Contact form recipients"
+              {u"site_title"_s, c->qtTrId("hbnbota_site_title_forms_recipients")}});
 }
 
 void Forms::addRecipient(Context *c)

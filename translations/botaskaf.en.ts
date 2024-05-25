@@ -719,5 +719,10 @@ Contact forms</oldsource>
         <extracomment>Error message</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_site_title_forms_recipients">
+        <source>Contact form recipients</source>
+        <extracomment>Site title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
