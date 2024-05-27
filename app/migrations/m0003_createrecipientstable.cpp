@@ -25,6 +25,10 @@ void M0003_CreateRecipientsTable::up()
     t->text(u"text"_s);
     t->text(u"html"_s);
     t->json(u"settings"_s);
+    t->dateTime(u"created"_s);
+    t->dateTime(u"updated"_s)->nullable()->defaultValue(u"NULL"_s);
+    t->dateTime(u"lockedAt"_s)->nullable()->defaultValue(u"NULL"_s);
+    t->integer(u"lockedBy"_s)->nullable()->defaultValue(u"NULL"_s);
     t->foreignKey(u"formId"_s, u"forms"_s, u"id"_s, u"recipients_formId_idx"_s)
         ->onDelete(u"CASCADE"_s)
         ->onUpdate(u"CASCADE"_s);
