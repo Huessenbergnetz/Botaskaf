@@ -11,4 +11,6 @@ target_sources(Botaskaf
         menuitem.h
         form.cpp
         form.h
+        recipient.cpp
+        recipient.h
 )
