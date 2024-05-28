@@ -23,7 +23,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-#define HBNBOTA_FORM_STASH_KEY u"contactform"_s
+#define HBNBOTA_FORM_STASH_KEY u"current_form"_s
 #define HBNBOTA_FORM_MEMC_GROUP_KEY "forms"_ba
 
 Form::Data::Data(Form::dbid_t _id,
@@ -63,9 +63,11 @@ void Form::Data::setUrls(Cutelyst::Context *c)
 {
     const auto currentUser = User::fromStash(c);
     if (currentUser.isAdmin() || currentUser == owner) {
-        editUrl       = c->uriForAction(u"/forms/editForm", {QString::number(id)});
-        removeUrl     = c->uriForAction(u"/forms/removeForm", {QString::number(id)});
-        recipientsUrl = c->uriForAction(u"/forms/recipients", {QString::number(id)});
+        const QStringList _id = {QString::number(id)};
+        editUrl               = c->uriForAction(u"/forms/editForm", _id);
+        removeUrl             = c->uriForAction(u"/forms/removeForm", _id);
+        recipientsUrl         = c->uriForAction(u"/forms/recipients", _id);
+        addRecipientUrl       = c->uriForAction(u"/forms/addRecipient", _id);
     }
 }
 
@@ -161,6 +163,11 @@ QUrl Form::recipientsUrl() const noexcept
     return data ? data->recipientsUrl : QUrl();
 }
 
+QUrl Form::addRecipientUrl() const noexcept
+{
+    return data ? data->addRecipientUrl : QUrl();
+}
+
 bool Form::isValid() const noexcept
 {
     return data && data->id > 0;
@@ -218,24 +225,27 @@ Form::dbid_t Form::toDbId(const QVariant &var, bool *ok)
 
 QMap<QString, QString> Form::labels(Cutelyst::Context *c)
 {
-    return {//: Form data labek, used eg. in table headers
+    return {//: Form data label, used eg. in table headers
             //% "id"
             {u"id"_s, c->qtTrId("hbnbota_form_label_id")},
-            //: Form data labek, used eg. in table headers
+            //: Form data label, used eg. in table headers
             //% "name"
             {u"name"_s, c->qtTrId("hbnbota_form_label_name")},
-            //: Form data labek, used eg. in table headers
+            //: Form data label, used eg. in table headers
             //% "domain"
             {u"domain"_s, c->qtTrId("hbnbota_form_label_domain")},
-            //: Form data labek, used eg. in table headers
+            //: Form data label, used eg. in table headers
             //% "owner"
             {u"owner"_s, c->qtTrId("hbnbota_form_label_owner")},
-            //: Form data labek, used eg. in table headers
+            //: Form data label, used eg. in table headers
             //% "created"
             {u"created"_s, c->qtTrId("hbnbota_form_label_created")},
-            //: Form data labek, used eg. in table headers
+            //: Form data label, used eg. in table headers
             //% "updated"
-            {u"updated"_s, c->qtTrId("hbnbota_form_label_updated")}};
+            {u"updated"_s, c->qtTrId("hbnbota_form_label_updated")},
+            //: Form data label, used eg. in table headers
+            //% "recipients"
+            {u"recipients"_s, c->qtTrId("hbnbota_form_label_recipients")}};
 }
 
 Form Form::fromStash(Cutelyst::Context *c)
