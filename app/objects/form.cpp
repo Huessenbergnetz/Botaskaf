@@ -63,8 +63,9 @@ void Form::Data::setUrls(Cutelyst::Context *c)
 {
     const auto currentUser = User::fromStash(c);
     if (currentUser.isAdmin() || currentUser == owner) {
-        editUrl   = c->uriForAction(u"/forms/editForm", {QString::number(id)});
-        removeUrl = c->uriForAction(u"/forms/removeForm", {QString::number(id)});
+        editUrl       = c->uriForAction(u"/forms/editForm", {QString::number(id)});
+        removeUrl     = c->uriForAction(u"/forms/removeForm", {QString::number(id)});
+        recipientsUrl = c->uriForAction(u"/forms/recipients", {QString::number(id)});
     }
 }
 
@@ -153,6 +154,11 @@ QUrl Form::editUrl() const noexcept
 QUrl Form::removeUrl() const noexcept
 {
     return data ? data->removeUrl : QUrl();
+}
+
+QUrl Form::recipientsUrl() const noexcept
+{
+    return data ? data->recipientsUrl : QUrl();
 }
 
 bool Form::isValid() const noexcept

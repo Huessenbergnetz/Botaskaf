@@ -38,6 +38,7 @@ class Form
     Q_PROPERTY(QVariantMap settings READ settings CONSTANT)
     Q_PROPERTY(QUrl editUrl READ editUrl CONSTANT)
     Q_PROPERTY(QUrl removeUrl READ removeUrl CONSTANT)
+    Q_PROPERTY(QUrl recipientsUrl READ recipientsUrl CONSTANT)
 public:
     using dbid_t = quint32;
 
@@ -90,6 +91,8 @@ public:
     [[nodiscard]] QUrl editUrl() const noexcept;
 
     [[nodiscard]] QUrl removeUrl() const noexcept;
+
+    [[nodiscard]] QUrl recipientsUrl() const noexcept;
 
     [[nodiscard]] bool isValid() const noexcept;
 
@@ -174,6 +177,7 @@ private:
         QVariantMap settings;
         QUrl editUrl;
         QUrl removeUrl;
+        QUrl recipientsUrl;
         Form::dbid_t id{0};
     };
 
