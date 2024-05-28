@@ -4,3 +4,37 @@
 {% with site_title as page_title %}
 {% include "forms/recipients/add_header.html" %}
 {% endwith %}
+
+{% if hbnbota_error.isError %}
+<div class="mt-3">
+    {% include "parts/erroralert.html" %}
+</div>
+{% endif %}
+
+<form {{ form.attrs|safe }}>
+    {% c_csrf_token %}
+
+    {% with form.fieldsetById as fieldsets %}
+        {% with fieldsets.addRecipientAddresses as fs %}
+        <fieldset class="row mb-3" {{fs.attrs|safe }}>
+            <legend>{{ fs.legend }}</legend>
+            {% for field in fs.fieldList %}
+            <div class="col-12 col-md-6 mb-3">
+                {% include "cutelystforms/fieldwithlabel.html" %}
+            </div>
+            {% endfor %}
+        </fieldset>
+        {% endwith %}
+
+        {% with fieldsets.addRecipientContent as fs %}
+        <fieldset class="row mb-3" {{ fs.attrs|safe }}>
+            <legend>{{ fs.legend }}</legend>
+            {% for field in fs.fieldList %}
+            <div class="col-12 mb-3">
+                {% include "cutelystforms/fieldwithlabel.html" %}
+            </div>
+            {% endfor %}
+        </fieldset>
+        {% endwith %}
+    {% endwith %}
+</form>

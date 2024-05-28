@@ -18,12 +18,12 @@ void M0003_CreateRecipientsTable::up()
     t->increments();
     t->integer(u"formId"_s)->unSigned()->nullable();
     t->varChar(u"fromName"_s)->nullable()->defaultValue(u"NULL"_s);
-    t->varChar(u"fromEmail"_s);
+    t->varChar(u"fromEmail"_s)->nullable()->defaultValue(u"NULL"_s);
     t->varChar(u"toName"_s)->nullable()->defaultValue(u"NULL"_s);
     t->varChar(u"toEmail"_s);
     t->varChar(u"subject"_s);
-    t->text(u"text"_s);
-    t->text(u"html"_s);
+    t->text(u"text"_s)->nullable()->defaultValue(u"NULL"_s);
+    t->text(u"html"_s)->nullable()->defaultValue(u"NULL"_s);
     t->json(u"settings"_s);
     t->dateTime(u"created"_s);
     t->dateTime(u"updated"_s)->nullable()->defaultValue(u"NULL"_s);

@@ -9,13 +9,16 @@
 #include "objects/error.h"
 #include "objects/form.h"
 #include "objects/menuitem.h"
+#include "objects/recipient.h"
 #include "settings.h"
 
 #include <Cutelyst/Plugins/Utils/Validator>
 #include <Cutelyst/Plugins/Utils/validatorbetween.h>
 #include <Cutelyst/Plugins/Utils/validatorboolean.h>
 #include <Cutelyst/Plugins/Utils/validatordomain.h>
+#include <Cutelyst/Plugins/Utils/validatoremail.h>
 #include <Cutelyst/Plugins/Utils/validatorin.h>
+#include <Cutelyst/Plugins/Utils/validatormax.h>
 #include <Cutelyst/Plugins/Utils/validatorregularexpression.h>
 #include <Cutelyst/Plugins/Utils/validatorrequired.h>
 #include <Cutelyst/Plugins/Utils/validatorrequiredif.h>
@@ -201,11 +204,48 @@ void Forms::addRecipient(Context *c)
 
     ValidatorResult vr;
     if (c->req()->isPost()) {
-        static Validator v({new ValidatorRequired(u"fromEmail"_s),
+        static Validator v({new ValidatorMax(u"fromName"_s, QMetaType::QString, 40),
+                            new ValidatorRequired(u"fromEmail"_s),
+                            new ValidatorEmail(u"fromEmail"_s),
+                            new ValidatorMax(u"toName"_s, QMetaType::QString, 40),
                             new ValidatorRequired(u"toEmail"_s),
+                            new ValidatorMax(u"replyToName"_s, QMetaType::QString, 40),
                             new ValidatorRequired(u"subject"_s),
                             new ValidatorRequiredWithout(u"text"_s, {u"html"_s}),
                             new ValidatorRequiredWithout(u"html"_s, {u"text"_s})});
+
+        vr = v.validate(c, Validator::FillStashOnError | Validator::BodyParamsOnly);
+        if (vr) {
+            if (const auto toEmail = vr.value(u"toEmail"_s).toString(); toEmail != "{{sender-email}}"_L1) {
+                QList<ValidatorEmail::Diagnose> diagnose;
+                if (!ValidatorEmail::validate(toEmail, ValidatorEmail::RFC5321, ValidatorEmail::AllowIDN, &diagnose)) {
+                    vr.addError(u"toEmail"_s, ValidatorEmail::diagnoseString(c, diagnose.first()));
+                }
+            }
+
+            if (const QString replyToEmail = c->req()->bodyParam(u"replyToEmail"_s).trimmed(); !replyToEmail.isEmpty()) {
+                vr.addValue(u"replyToEmail"_s, replyToEmail);
+                if (replyToEmail != "{{sender-email}}"_L1) {
+                    QList<ValidatorEmail::Diagnose> diagnose;
+                    if (!ValidatorEmail::validate(
+                            replyToEmail, ValidatorEmail::RFC5321, ValidatorEmail::AllowIDN, &diagnose)) {
+                        vr.addError(u"replyToEmail"_s, ValidatorEmail::diagnoseString(c, diagnose.first()));
+                    }
+                }
+            }
+
+            if (vr) {
+                const auto form = Form::fromStash(c);
+                Error e;
+                auto recipient = Recipient::create(c, form, e, vr.values());
+                if (recipient.isValid()) {
+                    c->res()->redirect(form.urls().value(u"recipients"_s).toUrl());
+                    return;
+                } else {
+                    e.toStash(c);
+                }
+            }
+        }
     }
 
     auto form = CutelystForms::Forms::getForm(u"forms/recipients/add.qml"_s, c, CutelystForms::Forms::DoNotFillContext);

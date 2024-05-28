@@ -784,5 +784,20 @@ Contact forms</oldsource>
         <extracomment>Page menu entry</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_form_recipient_fs_addresses_legend">
+        <source>Addresses</source>
+        <extracomment>Form fieldset legend</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_recipient_fs_content_legend">
+        <source>Content</source>
+        <extracomment>Form fieldset legend</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_recipient_failed_create_db">
+        <source>Failed to insert new recipient into database.</source>
+        <extracomment>Error message</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

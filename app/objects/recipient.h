@@ -13,6 +13,10 @@
 #include <QObject>
 #include <QSharedDataPointer>
 
+namespace Cutelyst {
+class Context;
+}
+
 /*!
  * \brief Contains data about a contact form recipient.
  */
@@ -119,6 +123,8 @@ public:
      * and success by setting \a *ok to \c true.
      */
     static dbid_t toDbId(const QVariant &var, bool *ok = nullptr);
+
+    static Recipient create(Cutelyst::Context *c, const Form &form, Error &e, const QVariantHash &values);
 
 private:
     class Data : public QSharedData // NOLINT(cppcoreguidelines-special-member-functions)

@@ -7,80 +7,95 @@ Form {
     method: Form.Post
     autocomplete: false
 
-    TextForm {
-        htmlId: "fromName"
-        name: "fromName"
-        //: Form field label
-        //% "From name"
-        label: cTrId("hbnbota_form_recipient_fromName_label")
-    }
+    fieldsets: [
+        Fieldset {
+            htmlId: "addRecipientAddresses"
+            //: Form fieldset legend
+            //% "Addresses"
+            legend: cTrId("hbnbota_form_recipient_fs_addresses_legend")
 
-    TextForm {
-        htmlId: "fromEmail"
-        name: "fromEmail"
-        required: true
-        //: From field label
-        //% "From email"
-        label: cTrId("hbnbota_form_recipient_fromEmail_label")
-    }
+            TextForm {
+                htmlId: "fromName"
+                name: "fromName"
+                //: Form field label
+                //% "From name"
+                label: cTrId("hbnbota_form_recipient_fromName_label")
+            }
 
-    TextForm {
-        htmlId: "toName"
-        name: "toName"
-        //: Form field label
-        //% "To name"
-        label: cTrId("hbnbota_form_recipient_toName_label")
-    }
+            TextForm {
+                htmlId: "fromEmail"
+                name: "fromEmail"
+                //: From field label
+                //% "From email"
+                label: cTrId("hbnbota_form_recipient_fromEmail_label")
+                required: true;
+            }
 
-    TextForm {
-        htmlId: "toEmail"
-        name: "toEmail"
-        required: true
-        //: Form field label
-        //% "To email"
-        label: cTrId("hbnbota_form_recipient_toEmail_label")
-    }
+            TextForm {
+                htmlId: "toName"
+                name: "toName"
+                //: Form field label
+                //% "To name"
+                label: cTrId("hbnbota_form_recipient_toName_label")
+            }
 
-    TextForm {
-        htmlId: "replyToName"
-        name: "replyToName"
-        //: Form field label
-        //% "Reply to name"
-        label: cTrId("hbnbota_form_recipient_replyToName_label")
-    }
+            TextForm {
+                htmlId: "toEmail"
+                name: "toEmail"
+                required: true
+                //: Form field label
+                //% "To email"
+                label: cTrId("hbnbota_form_recipient_toEmail_label")
+            }
 
-    TextForm {
-        htmlId: "replyToEmail"
-        name: "replyToEmail"
-        //: Form field label
-        //% "Reply to email"
-        label: cTrId("hbnbota_form_recipient_replyToEmail_label")
-    }
+            TextForm {
+                htmlId: "replyToName"
+                name: "replyToName"
+                //: Form field label
+                //% "Reply to name"
+                label: cTrId("hbnbota_form_recipient_replyToName_label")
+            }
 
-    TextForm {
-        htmlId: "subject"
-        name: "subject"
-        required: true
-        //: Form field label
-        //% "Subject"
-        label: cTrId("hbnbota_form_recipient_subject_label")
-    }
+            TextForm {
+                htmlId: "replyToEmail"
+                name: "replyToEmail"
+                //: Form field label
+                //% "Reply to email"
+                label: cTrId("hbnbota_form_recipient_replyToEmail_label")
+            }
+        },
+        Fieldset {
+            htmlId: "addRecipientContent"
+            //: Form fieldset legend
+            //% "Content"
+            legend: cTrId("hbnbota_form_recipient_fs_content_legend")
 
-    TextAreaForm {
-        htmlId: "text"
-        name: "text"
-        //: Form field label
-        //% "Email content in text form"
-        label: cTrId("hbnbota_form_recipient_text_label")
-    }
+            TextForm {
+                htmlId: "subject"
+                name: "subject"
+                required: true
+                //: Form field label
+                //% "Subject"
+                label: cTrId("hbnbota_form_recipient_subject_label")
+            }
 
-    TextAreaForm {
-        htmlId: "html"
-        name: "html"
-        //: Form field label
-        //% "Email content in HTML form"
-        label: cTrId("hbnbota_form_recipient_html_label")
-    }
+            TextAreaForm {
+                htmlId: "text"
+                name: "text"
+                //: Form field label
+                //% "Email content in text form"
+                label: cTrId("hbnbota_form_recipient_text_label")
+            }
+
+            TextAreaForm {
+                htmlId: "html"
+                name: "html"
+                //: Form field label
+                //% "Email content in HTML form"
+                label: cTrId("hbnbota_form_recipient_html_label")
+            }
+        }
+    ]
 
     buttons: [
         FormButton {

@@ -5,6 +5,20 @@
 
 #include "recipient.h"
 
+#include "logging.h"
+#include "objects/error.h"
+
+#include <Cutelyst/Context>
+#include <Cutelyst/Plugins/Memcached/memcached.h>
+#include <Cutelyst/Plugins/Utils/sql.h>
+
+#include <QJsonDocument>
+#include <QSqlDriver>
+#include <QSqlError>
+#include <QSqlQuery>
+
+using namespace Qt::Literals::StringLiterals;
+
 Recipient::Data::Data(Recipient::dbid_t _id,
                       Form _form,
                       QString _fromName,
@@ -179,6 +193,70 @@ Recipient::dbid_t Recipient::toDbId(const QVariant &var, bool *ok)
     }
 
     return 0;
+}
+
+Recipient Recipient::create(Cutelyst::Context *c, const Form &form, Error &e, const QVariantHash &values)
+{
+    const auto fromName  = values.value(u"fromName"_s).toString();
+    const auto fromEmail = values.value(u"fromEmail"_s).toString();
+    const auto toName    = values.value(u"toName"_s).toString();
+    const auto toEmail   = values.value(u"toEmail"_s).toString();
+    const auto subject   = values.value(u"fromName"_s).toString();
+    const auto text      = values.value(u"text"_s).toString();
+    const auto html      = values.value(u"html"_s).toString();
+    const auto now       = QDateTime::currentDateTimeUtc();
+    QVariantMap settings;
+    QVariantMap replyTo;
+    replyTo.insert(u"name"_s, values.value(u"replyToName"_s).toString());
+    replyTo.insert(u"email"_s, values.value(u"replyToEmail"_s).toString());
+    settings.insert(u"replyTo"_s, replyTo);
+    const QByteArray jsonSettings = QJsonDocument(QJsonObject::fromVariantMap(settings)).toJson(QJsonDocument::Compact);
+
+    QSqlQuery q = CPreparedSqlQueryThread(
+        u"INSERT INTO recipients (formId, fromName, fromEmail, toName, toEmail, subject, text, html, settings, created) "
+        "VALUES (:formId, :fromName, :fromEmail, :toName, :toEmail, :subject, :text, :html, :settings, :created)"_s);
+    if (Q_UNLIKELY(q.lastError().isValid())) {
+        //: Error message
+        //% "Failed to insert new recipient into database."
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_recipient_failed_create_db"));
+        qCCritical(HBNBOTA_CORE) << "Failed to insert new recipient into database:" << q.lastError().text();
+        return {};
+    }
+
+    q.bindValue(u":formId"_s, form.id());
+    q.bindValue(u":fromName"_s, fromName);
+    q.bindValue(u":fromEmail"_s, fromEmail);
+    q.bindValue(u":toName"_s, toName);
+    q.bindValue(u":toEmail"_s, toEmail);
+    q.bindValue(u":subject"_s, subject);
+    q.bindValue(u":text"_s, text);
+    q.bindValue(u":html"_s, html);
+    q.bindValue(u":settings"_s, jsonSettings);
+    q.bindValue(u":created"_s, now);
+
+    if (Q_UNLIKELY(!q.exec())) {
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_recipient_failed_create_db"));
+        qCCritical(HBNBOTA_CORE) << "Failed to insert new recipient into database:" << q.lastError().text();
+        return {};
+    }
+
+    Recipient::dbid_t id = 0;
+    if (q.driver()->hasFeature(QSqlDriver::LastInsertId)) {
+        id = Recipient::toDbId(q.lastInsertId());
+    } else {
+        q = CPreparedSqlQueryThreadFO(u"SELECT id FROM recipients WHERE formId = :formId AND toEmail = :toEmail"_s);
+        q.bindValue(u":formId"_s, form.id());
+        q.bindValue(u":toEmail"_s, toEmail);
+        q.exec();
+        q.next();
+        id = Recipient::toDbId(q.value(0));
+    }
+
+    Recipient r{id, form, fromName, fromEmail, toName, toEmail, subject, text, html, settings, now, {}, {}, {}};
+
+    qCInfo(HBNBOTA_CORE) << User::fromStash(c) << "created new" << r;
+
+    return r;
 }
 
 QDebug operator<<(QDebug dbg, const Recipient &recipient)

@@ -126,7 +126,7 @@
     <message id="hbnbota_error_title_internal">
         <source>Internal server error</source>
         <extracomment>Error title</extracomment>
-        <translation>Internet Server‐Fehler</translation>
+        <translation>Interner Server‐Fehler</translation>
     </message>
     <message id="hbnbota_setup_finished_subtitle">
         <source>Finished</source>
@@ -455,334 +455,349 @@
     <message id="hbnbota_usermenu_mysettings">
         <source>My settings</source>
         <extracomment>User menu entry</extracomment>
-        <translation type="unfinished">Meine Einstellungen</translation>
+        <translation>Meine Einstellungen</translation>
     </message>
     <message id="hbnbota_site_title_remove_user">
         <source>Remove user</source>
         <extracomment>Site title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer entfernen</translation>
     </message>
     <message id="hbnbota_mainmenu_forms">
         <source>Contact forms</source>
         <oldsource>Main menu entry
 Contact forms</oldsource>
         <extracomment>Main menu entry</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Kontaktformulare</translation>
     </message>
     <message id="hbnbota_site_title_forms">
         <source>Contact forms</source>
         <extracomment>Site title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Kontaktformulare</translation>
     </message>
     <message id="hbnbota_site_title_add_form">
         <source>Add contact form</source>
         <extracomment>Site title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Kontaktformular hinzufügen</translation>
     </message>
     <message id="hbnbota_formsmenu_add">
         <source>Add form</source>
         <extracomment>Page menu entry</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Formular hinzufügen</translation>
     </message>
     <message id="hbnbota_form_general_fieldset_legend">
         <source>General settings</source>
         <extracomment>Fieldset legend</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Allgemeine Einstellungen</translation>
     </message>
     <message id="hbnbota_form_name_label">
         <source>Name</source>
         <extracomment>Form field label, name of the contact form</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message id="hbnbota_form_name_desc">
         <source>The name for the contact form is used internally as a hint for the user.</source>
         <extracomment>Form field description</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Der Name des Kontaktformulars wird intern als Hinweis für den Benutzer verwendet.</translation>
     </message>
     <message id="hbnbota_form_domain_label">
         <source>Domain</source>
         <extracomment>Form field label, domain the contact form will be used on</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Domäne</translation>
     </message>
     <message id="hbnbota_form_domain_desc">
         <source>The domain the form will be used on. Includes all subdomains.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Domäne unter der das Formular verwendet wird. Bezieht alle Unterdomänen mit ein.</translation>
     </message>
     <message id="hbnbota_form_description_label">
         <source>Description (optional)</source>
         <extracomment>Form field label, description for the contact form, used internally</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Beschreibung (optional)</translation>
     </message>
     <message id="hbnbota_form_description_desc">
         <source>The description is only used internally.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Beschreibung wird nur intern genutzt.</translation>
     </message>
     <message id="hbnbota_form_fields_fieldset_legend">
         <source>Form fields</source>
         <extracomment>Fieldset legend</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Formularfelder</translation>
     </message>
     <message id="hbnbota_form_honeypots_fieldset_legend">
         <source>Honeypots</source>
         <extracomment>Fieldset legend</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Honigtöpfe</translation>
     </message>
     <message id="hbnbota_form_sender_fieldset_legend">
         <source>Sender data</source>
         <extracomment>Fieldset legend</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Versanddaten</translation>
     </message>
     <message id="hbnbota_form_sender_smtphost_label">
         <source>SMTP host</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>SMTP‐Host</translation>
     </message>
     <message id="hbnbota_form_sender_smtpport_label">
         <source>SMTP port</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>SMTP‐Port</translation>
     </message>
     <message id="hbnbota_form_sender_smtpuser_label">
         <source>SMTP user</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>SMTP‐Benutzer</translation>
     </message>
     <message id="hbnbota_form_sender_smtppassword_label">
         <source>SMTP password</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>SMTP‐Passwort</translation>
     </message>
     <message id="hbnbota_form_sender_smtpencryption_label">
         <source>SMTP encryption method</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>SMTP‐Verbindungsverschlüsselung</translation>
     </message>
     <message id="hbnbota_form_sender_smtpauthentication_label">
         <source>SMTP authentication method</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>SMTP‐Authentifizierung</translation>
     </message>
     <message id="hbnbota_smtp_authmtehod_none">
         <source>None</source>
         <extracomment>SMTP authentication method option name for no authentication</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Kein</translation>
     </message>
     <message id="hbnbota_smtp_encmethod_none">
         <source>None</source>
         <extracomment>SMTP encryption method option name for no encryption</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Keine</translation>
     </message>
     <message id="hbnbota_form_sender_sendertype_label">
         <source>Mailer</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Mailer</translation>
     </message>
     <message id="hbnbota_form_fields_name_label">
         <source>Sender name field name</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Feldname Absendername</translation>
     </message>
     <message id="hbnbota_form_fields_name_required_label">
         <source>Sender name required</source>
         <extracomment>Form checkbox label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Absendername erforderlich</translation>
     </message>
     <message id="hbnbota_form_fields_email_label">
         <source>Sender email address field name</source>
         <oldsource>Sender email field name</oldsource>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Feldname Absender‐E‐Mail‐Adresse</translation>
     </message>
     <message id="hbnbota_form_fields_email_required_label">
         <source>Sender email address required</source>
         <oldsource>Sender email required</oldsource>
         <extracomment>Form checkbox label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Absender‐Adresse erforderlich</translation>
     </message>
     <message id="hbnbota_form_fields_phone_label">
         <source>Sender phone number field name</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Feldname Absendertelefonnummer</translation>
     </message>
     <message id="hbnbota_form_fields_phone_required_label">
         <source>Sender phone number required</source>
         <extracomment>Form checkbox label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Absendertelefonnummer erforderlich</translation>
     </message>
     <message id="hbnbota_form_fields_url_label">
         <source>Sender URL field name</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Feldname Absender‐URL</translation>
     </message>
     <message id="hbnbota_form_fields_url_required_label">
         <source>Sender URL required</source>
         <extracomment>Form checkbox label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Absender‐URL erforderlich</translation>
     </message>
     <message id="hbnbota_form_fields_subject_label">
         <source>Message subject field name</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Feldname Nechrichtenbetreff</translation>
     </message>
     <message id="hbnbota_form_fields_subject_required_label">
         <source>Message subject required</source>
         <extracomment>Form checkbox label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Nachrichtenbetreff erforderlich</translation>
     </message>
     <message id="hbnbota_form_fields_content_label">
         <source>Message content field name</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Feldname Nachrichteninhalt</translation>
     </message>
     <message id="hbnbota_form_fields_content_required_label">
         <source>Message content required</source>
         <extracomment>Form checkbox label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Nachrichteninhalt erforderlich</translation>
     </message>
     <message id="hbnbota_error_form_failed_create_db">
         <source>Failed to insert new form “%1” into database.</source>
         <extracomment>Error message, %1 will be replaced by the form name</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Konnte das neue Kontaktformular „%1“ nicht in der Datenbank anlegen.</translation>
     </message>
     <message id="hbnbota_form_fields_policy_label">
         <source>Policy field name</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Feldname Regelakzeptanz</translation>
     </message>
     <message id="hbnbota_form_fields_policy_required_label">
         <source>Policy required</source>
         <extracomment>Form checkbox label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Regelakzeptanz erforderlich</translation>
     </message>
     <message id="hbnbota_form_fields_time_label">
         <source>Time token field name</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Feldname Zeit‐Token</translation>
     </message>
     <message id="hbnbota_form_fields_time_required_label">
         <source>Time token required</source>
         <extracomment>Form checkbox label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Zeit‐Token erforderlich</translation>
     </message>
     <message id="hbnbota_error_form_list_query_failed">
         <source>Failed to query forms from database.</source>
         <extracomment>Error message</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Konnte die Kontaktforumlare nicht aus der Datenbank abrufen.</translation>
     </message>
     <message id="hbnbota_form_label_id">
         <source>id</source>
         <extracomment>Form data label, used eg. in table headers</extracomment>
-        <translation type="unfinished">ID</translation>
+        <translation>ID</translation>
     </message>
     <message id="hbnbota_form_label_name">
         <source>name</source>
         <extracomment>Form data label, used eg. in table headers</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message id="hbnbota_form_label_domain">
         <source>domain</source>
         <extracomment>Form data label, used eg. in table headers</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Domäne</translation>
     </message>
     <message id="hbnbota_form_label_owner">
         <source>owner</source>
         <extracomment>Form data label, used eg. in table headers</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Eigentümer</translation>
     </message>
     <message id="hbnbota_form_label_created">
         <source>created</source>
         <extracomment>Form data label, used eg. in table headers</extracomment>
-        <translation type="unfinished">Erstellt</translation>
+        <translation>Erstellt</translation>
     </message>
     <message id="hbnbota_form_label_updated">
         <source>updated</source>
         <extracomment>Form data label, used eg. in table headers</extracomment>
-        <translation type="unfinished">Aktualisiert</translation>
+        <translation>Aktualisiert</translation>
     </message>
     <message id="hbnbota_error_invalid_form_id">
         <source>The provided contact form ID is not a valid integer.</source>
         <extracomment>Error message</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Die angegebene ID des Kontaktformulars ist keine gültige ganze Zahl.</translation>
     </message>
     <message id="hbnbota_site_title_edit_form">
         <source>Edit contact form</source>
         <extracomment>Site title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Kontaktformular bearbeiten</translation>
     </message>
     <message id="hbnbota_error_form_get_query_failed">
         <source>Failed to get contact form with ID %1 from database.</source>
         <extracomment>Error message</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Konnte das Kontaktformular mit ID %1 nicht aus der Datenbank abrufen.</translation>
     </message>
     <message id="hbnbota_error_form_get_not_found">
         <source>Can not find contact form with ID %1 in the database.</source>
         <extracomment>Error message</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Konnte das Kontaktformular mit der ID %1 nicht in der Datenbank finden.</translation>
     </message>
     <message id="hbnbota_site_title_forms_recipients">
         <source>Contact form recipients</source>
         <extracomment>Site title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Kontaktformular Empfängerlist</translation>
     </message>
     <message id="hbnbota_form_recipient_fromName_label">
         <source>From name</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Absendername</translation>
     </message>
     <message id="hbnbota_form_recipient_fromEmail_label">
         <source>From email</source>
         <extracomment>From field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Absender‐E‐Mail‐Adresse</translation>
     </message>
     <message id="hbnbota_form_recipient_toName_label">
         <source>To name</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Empfängername</translation>
     </message>
     <message id="hbnbota_form_recipient_toEmail_label">
         <source>To email</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Empfänger‐E‐Mail‐Adresse</translation>
     </message>
     <message id="hbnbota_form_recipient_replyToName_label">
         <source>Reply to name</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Rückantwortname</translation>
     </message>
     <message id="hbnbota_form_recipient_replyToEmail_label">
         <source>Reply to email</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Rückantwort‐E‐Mail‐Adresse</translation>
     </message>
     <message id="hbnbota_form_recipient_subject_label">
         <source>Subject</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Betreff</translation>
     </message>
     <message id="hbnbota_form_recipient_text_label">
         <source>Email content in text form</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>E‐Mail‐Inhalt in Textform</translation>
     </message>
     <message id="hbnbota_form_recipient_html_label">
         <source>Email content in HTML form</source>
         <extracomment>Form field label</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>E‐Mail‐Inhalt in HTML‐Form</translation>
     </message>
     <message id="hbnbota_site_title_forms_recipients_add">
         <source>Add recipient to contact form</source>
         <extracomment>Site title</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Empfänger zu Kontaktformular hinzufügen</translation>
     </message>
     <message id="hbnbota_form_label_recipients">
         <source>recipients</source>
         <extracomment>Form data label, used eg. in table headers</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Empfänger</translation>
     </message>
     <message id="hbnbota_recipientsmenu_add">
         <source>Add recipient</source>
         <extracomment>Page menu entry</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Empfänger hinzufügen</translation>
+    </message>
+    <message id="hbnbota_form_recipient_fs_addresses_legend">
+        <source>Addresses</source>
+        <extracomment>Form fieldset legend</extracomment>
+        <translation>Adressen</translation>
+    </message>
+    <message id="hbnbota_form_recipient_fs_content_legend">
+        <source>Content</source>
+        <extracomment>Form fieldset legend</extracomment>
+        <translation>Inhalt</translation>
+    </message>
+    <message id="hbnbota_error_recipient_failed_create_db">
+        <source>Failed to insert new recipient into database.</source>
+        <extracomment>Error message</extracomment>
+        <translation>Konnte neuen Empfänger nicht zur Datenbank hinzufügen.</translation>
     </message>
 </context>
 </TS>
