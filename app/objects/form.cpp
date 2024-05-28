@@ -372,57 +372,57 @@ QList<Form> Form::list(Cutelyst::Context *c, Error &e)
 
     if (user.isAdmin()) {
         while (q.next()) {
-            const auto ownerId = User::toDbId(q.value(3));
             User owner;
-            if (ownerId > 0) {
-                Error _e;
-                owner = User::get(c, _e, ownerId);
+            if (const auto ownerId = User::toDbId(q.value(3)); ownerId > 0) {
+                if (ownerId == user.id()) {
+                    owner = user;
+                } else {
+                    Error _e;
+                    owner = User::get(c, _e, ownerId);
+                }
             }
-            const auto lockedById = User::toDbId(q.value(10));
+
             User lockedBy;
-            if (lockedById > 0) {
+            if (const auto lockedById = User::toDbId(q.value(10)); lockedById > 0) {
                 Error _e;
                 lockedBy = User::get(c, _e, lockedById);
             }
 
-            Form f{Form::toDbId(q.value(0)),
-                   q.value(1).toString(),
-                   q.value(2).toString(),
-                   owner,
-                   q.value(4).toString(),
-                   q.value(5).toString(),
-                   q.value(6).toString(),
-                   q.value(7).toDateTime(),
-                   q.value(8).toDateTime(),
-                   q.value(9).toDateTime(),
-                   lockedBy,
-                   QJsonDocument::fromJson(q.value(11).toByteArray()).object().toVariantMap()};
+            auto &f = lst.emplace_back(Form::toDbId(q.value(0)),
+                                       q.value(1).toString(),
+                                       q.value(2).toString(),
+                                       owner,
+                                       q.value(4).toString(),
+                                       q.value(5).toString(),
+                                       q.value(6).toString(),
+                                       q.value(7).toDateTime(),
+                                       q.value(8).toDateTime(),
+                                       q.value(9).toDateTime(),
+                                       lockedBy,
+                                       QJsonDocument::fromJson(q.value(11).toByteArray()).object().toVariantMap());
             f.data->setUrls(c);
-            lst << f;
         }
     } else {
         while (q.next()) {
-            const auto lockedById = User::toDbId(q.value(10));
             User lockedBy;
-            if (lockedById > 0) {
+            if (const auto lockedById = User::toDbId(q.value(10)); lockedById > 0) {
                 Error _e;
                 lockedBy = User::get(c, _e, lockedById);
             }
 
-            Form f{Form::toDbId(q.value(0)),
-                   q.value(1).toString(),
-                   q.value(2).toString(),
-                   user,
-                   q.value(4).toString(),
-                   q.value(5).toString(),
-                   q.value(6).toString(),
-                   q.value(7).toDateTime(),
-                   q.value(8).toDateTime(),
-                   q.value(9).toDateTime(),
-                   lockedBy,
-                   QJsonDocument::fromJson(q.value(11).toByteArray()).object().toVariantMap()};
+            auto &f = lst.emplace_back(Form::toDbId(q.value(0)),
+                                       q.value(1).toString(),
+                                       q.value(2).toString(),
+                                       user,
+                                       q.value(4).toString(),
+                                       q.value(5).toString(),
+                                       q.value(6).toString(),
+                                       q.value(7).toDateTime(),
+                                       q.value(8).toDateTime(),
+                                       q.value(9).toDateTime(),
+                                       lockedBy,
+                                       QJsonDocument::fromJson(q.value(11).toByteArray()).object().toVariantMap());
             f.data->setUrls(c);
-            lst << f;
         }
     }
 
@@ -465,10 +465,9 @@ Form Form::get(Cutelyst::Context *c, Error &e, Form::dbid_t id)
         return {};
     }
 
-    const auto user    = User::fromStash(c);
-    const auto ownerId = User::toDbId(q.value(2));
+    const auto user = User::fromStash(c);
     User owner;
-    if (ownerId > 0) {
+    if (const auto ownerId = User::toDbId(q.value(2)); ownerId > 0) {
         if (ownerId == user.id()) {
             owner = user;
         } else {
@@ -476,9 +475,8 @@ Form Form::get(Cutelyst::Context *c, Error &e, Form::dbid_t id)
             owner = User::get(c, _e, ownerId);
         }
     }
-    const auto lockedById = User::toDbId(q.value(9));
     User lockedBy;
-    if (lockedById > 0) {
+    if (const auto lockedById = User::toDbId(q.value(9)); lockedById > 0) {
         if (lockedById == user.id()) {
             lockedBy = user;
         } else {
