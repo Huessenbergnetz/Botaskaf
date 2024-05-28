@@ -799,5 +799,10 @@ Contact forms</oldsource>
         <extracomment>Error message</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_error_recipient_failed_list_db">
+        <source>Failed to query recipients for form “%1” (ID: %2) from the database.</source>
+        <extracomment>Error message, %1 will be replaced by the form name, %2 by the form db id</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

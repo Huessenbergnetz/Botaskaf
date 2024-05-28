@@ -259,6 +259,60 @@ Recipient Recipient::create(Cutelyst::Context *c, const Form &form, Error &e, co
     return r;
 }
 
+QList<Recipient> Recipient::list(Cutelyst::Context *c, const Form &form, Error &e)
+{
+    QSqlQuery q = CPreparedSqlQueryThreadFO(
+        u"SELECT id, fromName, fromEmail, toName, toEmail, subject, text, html, settings, created, updated, lockedAt, lockedBy FROM recipients WHERE formId = :formId"_s);
+    if (Q_UNLIKELY(q.lastError().isValid())) {
+        //: Error message, %1 will be replaced by the form name, %2 by the form db id
+        //% "Failed to query recipients for form “%1” (ID: %2) from the database."
+        e = Error::create(
+            c, q, c->qtTrId("hbnbota_error_recipient_failed_list_db").arg(form.name(), QString::number(form.id())));
+        qCCritical(HBNBOTA_CORE) << "Failed to query recipients for" << form << "from database:" << q.lastError().text();
+        return {};
+    }
+
+    q.bindValue(u":formId"_s, form.id());
+
+    if (Q_UNLIKELY(!q.exec())) {
+        e = Error::create(
+            c, q, c->qtTrId("hbnbota_error_recipient_failed_list_db").arg(form.name(), QString::number(form.id())));
+        qCCritical(HBNBOTA_CORE) << "Failed to query recipients for" << form << "from database:" << q.lastError().text();
+        return {};
+    }
+
+    QList<Recipient> lst;
+    if (q.size() > 0) {
+        lst.reserve(q.size());
+    }
+
+    while (q.next()) {
+        User lockedBy;
+        if (const auto lockedById = User::toDbId(q.value(12)); lockedById > 0) {
+            Error _e;
+            lockedBy = User::get(c, _e, lockedById);
+        }
+
+        Recipient r{Recipient::toDbId(q.value(0)),
+                    form,
+                    q.value(1).toString(),
+                    q.value(2).toString(),
+                    q.value(3).toString(),
+                    q.value(4).toString(),
+                    q.value(5).toString(),
+                    q.value(6).toString(),
+                    q.value(7).toString(),
+                    QJsonDocument::fromJson(q.value(8).toByteArray()).object().toVariantMap(),
+                    q.value(9).toDateTime(),
+                    q.value(10).toDateTime(),
+                    q.value(11).toDateTime(),
+                    lockedBy};
+        lst << r;
+    }
+
+    return lst;
+}
+
 QDebug operator<<(QDebug dbg, const Recipient &recipient)
 {
     QDebugStateSaver saver(dbg);

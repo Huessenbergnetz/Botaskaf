@@ -126,6 +126,8 @@ public:
 
     static Recipient create(Cutelyst::Context *c, const Form &form, Error &e, const QVariantHash &values);
 
+    static QList<Recipient> list(Cutelyst::Context *c, const Form &form, Error &e);
+
 private:
     class Data : public QSharedData // NOLINT(cppcoreguidelines-special-member-functions)
     {
