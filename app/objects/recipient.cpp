@@ -195,6 +195,29 @@ Recipient::dbid_t Recipient::toDbId(const QVariant &var, bool *ok)
     return 0;
 }
 
+QMap<QString, QString> Recipient::labels(Cutelyst::Context *c)
+{
+    return {//: Recipient data label, used eg. in table headers
+            //% "id"
+            {u"id"_s, c->qtTrId("hbnbota_recipient_label_id")},
+            //: Recipient data label, used eg. in table headers
+            //% "form"
+            {u"form"_s, c->qtTrId("hbnbota_recipient_label_form")},
+            //: Recipient data label, used eg. in table headers
+            //% "from"
+            {u"from"_s, c->qtTrId("hbnbota_recipient_label_from")},
+            //: Recipient data label, used eg. in table headers
+            //% "to"
+            {u"to"_s, c->qtTrId("hbnbota_recipient_label_to")},
+            //: General data label, used eg. in table headers, means the creation date and time
+            //% "created"
+            {u"created"_s, c->qtTrId("hbnbota_general_label_created")},
+            //: General data label, used eg. in table headers,
+            //: means the date and time an object has been updated the last time
+            //% "updated"
+            {u"updated"_s, c->qtTrId("hbnbota_general_label_updated")}};
+}
+
 Recipient Recipient::create(Cutelyst::Context *c, const Form &form, Error &e, const QVariantHash &values)
 {
     const auto fromName  = values.value(u"fromName"_s).toString();

@@ -124,6 +124,8 @@ public:
      */
     static dbid_t toDbId(const QVariant &var, bool *ok = nullptr);
 
+    static QMap<QString, QString> labels(Cutelyst::Context *c);
+
     static Recipient create(Cutelyst::Context *c, const Form &form, Error &e, const QVariantHash &values);
 
     static QList<Recipient> list(Cutelyst::Context *c, const Form &form, Error &e);
