@@ -182,7 +182,9 @@ void Forms::recipients(Context *c)
     MenuItemList pageMenu;
     //: Page menu entry
     //% "Add recipient"
-    pageMenu.emplace_back(u"recipientsMenuAdd"_s, c->qtTrId("hbnbota_recipientsmenu_add"), currentForm.addRecipientUrl());
+    pageMenu.emplace_back(u"recipientsMenuAdd"_s,
+                          c->qtTrId("hbnbota_recipientsmenu_add"),
+                          currentForm.urls().value(u"addRecipient"_s).toUrl());
 
     c->stash({{u"template"_s, u"forms/recipients/index.html"_s},
               //: Site title

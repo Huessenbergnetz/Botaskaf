@@ -30,11 +30,11 @@
         <tbody>
             {% for frm in forms %}
             <tr>
-                <td><a href="{{ frm.editUrl }}">{{ frm.name }}</a><br><small class="text-body-secondary">{{ frm.domain }}</small></td>
+                <td><a href="{{ frm.urls.edit }}">{{ frm.name }}</a><br><small class="text-body-secondary">{{ frm.domain }}</small></td>
                 {% if current_user.isAdmin %}
                 <td>{{ frm.user.displayName }}</td>
                 {% endif %}
-                <td><a href="{{ frm.recipientsUrl }}">0</a></td>
+                <td><a href="{{ frm.urls.recipients }}">0</a></td>
                 <td class="d-none d-md-table-cell"><time data-bs-toggle="tooltip" datetime="{{ frm.created }}" title="{{ forms_labels.created }}: {% hbnbota_dateformat frm.created %}"><i class="bi bi-asterisk"></i>&nbsp;{% hbnbota_dateformat frm.created "relative" %}</time><br><time data-bs-toggle="tooltip" datetime="{{ frm.updated }}" title="{{ forms_labels.updated }}: {% hbnbota_dateformat frm.updated %}"><i class="bi bi-floppy"></i>&nbsp;{% hbnbota_dateformat frm.updated "relative" %}</time></td>
                 <td class="text-end">{{ frm.id }}</td>
             </tr>

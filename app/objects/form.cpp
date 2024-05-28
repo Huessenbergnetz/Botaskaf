@@ -64,10 +64,10 @@ void Form::Data::setUrls(Cutelyst::Context *c)
     const auto currentUser = User::fromStash(c);
     if (currentUser.isAdmin() || currentUser == owner) {
         const QStringList _id = {QString::number(id)};
-        editUrl               = c->uriForAction(u"/forms/editForm", _id);
-        removeUrl             = c->uriForAction(u"/forms/removeForm", _id);
-        recipientsUrl         = c->uriForAction(u"/forms/recipients", _id);
-        addRecipientUrl       = c->uriForAction(u"/forms/addRecipient", _id);
+        urls.insert(u"edit"_s, c->uriForAction(u"/forms/editForm", _id));
+        urls.insert(u"remoive"_s, c->uriForAction(u"/forms/removeForm", _id));
+        urls.insert(u"recipients"_s, c->uriForAction(u"/forms/recipients", _id));
+        urls.insert(u"addRecipient"_s, c->uriForAction(u"/forms/addRecipient", _id));
     }
 }
 
@@ -148,24 +148,9 @@ QVariantMap Form::settings() const noexcept
     return data ? data->settings : QVariantMap();
 }
 
-QUrl Form::editUrl() const noexcept
+QVariantMap Form::urls() const noexcept
 {
-    return data ? data->editUrl : QUrl();
-}
-
-QUrl Form::removeUrl() const noexcept
-{
-    return data ? data->removeUrl : QUrl();
-}
-
-QUrl Form::recipientsUrl() const noexcept
-{
-    return data ? data->recipientsUrl : QUrl();
-}
-
-QUrl Form::addRecipientUrl() const noexcept
-{
-    return data ? data->addRecipientUrl : QUrl();
+    return data ? data->urls : QVariantMap();
 }
 
 bool Form::isValid() const noexcept
@@ -448,7 +433,6 @@ Form Form::get(Cutelyst::Context *c, Error &e, Form::dbid_t id)
 {
     Form f = Form::fromCache(id);
     if (!f.isNull()) {
-        f.data->setUrls(c);
         return f;
     }
 
@@ -567,7 +551,7 @@ QDataStream &operator<<(QDataStream &out, const Form &form)
     if (!form.isNull()) {
         out << form.data->id << form.data->uuid << form.data->owner << form.data->secret << form.data->name
             << form.data->domain << form.data->description << form.data->created << form.data->updated << form.data->lockedAt
-            << form.data->lockedBy << form.data->settings;
+            << form.data->lockedBy << form.data->settings << form.data->urls;
     } else {
         out << static_cast<Form::dbid_t>(0);
     }
@@ -599,6 +583,7 @@ QDataStream &operator>>(QDataStream &in, Form &form)
         in >> form.data->lockedAt;
         in >> form.data->lockedBy;
         in >> form.data->settings;
+        in >> form.data->urls;
     }
 
     return in;

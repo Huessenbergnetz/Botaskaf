@@ -36,10 +36,7 @@ class Form
     Q_PROPERTY(QDateTime lockedAt READ lockedAt CONSTANT)
     Q_PROPERTY(User lockedBy READ lockedBy CONSTANT)
     Q_PROPERTY(QVariantMap settings READ settings CONSTANT)
-    Q_PROPERTY(QUrl editUrl READ editUrl CONSTANT)
-    Q_PROPERTY(QUrl removeUrl READ removeUrl CONSTANT)
-    Q_PROPERTY(QUrl recipientsUrl READ recipientsUrl CONSTANT)
-    Q_PROPERTY(QUrl addRecipientUrl READ addRecipientUrl CONSTANT)
+    Q_PROPERTY(QVariantMap urls READ urls CONSTANT)
 public:
     using dbid_t = quint32;
 
@@ -89,13 +86,7 @@ public:
 
     [[nodiscard]] QVariantMap settings() const noexcept;
 
-    [[nodiscard]] QUrl editUrl() const noexcept;
-
-    [[nodiscard]] QUrl removeUrl() const noexcept;
-
-    [[nodiscard]] QUrl recipientsUrl() const noexcept;
-
-    [[nodiscard]] QUrl addRecipientUrl() const noexcept;
+    [[nodiscard]] QVariantMap urls() const noexcept;
 
     [[nodiscard]] bool isValid() const noexcept;
 
@@ -178,10 +169,7 @@ private:
         QDateTime updated;
         QDateTime lockedAt;
         QVariantMap settings;
-        QUrl editUrl;
-        QUrl removeUrl;
-        QUrl recipientsUrl;
-        QUrl addRecipientUrl;
+        QVariantMap urls;
         Form::dbid_t id{0};
     };
 

@@ -7,7 +7,7 @@
 <div class="btn-toolbar mb-2 mb-md-3" role="toolbar">
     <div class="btn-group btn-group-sm">
         {% with form.buttonById.cancelBtn as btn %}
-        <a class="btn btn-outline-secondary" href="{{ current_form.recipientsUrl }}">
+        <a class="btn btn-outline-secondary" href="{{ current_form.urls.recipients }}">
             <i class="bi bi-x-square"></i>
             {{ btn.text }}
         </a>
