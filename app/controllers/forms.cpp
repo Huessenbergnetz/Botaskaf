@@ -39,17 +39,17 @@ void Forms::index(Context *c)
         c->setStash(u"forms_labels"_s, QVariant::fromValue<QMap<QString, QString>>(Form::labels(c)));
     }
 
-    MenuItemList formsMenu;
+    MenuItemList pageMenu;
     //: Page menu entry
     //% "Add form"
-    formsMenu.emplace_back(c, u"formsMenuAdd"_s, c->qtTrId("hbnbota_formsmenu_add"), u"add"_s, u"forms"_s);
+    pageMenu.emplace_back(c, u"formsMenuAdd"_s, c->qtTrId("hbnbota_formsmenu_add"), u"add"_s, u"forms"_s);
 
     c->stash({{u"template"_s, u"forms/index.html"_s},
               {u"forms"_s, QVariant::fromValue<QList<Form>>(forms)},
               //: Site title
               //% "Contact forms"
               {u"site_title"_s, c->qtTrId("hbnbota_site_title_forms")},
-              {u"forms_menu"_s, QVariant::fromValue<MenuItemList>(formsMenu)}});
+              {u"page_menu"_s, QVariant::fromValue<MenuItemList>(pageMenu)}});
 }
 
 void Forms::add(Context *c)

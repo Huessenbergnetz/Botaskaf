@@ -2,9 +2,7 @@
 {# SPDX-License-Identifier: AGPL-3.0-or-later #}
 
 {% with site_title as page_title %}
-{% with forms_menu as page_menu %}
 {% include "parts/pageheaderwithmenu.html" %}
-{% endwith %}
 {% endwith %}
 
 {% if hbnbota_error.isError %}
