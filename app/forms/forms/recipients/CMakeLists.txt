@@ -5,5 +5,3 @@ target_sources(Botaskaf
     PRIVATE
         add.qml
 )
-
-add_subdirectory(recipients)
