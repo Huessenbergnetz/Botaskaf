@@ -185,6 +185,9 @@ void Forms::recipients(Context *c)
     const auto recipientList = RecipientList::get(c, currentForm);
 
     MenuItemList pageMenu;
+    //: General page menu entry, means go one level/site back
+    //% "Back"
+    pageMenu.emplace_back(c, u"recipientsMenuBack"_s, c->qtTrId("hbnbota_general_back"), u"index"_s, u"forms"_s);
     //: Page menu entry
     //% "Add recipient"
     pageMenu.emplace_back(u"recipientsMenuAdd"_s,

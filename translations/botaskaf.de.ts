@@ -834,5 +834,10 @@ Contact forms</oldsource>
         <extracomment>General data label, used eg. in table headers, means the date and time an object has been updated the last time</extracomment>
         <translation type="unfinished">Aktualisiert</translation>
     </message>
+    <message id="hbnbota_general_back">
+        <source>Back</source>
+        <extracomment>General page menu entry, means go one level/site back</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
