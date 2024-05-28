@@ -804,5 +804,35 @@ Contact forms</oldsource>
         <extracomment>Error message, %1 will be replaced by the form name, %2 by the form db id</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message id="hbnbota_recipient_label_id">
+        <source>id</source>
+        <extracomment>Recipient data label, used eg. in table headers</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_recipient_label_form">
+        <source>form</source>
+        <extracomment>Recipient data label, used eg. in table headers</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_recipient_label_from">
+        <source>from</source>
+        <extracomment>Recipient data label, used eg. in table headers</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_recipient_label_to">
+        <source>to</source>
+        <extracomment>Recipient data label, used eg. in table headers</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_general_label_created">
+        <source>created</source>
+        <extracomment>General data label, used eg. in table headers, means the creation date and time</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_general_label_updated">
+        <source>updated</source>
+        <extracomment>General data label, used eg. in table headers, means the date and time an object has been updated the last time</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

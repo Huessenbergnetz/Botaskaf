@@ -10,6 +10,7 @@
 #include "objects/form.h"
 #include "objects/menuitem.h"
 #include "objects/recipient.h"
+#include "objects/recipientlist.h"
 #include "settings.h"
 
 #include <Cutelyst/Plugins/Utils/Validator>
@@ -180,7 +181,8 @@ void Forms::recipients(Context *c)
         return;
     }
 
-    auto currentForm = Form::fromStash(c);
+    const auto currentForm   = Form::fromStash(c);
+    const auto recipientList = RecipientList::get(c, currentForm);
 
     MenuItemList pageMenu;
     //: Page menu entry
@@ -193,7 +195,8 @@ void Forms::recipients(Context *c)
               //: Site title
               //% "Contact form recipients"
               {u"site_title"_s, c->qtTrId("hbnbota_site_title_forms_recipients")},
-              {u"page_menu"_s, QVariant::fromValue<MenuItemList>(pageMenu)}});
+              {u"page_menu"_s, QVariant::fromValue<MenuItemList>(pageMenu)},
+              {u"recipient_list"_s, QVariant::fromValue<RecipientList>(recipientList)}});
 }
 
 void Forms::addRecipient(Context *c)

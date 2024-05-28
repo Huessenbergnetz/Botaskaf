@@ -4,3 +4,32 @@
 {% with site_title as page_title %}
 {% include "parts/pageheaderwithmenu.html" %}
 {% endwith %}
+
+{% if recipient_list.isEmpty %}
+
+{% else %}
+<div class="table-responsive">
+    <table class="table">
+        {% with recipient_list.labels as header %}
+        <thead class="table-dark">
+            <tr class="text-capitalize">
+                <th>{{ header.from }}</th>
+                <th>{{ header.to }}</th>
+                <th class="d-none d-md-table-cell">{{ header.created }} / {{ header.updated }}</th>
+                <th class="text-end">{{ header.id }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rcp in recipient_list.entries %}
+            <tr>
+                <td>{{ rcp.fromEmail }}{% if rcp.fromName %}<br><small class="text-body-secondary">{{ rcp.fromName }}</small>{% endif %}</td>
+                <td>{{ rcp.toEmail }}{% if rcp.toName %}<br><small class="text-body-secondary">{{ rcp.toName }}</small>{% endif %}</td>
+                <td class="d-none d-md-table-cell"><time data-bs-toggle="tooltip" datetime="{{ rcp.created }}" title="{{ header.created }}: {% hbnbota_dateformat rcp.created %}"><i class="bi bi-asterisk"></i>&nbsp;{% hbnbota_dateformat rcp.created "relative" %}</time><br>{% if rcp.updated %}<time data-bs-toggle="tooltip" datetime="{{ rcp.updated }}" title="{{ header.updated }}: {% hbnbota_dateformat rcp.updated %}">{% endif %}<i class="bi bi-floppy"></i>&nbsp;{% hbnbota_dateformat rcp.updated "relative" %}{% if rcp.updated %}</time>{% endif %}</td>
+                <td class="text-end">{{ rcp.id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endwith %}
+    </table>
+</div>
+{% endif %}
