@@ -40,6 +40,7 @@
     "mainMenuDashboard": "house-fill",
     "mainMenuForms": "window",
     "formsMenuAdd": "window-plus",
+    "recipientsMenuAdd": "envelope-plus",
     "mainMenuUsers": "people",
     "usersMenuAdd": "person-add",
     "userMenuSettings": "person-gear",

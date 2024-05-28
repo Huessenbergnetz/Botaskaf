@@ -4,4 +4,6 @@
 target_sources(botaskaftemplate
     PRIVATE
         index.html
+        add.html
+        add_header.html
 )

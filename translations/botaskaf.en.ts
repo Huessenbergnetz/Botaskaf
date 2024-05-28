@@ -671,32 +671,32 @@ Contact forms</oldsource>
     </message>
     <message id="hbnbota_form_label_id">
         <source>id</source>
-        <extracomment>Form data labek, used eg. in table headers</extracomment>
+        <extracomment>Form data label, used eg. in table headers</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message id="hbnbota_form_label_name">
         <source>name</source>
-        <extracomment>Form data labek, used eg. in table headers</extracomment>
+        <extracomment>Form data label, used eg. in table headers</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message id="hbnbota_form_label_domain">
         <source>domain</source>
-        <extracomment>Form data labek, used eg. in table headers</extracomment>
+        <extracomment>Form data label, used eg. in table headers</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message id="hbnbota_form_label_owner">
         <source>owner</source>
-        <extracomment>Form data labek, used eg. in table headers</extracomment>
+        <extracomment>Form data label, used eg. in table headers</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message id="hbnbota_form_label_created">
         <source>created</source>
-        <extracomment>Form data labek, used eg. in table headers</extracomment>
+        <extracomment>Form data label, used eg. in table headers</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message id="hbnbota_form_label_updated">
         <source>updated</source>
-        <extracomment>Form data labek, used eg. in table headers</extracomment>
+        <extracomment>Form data label, used eg. in table headers</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message id="hbnbota_error_invalid_form_id">
@@ -722,6 +722,66 @@ Contact forms</oldsource>
     <message id="hbnbota_site_title_forms_recipients">
         <source>Contact form recipients</source>
         <extracomment>Site title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_recipient_fromName_label">
+        <source>From name</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_recipient_fromEmail_label">
+        <source>From email</source>
+        <extracomment>From field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_recipient_toName_label">
+        <source>To name</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_recipient_toEmail_label">
+        <source>To email</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_recipient_replyToName_label">
+        <source>Reply to name</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_recipient_replyToEmail_label">
+        <source>Reply to email</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_recipient_subject_label">
+        <source>Subject</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_recipient_text_label">
+        <source>Email content in text form</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_recipient_html_label">
+        <source>Email content in HTML form</source>
+        <extracomment>Form field label</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_site_title_forms_recipients_add">
+        <source>Add recipient to contact form</source>
+        <extracomment>Site title</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_form_label_recipients">
+        <source>recipients</source>
+        <extracomment>Form data label, used eg. in table headers</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_recipientsmenu_add">
+        <source>Add recipient</source>
+        <extracomment>Page menu entry</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>

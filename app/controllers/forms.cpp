@@ -19,6 +19,7 @@
 #include <Cutelyst/Plugins/Utils/validatorregularexpression.h>
 #include <Cutelyst/Plugins/Utils/validatorrequired.h>
 #include <Cutelyst/Plugins/Utils/validatorrequiredif.h>
+#include <Cutelyst/Plugins/Utils/validatorrequiredwithout.h>
 #include <CutelystForms/forms.h>
 
 using namespace Qt::Literals::StringLiterals;
@@ -149,7 +150,8 @@ void Forms::baseForm(Context *c, const QString &id)
         return;
     }
 
-    c->setStash(u"current_form"_s, QVariant::fromValue<Form>(form));
+    form.toStash(c);
+    // c->setStash(u"current_form"_s, QVariant::fromValue<Form>(form));
 }
 
 void Forms::removeForm(Context *c)
@@ -175,15 +177,46 @@ void Forms::recipients(Context *c)
         return;
     }
 
+    auto currentForm = Form::fromStash(c);
+
+    MenuItemList pageMenu;
+    //: Page menu entry
+    //% "Add recipient"
+    pageMenu.emplace_back(u"recipientsMenuAdd"_s, c->qtTrId("hbnbota_recipientsmenu_add"), currentForm.addRecipientUrl());
+
     c->stash({{u"template"_s, u"forms/recipients/index.html"_s},
               //: Site title
               //% "Contact form recipients"
-              {u"site_title"_s, c->qtTrId("hbnbota_site_title_forms_recipients")}});
+              {u"site_title"_s, c->qtTrId("hbnbota_site_title_forms_recipients")},
+              {u"page_menu"_s, QVariant::fromValue<MenuItemList>(pageMenu)}});
 }
 
 void Forms::addRecipient(Context *c)
 {
-    Q_UNUSED(c)
+    if (Error::hasError(c)) {
+        return;
+    }
+
+    ValidatorResult vr;
+    if (c->req()->isPost()) {
+        static Validator v({new ValidatorRequired(u"fromEmail"_s),
+                            new ValidatorRequired(u"toEmail"_s),
+                            new ValidatorRequired(u"subject"_s),
+                            new ValidatorRequiredWithout(u"text"_s, {u"html"_s}),
+                            new ValidatorRequiredWithout(u"html"_s, {u"text"_s})});
+    }
+
+    auto form = CutelystForms::Forms::getForm(u"forms/recipients/add.qml"_s, c, CutelystForms::Forms::DoNotFillContext);
+    if (!vr || Error::hasError(c)) {
+        form->setErrors(vr.errors());
+        form->setValues(c->req()->bodyParameters());
+    }
+
+    c->stash({{u"template"_s, u"forms/recipients/add.html"_s},
+              //: Site title
+              //% "Add recipient to contact form"
+              {u"site_title"_s, c->qtTrId("hbnbota_site_title_forms_recipients_add")},
+              {u"form"_s, QVariant::fromValue<CutelystForms::Form *>(form)}});
 }
 
 void Forms::baseRecipient(Context *c, const QString &id)
