@@ -37,6 +37,8 @@ class Form
     Q_PROPERTY(User lockedBy READ lockedBy CONSTANT)
     Q_PROPERTY(QVariantMap settings READ settings CONSTANT)
     Q_PROPERTY(QVariantMap urls READ urls CONSTANT)
+    Q_PROPERTY(qint32 recipientCount READ recipientCount CONSTANT)
+    Q_PROPERTY(bool hasRecipients READ hasRecipients CONSTANT)
 public:
     using dbid_t = quint32;
 
@@ -52,7 +54,8 @@ public:
          const QDateTime &updated,
          const QDateTime &lockedAt,
          const User &lockedBy,
-         const QVariantMap &settings);
+         const QVariantMap &settings,
+         qint32 recipientCount);
 
     Form(const Form &other) noexcept            = default;
     Form(Form &&other) noexcept                 = default;
@@ -87,6 +90,10 @@ public:
     [[nodiscard]] QVariantMap settings() const noexcept;
 
     [[nodiscard]] QVariantMap urls() const noexcept;
+
+    [[nodiscard]] qint32 recipientCount() const noexcept;
+
+    [[nodiscard]] bool hasRecipients() const noexcept;
 
     [[nodiscard]] bool isValid() const noexcept;
 
@@ -150,7 +157,8 @@ private:
              const QDateTime &_updated,
              const QDateTime &_lockedAt,
              const User &_lockedBy,
-             const QVariantMap &_settings);
+             const QVariantMap &_settings,
+             qint32 _recipientCount);
 
         Data(const Data &) noexcept   = default;
         Data &operator=(const Data &) = delete;
@@ -171,6 +179,7 @@ private:
         QVariantMap settings;
         QVariantMap urls;
         Form::dbid_t id{0};
+        qint32 recipientCount{0};
     };
 
     QSharedDataPointer<Data> data;

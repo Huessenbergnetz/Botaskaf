@@ -37,7 +37,8 @@ Form::Data::Data(Form::dbid_t _id,
                  const QDateTime &_updated,
                  const QDateTime &_lockedAt,
                  const User &_lockedBy,
-                 const QVariantMap &_settings)
+                 const QVariantMap &_settings,
+                 qint32 _recipientCount)
     : QSharedData()
     , owner{_owner}
     , lockedBy{_lockedBy}
@@ -51,6 +52,7 @@ Form::Data::Data(Form::dbid_t _id,
     , lockedAt{_lockedAt}
     , settings{_settings}
     , id{_id}
+    , recipientCount{_recipientCount}
 {
     created.setTimeSpec(Qt::UTC);
     updated.setTimeSpec(Qt::UTC);
@@ -82,9 +84,21 @@ Form::Form(dbid_t id,
            const QDateTime &updated,
            const QDateTime &lockedAt,
            const User &lockedBy,
-           const QVariantMap &settings)
-    : data{
-          new Form::Data{id, name, domain, owner, uuid, secret, description, created, updated, lockedAt, lockedBy, settings}}
+           const QVariantMap &settings,
+           qint32 recipientCount)
+    : data{new Form::Data{id,
+                          name,
+                          domain,
+                          owner,
+                          uuid,
+                          secret,
+                          description,
+                          created,
+                          updated,
+                          lockedAt,
+                          lockedBy,
+                          settings,
+                          recipientCount}}
 {
 }
 
@@ -151,6 +165,16 @@ QVariantMap Form::settings() const noexcept
 QVariantMap Form::urls() const noexcept
 {
     return data ? data->urls : QVariantMap();
+}
+
+qint32 Form::recipientCount() const noexcept
+{
+    return data ? data->recipientCount : 0;
+}
+
+bool Form::hasRecipients() const noexcept
+{
+    return data ? data->recipientCount > 0 : false;
 }
 
 bool Form::isValid() const noexcept
@@ -230,7 +254,7 @@ QMap<QString, QString> Form::labels(Cutelyst::Context *c)
             {u"updated"_s, c->qtTrId("hbnbota_form_label_updated")},
             //: Form data label, used eg. in table headers
             //% "recipients"
-            {u"recipients"_s, c->qtTrId("hbnbota_form_label_recipients")}};
+            {u"recipientCount"_s, c->qtTrId("hbnbota_form_label_recipients")}};
 }
 
 Form Form::fromStash(Cutelyst::Context *c)
@@ -331,7 +355,8 @@ Form Form::create(Cutelyst::Context *c, Error &e, const QVariantHash &values)
         id = Form::toDbId(q.value(0));
     }
 
-    Form f{id, name, domain, user, uuid, secret, description, now, {}, {}, {}, settings};
+    Form f{id, name, domain, user, uuid, secret, description, now, {}, {}, {}, settings, 0};
+    f.data->setUrls(c);
     f.toCache();
 
     qCInfo(HBNBOTA_CORE) << user << "created new" << f;
@@ -345,10 +370,14 @@ QList<Form> Form::list(Cutelyst::Context *c, Error &e)
     QSqlQuery q;
     if (user.isAdmin()) {
         q = CPreparedSqlQueryThreadFO(
-            u"SELECT id, name, domain, userId, uuid, secret, description, created, updated, lockedAt, lockedBy, settings FROM forms"_s);
+            u"SELECT f.id, f.name, f.domain, f.userId, f.uuid, f.secret, f.description, f.created, f.updated, f.lockedAt, "
+            "f.lockedBy, f.settings, (SELECT COUNT(*) FROM recipients r WHERE r.formId = f.id) AS recipientCount "
+            "FROM forms f"_s);
     } else {
         q = CPreparedSqlQueryThreadFO(
-            u"SELECT id, name, domain, userId, uuid, secret, description, created, updated, lockedAt, lockedBy, settings FROM forms WHERE userId = :userId"_s);
+            u"SELECT f.id, f.name, f.domain, f.userId, f.uuid, f.secret, f.description, f.created, f.updated, f.lockedAt, "
+            "f.lockedBy, f.settings, (SELECT COUNT(*) FROM recipients r WHERE r.formId = f.id) AS recipientCount "
+            "FROM forms WHERE userId = :userId"_s);
     }
 
     if (Q_UNLIKELY(q.lastError().isValid())) {
@@ -399,7 +428,8 @@ QList<Form> Form::list(Cutelyst::Context *c, Error &e)
                                        q.value(8).toDateTime(),
                                        q.value(9).toDateTime(),
                                        lockedBy,
-                                       QJsonDocument::fromJson(q.value(11).toByteArray()).object().toVariantMap());
+                                       QJsonDocument::fromJson(q.value(11).toByteArray()).object().toVariantMap(),
+                                       q.value(12).toInt());
             f.data->setUrls(c);
         }
     } else {
@@ -421,7 +451,8 @@ QList<Form> Form::list(Cutelyst::Context *c, Error &e)
                                        q.value(8).toDateTime(),
                                        q.value(9).toDateTime(),
                                        lockedBy,
-                                       QJsonDocument::fromJson(q.value(11).toByteArray()).object().toVariantMap());
+                                       QJsonDocument::fromJson(q.value(11).toByteArray()).object().toVariantMap(),
+                                       q.value(12).toInt());
             f.data->setUrls(c);
         }
     }
@@ -439,7 +470,9 @@ Form Form::get(Cutelyst::Context *c, Error &e, Form::dbid_t id)
     qCDebug(HBNBOTA_CORE) << "Query form with ID" << id << "from the database";
 
     QSqlQuery q = CPreparedSqlQueryThreadFO(
-        u"SELECT name, domain, userId, uuid, secret, description, created, updated, lockedAt, lockedBy, settings FROM forms WHERE id = :id"_s);
+        u"SELECT f.name, f.domain, f.userId, f.uuid, f.secret, f.description, f.created, f.updated, f.lockedAt, "
+        "f.lockedBy, f.settings, (SELECT COUNT(*) FROM recipients r WHERE r.formId = f.id) AS recipientCount "
+        "FROM forms f WHERE id = :id"_s);
 
     if (Q_UNLIKELY(q.lastError().isValid())) {
         //: Error message
@@ -496,7 +529,8 @@ Form Form::get(Cutelyst::Context *c, Error &e, Form::dbid_t id)
              q.value(7).toDateTime(),
              q.value(8).toDateTime(),
              lockedBy,
-             QJsonDocument::fromJson(q.value(10).toByteArray()).object().toVariantMap()};
+             QJsonDocument::fromJson(q.value(10).toByteArray()).object().toVariantMap(),
+             q.value(11).toInt()};
     f.data->setUrls(c);
     f.toCache();
 
@@ -549,7 +583,7 @@ QDataStream &operator<<(QDataStream &out, const Form &form)
     if (!form.isNull()) {
         out << form.data->id << form.data->uuid << form.data->owner << form.data->secret << form.data->name
             << form.data->domain << form.data->description << form.data->created << form.data->updated << form.data->lockedAt
-            << form.data->lockedBy << form.data->settings << form.data->urls;
+            << form.data->lockedBy << form.data->settings << form.data->urls << form.data->recipientCount;
     } else {
         out << static_cast<Form::dbid_t>(0);
     }
@@ -582,6 +616,7 @@ QDataStream &operator>>(QDataStream &in, Form &form)
         in >> form.data->lockedBy;
         in >> form.data->settings;
         in >> form.data->urls;
+        in >> form.data->recipientCount;
     }
 
     return in;
