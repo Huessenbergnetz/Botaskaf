@@ -7,6 +7,7 @@
 
 #include "logging.h"
 #include "objects/error.h"
+#include "settings.h"
 
 #include <Cutelyst/Context>
 #include <Cutelyst/Plugins/Memcached/memcached.h>
@@ -18,6 +19,9 @@
 #include <QSqlQuery>
 
 using namespace Qt::Literals::StringLiterals;
+
+#define HBNBOTA_RECIPIENT_STASH_KEY u"current_recipient"_s
+#define HBNBOTA_RECIPIENT_MEMC_GROUP_KEY "recipients"_ba
 
 Recipient::Data::Data(Recipient::dbid_t _id,
                       Form _form,
@@ -282,6 +286,7 @@ Recipient Recipient::create(Cutelyst::Context *c, const Form &form, Error &e, co
 
     Recipient r{id, form, fromName, fromEmail, toName, toEmail, subject, text, html, settings, now, {}, {}, {}};
     r.data->setUrls(c);
+    r.toCache();
 
     qCInfo(HBNBOTA_CORE) << User::fromStash(c) << "created new" << r;
 
@@ -340,6 +345,29 @@ QList<Recipient> Recipient::list(Cutelyst::Context *c, const Form &form, Error &
     }
 
     return lst;
+}
+
+Recipient Recipient::fromCache(Recipient::dbid_t id)
+{
+    if (Settings::cache() == Settings::Cache::Memcached) {
+        Cutelyst::Memcached::ReturnType rt{Cutelyst::Memcached::ReturnType::Failure};
+        auto r =
+            Cutelyst::Memcached::getByKey<Recipient>(HBNBOTA_RECIPIENT_MEMC_GROUP_KEY, QByteArray::number(id), nullptr, &rt);
+        if (rt == Cutelyst::Memcached::ReturnType::Success) {
+            qCDebug(HBNBOTA_CORE) << "Found recipient with ID" << id << "in memcached";
+            return r;
+        }
+    }
+
+    return {};
+}
+
+void Recipient::toCache() const
+{
+    if (Settings::cache() == Settings::Cache::Memcached) {
+        Cutelyst::Memcached::setByKey<Recipient>(
+            HBNBOTA_RECIPIENT_MEMC_GROUP_KEY, QByteArray::number(id()), *this, std::chrono::days{7});
+    }
 }
 
 QDebug operator<<(QDebug dbg, const Recipient &recipient)

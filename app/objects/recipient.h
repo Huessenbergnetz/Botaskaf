@@ -176,6 +176,10 @@ private:
 
     friend QDataStream &operator<<(QDataStream &out, const Recipient &recipient);
     friend QDataStream &operator>>(QDataStream &in, Recipient &recipient);
+
+    static Recipient fromCache(Recipient::dbid_t id);
+
+    void toCache() const;
 };
 
 Q_DECLARE_SHARED(Recipient) // NOLINT(modernize-type-traits)
