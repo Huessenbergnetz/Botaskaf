@@ -79,15 +79,17 @@ bool Botaskaf::init()
     }
 
     QLockFile dbInitLock{QStandardPaths::writableLocation(QStandardPaths::TempLocation) + u"/botaskaf_db.lock"_s};
-    if (dbInitLock.tryLock(std::chrono::milliseconds{1})) {
+    if (dbInitLock.tryLock(std::chrono::milliseconds{1}) && mutex.tryLock()) {
         if (Q_LIKELY(connectDb(u"db"_s))) {
             if (Q_UNLIKELY(!initializeDb(u"db"_s))) {
                 dbInitLock.unlock();
+                mutex.unlock();
                 return false;
             }
             QSqlDatabase::removeDatabase(u"db"_s);
         }
         dbInitLock.unlock();
+        mutex.unlock();
     }
 
 #if defined(QT_DEBUG)
