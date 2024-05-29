@@ -200,23 +200,19 @@ bool Botaskaf::connectDb(const QString &conName) const
 
     if (type == "QMYSQL"_L1 || type == "QMARIADB"_L1) {
 
-        const auto user =
-            conf.value(QStringLiteral(HBNBOTA_CONF_DB_USER), QStringLiteral(HBNBOTA_CONF_DB_USER_DEFVAL)).toString();
-        const auto pass = conf.value(QStringLiteral(HBNBOTA_CONF_DB_PASS)).toString();
-        const auto host =
-            conf.value(QStringLiteral(HBNBOTA_CONF_DB_HOST), QStringLiteral(HBNBOTA_CONF_DB_HOST_DEFVAL)).toString();
-        const auto port = conf.value(QStringLiteral(HBNBOTA_CONF_DB_PORT), HBNBOTA_CONF_DB_PORT_DEFVAL).toInt();
-
         db.setDatabaseName(name);
-        db.setUserName(user);
-        db.setPassword(pass);
+        db.setUserName(
+            conf.value(QStringLiteral(HBNBOTA_CONF_DB_USER), QStringLiteral(HBNBOTA_CONF_DB_USER_DEFVAL)).toString());
+        db.setPassword(conf.value(QStringLiteral(HBNBOTA_CONF_DB_PASS)).toString());
 
-        if (host[0] == '/'_L1) {
+        if (const auto host =
+                conf.value(QStringLiteral(HBNBOTA_CONF_DB_HOST), QStringLiteral(HBNBOTA_CONF_DB_HOST_DEFVAL)).toString();
+            host[0] == '/'_L1) {
             db.setConnectOptions(u"UNIX_SOCKET=%1;MYSQL_OPT_RECONNECT=1;CLIENT_INTERACTIVE=1"_s.arg(host));
         } else {
             db.setConnectOptions(u"MYSQL_OPT_RECONNECT=1;CLIENT_INTERACTIVE=1"_s);
             db.setHostName(host);
-            db.setPort(port);
+            db.setPort(conf.value(QStringLiteral(HBNBOTA_CONF_DB_PORT), HBNBOTA_CONF_DB_PORT_DEFVAL).toInt());
         }
 
     } else if (type == "QSQLITE"_L1) {
