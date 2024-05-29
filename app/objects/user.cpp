@@ -609,19 +609,18 @@ QList<User> User::list(Cutelyst::Context *c, Error &e)
     }
 
     while (q.next()) {
-        User u{q.value(0).toUInt(),
-               static_cast<User::Type>(q.value(01).toInt()),
-               q.value(2).toString(),
-               q.value(3).toString(),
-               q.value(4).toDateTime(),
-               q.value(5).toDateTime(),
-               q.value(6).toDateTime(),
-               q.value(7).toDateTime(),
-               q.value(8).toUInt(),
-               q.value(9).toString(),
-               QJsonDocument::fromJson(q.value(10).toByteArray()).object().toVariantMap()};
+        auto &u = lst.emplace_back(q.value(0).toUInt(),
+                                   static_cast<User::Type>(q.value(01).toInt()),
+                                   q.value(2).toString(),
+                                   q.value(3).toString(),
+                                   q.value(4).toDateTime(),
+                                   q.value(5).toDateTime(),
+                                   q.value(6).toDateTime(),
+                                   q.value(7).toDateTime(),
+                                   q.value(8).toUInt(),
+                                   q.value(9).toString(),
+                                   QJsonDocument::fromJson(q.value(10).toByteArray()).object().toVariantMap());
         u.data->setUrls(c);
-        lst << u;
     }
 
     return lst;

@@ -58,6 +58,11 @@ Recipient::Data::Data(Recipient::dbid_t _id,
     }
 }
 
+void Recipient::Data::setUrls(Cutelyst::Context *c)
+{
+    Q_UNUSED(c)
+}
+
 Recipient::Recipient(Recipient::dbid_t id,
                      const Form &form,
                      const QString &fromName,
@@ -276,6 +281,7 @@ Recipient Recipient::create(Cutelyst::Context *c, const Form &form, Error &e, co
     }
 
     Recipient r{id, form, fromName, fromEmail, toName, toEmail, subject, text, html, settings, now, {}, {}, {}};
+    r.data->setUrls(c);
 
     qCInfo(HBNBOTA_CORE) << User::fromStash(c) << "created new" << r;
 
@@ -316,21 +322,21 @@ QList<Recipient> Recipient::list(Cutelyst::Context *c, const Form &form, Error &
             lockedBy = User::get(c, _e, lockedById);
         }
 
-        Recipient r{Recipient::toDbId(q.value(0)),
-                    form,
-                    q.value(1).toString(),
-                    q.value(2).toString(),
-                    q.value(3).toString(),
-                    q.value(4).toString(),
-                    q.value(5).toString(),
-                    q.value(6).toString(),
-                    q.value(7).toString(),
-                    QJsonDocument::fromJson(q.value(8).toByteArray()).object().toVariantMap(),
-                    q.value(9).toDateTime(),
-                    q.value(10).toDateTime(),
-                    q.value(11).toDateTime(),
-                    lockedBy};
-        lst << r;
+        auto &r = lst.emplace_back(Recipient::toDbId(q.value(0)),
+                                   form,
+                                   q.value(1).toString(),
+                                   q.value(2).toString(),
+                                   q.value(3).toString(),
+                                   q.value(4).toString(),
+                                   q.value(5).toString(),
+                                   q.value(6).toString(),
+                                   q.value(7).toString(),
+                                   QJsonDocument::fromJson(q.value(8).toByteArray()).object().toVariantMap(),
+                                   q.value(9).toDateTime(),
+                                   q.value(10).toDateTime(),
+                                   q.value(11).toDateTime(),
+                                   lockedBy);
+        r.data->setUrls(c);
     }
 
     return lst;

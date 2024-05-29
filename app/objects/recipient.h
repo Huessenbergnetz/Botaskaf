@@ -154,6 +154,8 @@ private:
         Data &operator=(const Data &) = delete;
         ~Data() noexcept              = default;
 
+        void setUrls(Cutelyst::Context *c);
+
         Form form;
         User lockedBy;
         QString fromName;
