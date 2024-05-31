@@ -109,6 +109,13 @@ public:
             *this = Form();
     }
 
+    [[nodiscard]] QByteArray encrypt(const QByteArray &ba) const;
+
+    [[nodiscard]] QByteArray encrypt(const QDateTime &dt) const
+    {
+        return encrypt(QByteArray::number(dt.toSecsSinceEpoch()));
+    }
+
     /*!
      * \brief Returns \a id casted into dbid_t.
      *

@@ -12,6 +12,10 @@
 #include <Cutelyst/Context>
 #include <Cutelyst/Plugins/Memcached/memcached.h>
 #include <Cutelyst/Plugins/Utils/sql.h>
+#include <botan/auto_rng.h>
+#include <botan/cipher_mode.h>
+#include <botan/hex.h>
+#include <botan/rng.h>
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -199,6 +203,35 @@ bool Form::canEdit(const User &user) const
 bool Form::canEdit(Cutelyst::Context *c) const
 {
     return canEdit(User::fromStash(c));
+}
+
+QByteArray Form::encrypt(const QByteArray &ba) const
+{
+    if (!data) {
+        qCCritical(HBNBOTA_CORE) << "Failed to encrypt token, invalid Form object";
+        return {};
+    }
+
+    Botan::AutoSeeded_RNG rng;
+
+    const QByteArray sec           = secret().toUtf8();
+    const std::vector<uint8_t> key = Botan::hex_decode(sec.constData());
+
+    const auto enc = Botan::Cipher_Mode::create("AES-128/GCM", Botan::Cipher_Dir::ENCRYPTION);
+    if (!enc) {
+        qCCritical(HBNBOTA_CORE) << "Failed to encrypt token, can not create Botan::Cipher_Mode object";
+        return {};
+    }
+
+    enc->set_key(key);
+
+    Botan::secure_vector<uint8_t> iv = rng.random_vec(enc->default_nonce_length());
+    Botan::secure_vector<uint8_t> t{ba.constData(), ba.constData() + ba.length()};
+
+    enc->start(iv);
+    enc->finish(t);
+
+    return QByteArray::fromStdString(Botan::hex_encode(t));
 }
 
 Form::dbid_t Form::toDbId(qulonglong id, bool *ok)
