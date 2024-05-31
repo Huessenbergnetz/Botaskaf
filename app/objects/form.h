@@ -141,6 +141,8 @@ public:
 
     static Form get(Cutelyst::Context *c, Error &e, Form::dbid_t id);
 
+    static Form get(Cutelyst::Context *c, Error &e, const QString &uuid);
+
 private:
     class Data : public QSharedData // NOLINT(cppcoreguidelines-special-member-functions)
     {
@@ -185,6 +187,7 @@ private:
     QSharedDataPointer<Data> data;
 
     static Form fromCache(Form::dbid_t id);
+    static Form fromCache(const QString &uuid);
     void toCache() const;
 
     friend QDataStream &operator<<(QDataStream &out, const Form &form);

@@ -24,7 +24,8 @@
 using namespace Qt::Literals::StringLiterals;
 
 #define HBNBOTA_FORM_STASH_KEY u"current_form"_s
-#define HBNBOTA_FORM_MEMC_GROUP_KEY "forms"_ba
+#define HBNBOTA_FORMBYID_MEMC_GROUP_KEY "formsbyid"_ba
+#define HBNBOTA_FORMBYUUID_MEMC_GROUP_KEY "formsbyuuid"_ba
 
 Form::Data::Data(Form::dbid_t _id,
                  const QString &_name,
@@ -460,6 +461,45 @@ QList<Form> Form::list(Cutelyst::Context *c, Error &e)
     return lst;
 }
 
+Form getForm(Cutelyst::Context *c, QSqlQuery &q)
+{
+    const auto user = User::fromStash(c);
+    User owner;
+    if (const auto ownerId = User::toDbId(q.value(3)); ownerId > 0) {
+        if (ownerId == user.id()) {
+            owner = user;
+        } else {
+            Error _e;
+            owner = User::get(c, _e, ownerId);
+        }
+    }
+    User lockedBy;
+    if (const auto lockedById = User::toDbId(q.value(10)); lockedById > 0) {
+        if (lockedById == user.id()) {
+            lockedBy = user;
+        } else {
+            Error _e;
+            lockedBy = User::get(c, _e, lockedById);
+        }
+    }
+
+    Form f{Form::toDbId(q.value(0)),
+           q.value(1).toString(),
+           q.value(2).toString(),
+           owner,
+           q.value(4).toString(),
+           q.value(5).toString(),
+           q.value(6).toString(),
+           q.value(7).toDateTime(),
+           q.value(8).toDateTime(),
+           q.value(9).toDateTime(),
+           lockedBy,
+           QJsonDocument::fromJson(q.value(11).toByteArray()).object().toVariantMap(),
+           q.value(12).toInt()};
+
+    return f;
+}
+
 Form Form::get(Cutelyst::Context *c, Error &e, Form::dbid_t id)
 {
     Form f = Form::fromCache(id);
@@ -470,93 +510,119 @@ Form Form::get(Cutelyst::Context *c, Error &e, Form::dbid_t id)
     qCDebug(HBNBOTA_CORE) << "Query form with ID" << id << "from the database";
 
     QSqlQuery q = CPreparedSqlQueryThreadFO(
-        u"SELECT f.name, f.domain, f.userId, f.uuid, f.secret, f.description, f.created, f.updated, f.lockedAt, "
+        u"SELECT f.id, f.name, f.domain, f.userId, f.uuid, f.secret, f.description, f.created, f.updated, f.lockedAt, "
         "f.lockedBy, f.settings, (SELECT COUNT(*) FROM recipients r WHERE r.formId = f.id) AS recipientCount "
-        "FROM forms f WHERE id = :id"_s);
+        "FROM forms f WHERE f.id = :id"_s);
 
     if (Q_UNLIKELY(q.lastError().isValid())) {
         //: Error message
         //% "Failed to get contact form with ID %1 from database."
-        e = Error::create(c, q, c->qtTrId("hbnbota_error_form_get_query_failed").arg(id));
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_form_getbyid_query_failed").arg(id));
         qCCritical(HBNBOTA_CORE) << "Failed to get form with ID" << id << "from database:" << q.lastError().text();
-        return {};
+        return f;
     }
 
     q.bindValue(u":id"_s, id);
 
     if (Q_UNLIKELY(!q.exec())) {
-        e = Error::create(c, q, c->qtTrId("hbnbota_error_form_get_query_failed").arg(id));
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_form_getbyid_query_failed").arg(id));
         qCCritical(HBNBOTA_CORE) << "Failed to get form with ID" << id << "from database:" << q.lastError().text();
-        return {};
+        return f;
     }
 
     if (Q_UNLIKELY(!q.next())) {
         //: Error message
         //% "Can not find contact form with ID %1 in the database."
-        e = Error::create(c, Cutelyst::Response::NotFound, c->qtTrId("hbnbota_error_form_get_not_found").arg(id));
+        e = Error::create(c, Cutelyst::Response::NotFound, c->qtTrId("hbnbota_error_form_getbyid_not_found").arg(id));
         qCCritical(HBNBOTA_CORE) << "Can not find contact form ID" << id << "in the databse";
-        return {};
+        return f;
     }
 
-    const auto user = User::fromStash(c);
-    User owner;
-    if (const auto ownerId = User::toDbId(q.value(2)); ownerId > 0) {
-        if (ownerId == user.id()) {
-            owner = user;
-        } else {
-            Error _e;
-            owner = User::get(c, _e, ownerId);
-        }
-    }
-    User lockedBy;
-    if (const auto lockedById = User::toDbId(q.value(9)); lockedById > 0) {
-        if (lockedById == user.id()) {
-            lockedBy = user;
-        } else {
-            Error _e;
-            lockedBy = User::get(c, _e, lockedById);
-        }
-    }
-
-    f = Form{id,
-             q.value(0).toString(),
-             q.value(1).toString(),
-             owner,
-             q.value(3).toString(),
-             q.value(4).toString(),
-             q.value(5).toString(),
-             q.value(6).toDateTime(),
-             q.value(7).toDateTime(),
-             q.value(8).toDateTime(),
-             lockedBy,
-             QJsonDocument::fromJson(q.value(10).toByteArray()).object().toVariantMap(),
-             q.value(11).toInt()};
+    f = getForm(c, q);
     f.data->setUrls(c);
     f.toCache();
+    return f;
+}
 
+Form Form::get(Cutelyst::Context *c, Error &e, const QString &uuid)
+{
+    Form f = Form::fromCache(uuid);
+    if (!f.isNull()) {
+        return f;
+    }
+
+    qCDebug(HBNBOTA_CORE) << "Query form with UUID" << uuid << "from the database";
+
+    QSqlQuery q = CPreparedSqlQueryThreadFO(
+        u"SELECT f.id, f.name, f.domain, f.userId, f.uuid, f.secret, f.description, f.created, f.updated, f.lockedAt, "
+        "f.lockedBy, f.settings, (SELECT COUNT(*) FROM recipients r WHERE r.formId = f.id) AS recipientCount "
+        "FROM forms f WHERE f.uuid = :uuid"_s);
+
+    if (Q_UNLIKELY(q.lastError().isValid())) {
+        //: Error message
+        //% "Failed to get contact form with UUID “%1” from database."
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_form_getbyuuid_query_failed").arg(uuid));
+        qCCritical(HBNBOTA_CORE) << "Failed to get form with UUID" << uuid << "from database:" << q.lastError().text();
+        return f;
+    }
+
+    q.bindValue(u":uuid"_s, uuid);
+
+    if (Q_UNLIKELY(!q.exec())) {
+        e = Error::create(c, q, c->qtTrId("hbnbota_error_form_getbyuuid_query_failed").arg(uuid));
+        qCCritical(HBNBOTA_CORE) << "Failed to get form with UUID" << uuid << "from database:" << q.lastError().text();
+        return f;
+    }
+
+    if (Q_UNLIKELY(!q.next())) {
+        //: Error message
+        //% "Can not find contact form with UUID “%1” in the database."
+        e = Error::create(c, Cutelyst::Response::NotFound, c->qtTrId("hbnbota_error_form_getbyuuid_not_found").arg(uuid));
+        qCCritical(HBNBOTA_CORE) << "Can not find contact form UUID" << uuid << "in the databse";
+        return f;
+    }
+
+    f = getForm(c, q);
+    f.data->setUrls(c);
+    f.toCache();
     return f;
 }
 
 Form Form::fromCache(Form::dbid_t id)
 {
-    Form f;
-
     if (Settings::cache() == Settings::Cache::Memcached) {
         Cutelyst::Memcached::ReturnType rt{Cutelyst::Memcached::ReturnType::Failure};
-        f = Cutelyst::Memcached::getByKey<Form>(HBNBOTA_FORM_MEMC_GROUP_KEY, QByteArray::number(id), nullptr, &rt);
+        const Form f =
+            Cutelyst::Memcached::getByKey<Form>(HBNBOTA_FORMBYID_MEMC_GROUP_KEY, QByteArray::number(id), nullptr, &rt);
         if (rt == Cutelyst::Memcached::ReturnType::Success) {
             qCDebug(HBNBOTA_CORE) << "Found contact form with ID" << id << "in memcached";
+            return f;
         }
     }
 
-    return f;
+    return {};
+}
+
+Form Form::fromCache(const QString &uuid)
+{
+    if (Settings::cache() == Settings::Cache::Memcached) {
+        Cutelyst::Memcached::ReturnType rt{Cutelyst::Memcached::ReturnType::Failure};
+        const Form f = Cutelyst::Memcached::getByKey<Form>(HBNBOTA_FORMBYID_MEMC_GROUP_KEY, uuid.toUtf8(), nullptr, &rt);
+        if (rt == Cutelyst::Memcached::ReturnType::Success) {
+            qCDebug(HBNBOTA_CORE) << "Found contact form with UUID" << uuid << "in memcached";
+            return f;
+        }
+    }
+
+    return {};
 }
 
 void Form::toCache() const
 {
     if (Settings::cache() == Settings::Cache::Memcached) {
         Cutelyst::Memcached::setByKey<Form>(
-            HBNBOTA_FORM_MEMC_GROUP_KEY, QByteArray::number(id()), *this, std::chrono::days{7});
+            HBNBOTA_FORMBYID_MEMC_GROUP_KEY, QByteArray::number(id()), *this, std::chrono::days{7});
+        Cutelyst::Memcached::setByKey<Form>(HBNBOTA_FORMBYUUID_MEMC_GROUP_KEY, uuid().toUtf8(), *this, std::chrono::days{7});
     }
 }
 
