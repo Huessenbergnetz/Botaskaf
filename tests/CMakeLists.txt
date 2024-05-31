@@ -4,7 +4,7 @@
 function(hbnbota_test _testname)
     add_executable(${_testname}_exec ${_testname}.cpp)
     add_test(NAME ${_testname} COMMAND ${_testname}_exec)
-    target_link_libraries(${_testname}_exec Qt::Test Qt::Sql Cutelyst::Core CutelystForms::Core Botaskaf)
+    target_link_libraries(${_testname}_exec Qt::Test Qt::Sql Cutelyst::Core CutelystForms::Core PkgConfig::Botan Botaskaf)
     target_include_directories(${_testname}_exec
         PRIVATE
             ${CMAKE_SOURCE_DIR}/app
@@ -13,4 +13,5 @@ function(hbnbota_test _testname)
 endfunction(hbnbota_test _testname)
 
 hbnbota_test(testuser)
+hbnbota_test(testform)
 # hbnbota_test(testerrorobject)
