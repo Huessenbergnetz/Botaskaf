@@ -248,16 +248,14 @@ QDateTime Form::decrypt(const QByteArray &ba) const
         return {};
     }
 
-    const int colonPos = ba.indexOf(':');
+    const qsizetype colonPos = ba.indexOf(':');
     if (colonPos < 1) {
         qCCritical(HBNBOTA_CORE) << "Failed to decrypt token, invalid input data";
         return {};
     }
 
-    const QByteArray ivBa = ba.left(colonPos);
-    qCDebug(HBNBOTA_CORE) << "IV:" << ivBa;
+    const QByteArray ivBa   = ba.left(colonPos);
     const QByteArray dataBa = ba.mid(colonPos + 1);
-    qCDebug(HBNBOTA_CORE) << "DATA:" << dataBa;
 
     Botan::AutoSeeded_RNG rng;
 
