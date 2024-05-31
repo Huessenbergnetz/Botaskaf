@@ -46,6 +46,7 @@ target_link_libraries(Botaskaf
         Cutelee::Templates
         CutelystBotan::Core
         CutelystForms::Core
+        PkgConfig::Botan
 )
 
 configure_file(confignames.h.in confignames.h)
