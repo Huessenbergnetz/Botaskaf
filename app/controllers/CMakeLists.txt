@@ -17,4 +17,6 @@ target_sources(Botaskaf
         mysettings.h
         forms.cpp
         forms.h
+        contactform.cpp
+        contactform.h
 )

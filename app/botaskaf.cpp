@@ -6,6 +6,7 @@
 #include "botaskaf.h"
 
 #include "confignames.h"
+#include "controllers/contactform.h"
 #include "controllers/forms.h"
 #include "controllers/login.h"
 #include "controllers/logout.h"
@@ -116,6 +117,7 @@ bool Botaskaf::init()
         new Users(this);
         new MySettings(this);
         new Forms(this);
+        new ContactForm(this);
     }
 
     const auto statPluginType = Settings::staticPlugin();

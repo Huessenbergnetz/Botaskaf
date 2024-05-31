@@ -709,16 +709,6 @@ Contact forms</oldsource>
         <extracomment>Site title</extracomment>
         <translation type="unfinished"></translation>
     </message>
-    <message id="hbnbota_error_form_get_query_failed">
-        <source>Failed to get contact form with ID %1 from database.</source>
-        <extracomment>Error message</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="hbnbota_error_form_get_not_found">
-        <source>Can not find contact form with ID %1 in the database.</source>
-        <extracomment>Error message</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
     <message id="hbnbota_site_title_forms_recipients">
         <source>Contact form recipients</source>
         <extracomment>Site title</extracomment>
@@ -837,6 +827,31 @@ Contact forms</oldsource>
     <message id="hbnbota_general_back">
         <source>Back</source>
         <extracomment>General page menu entry, means go one level/site back</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_form_getbyid_query_failed">
+        <source>Failed to get contact form with ID %1 from database.</source>
+        <extracomment>Error message</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_form_getbyid_not_found">
+        <source>Can not find contact form with ID %1 in the database.</source>
+        <extracomment>Error message</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_form_getbyuuid_query_failed">
+        <source>Failed to get contact form with UUID “%1” from database.</source>
+        <extracomment>Error message</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_form_getbyuuid_not_found">
+        <source>Can not find contact form with UUID “%1” in the database.</source>
+        <extracomment>Error message</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="hbnbota_error_contactform_failed_create_token">
+        <source>Failed to create token.</source>
+        <extracomment>Error message</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>

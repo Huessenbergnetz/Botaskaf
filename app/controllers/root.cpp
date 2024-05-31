@@ -41,6 +41,10 @@ bool Root::Auto(Context *c)
         return true;
     }
 
+    if (c->controllerName() == "ContactForm"_L1) {
+        return true;
+    }
+
     const auto user = Authentication::user(c);
 
     if (Q_UNLIKELY(user.isNull())) {
