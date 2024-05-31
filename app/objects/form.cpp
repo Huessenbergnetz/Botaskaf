@@ -205,12 +205,19 @@ bool Form::canEdit(Cutelyst::Context *c) const
     return canEdit(User::fromStash(c));
 }
 
-QByteArray Form::encrypt(const QByteArray &ba) const
+QByteArray Form::encrypt(const QDateTime &dt) const
 {
     if (!data) {
         qCCritical(HBNBOTA_CORE) << "Failed to encrypt token, invalid Form object";
         return {};
     }
+
+    if (!dt.isValid()) {
+        qCCritical(HBNBOTA_CORE) << "Failed to encrypt token, invalid date and time";
+        return {};
+    }
+
+    const auto ba = QByteArray::number(dt.toMSecsSinceEpoch());
 
     Botan::AutoSeeded_RNG rng;
 
@@ -231,7 +238,52 @@ QByteArray Form::encrypt(const QByteArray &ba) const
     enc->start(iv);
     enc->finish(t);
 
-    return QByteArray::fromStdString(Botan::hex_encode(t));
+    return QByteArray::fromStdString(Botan::hex_encode(iv)) + ":"_ba + QByteArray::fromStdString(Botan::hex_encode(t));
+}
+
+QDateTime Form::decrypt(const QByteArray &ba) const
+{
+    if (!data) {
+        qCCritical(HBNBOTA_CORE) << "Failed to decrypt token, invalid Form object";
+        return {};
+    }
+
+    const int colonPos = ba.indexOf(':');
+    if (colonPos < 1) {
+        qCCritical(HBNBOTA_CORE) << "Failed to decrypt token, invalid input data";
+        return {};
+    }
+
+    const QByteArray ivBa = ba.left(colonPos);
+    qCDebug(HBNBOTA_CORE) << "IV:" << ivBa;
+    const QByteArray dataBa = ba.mid(colonPos + 1);
+    qCDebug(HBNBOTA_CORE) << "DATA:" << dataBa;
+
+    Botan::AutoSeeded_RNG rng;
+
+    const QByteArray sec           = secret().toUtf8();
+    const std::vector<uint8_t> key = Botan::hex_decode(sec.constData());
+
+    const auto dec = Botan::Cipher_Mode::create("AES-128/GCM", Botan::Cipher_Dir::DECRYPTION);
+    if (!dec) {
+        qCCritical(HBNBOTA_CORE) << "Failed to decrypt token, can not create Botan::Cipher_Mode object";
+        return {};
+    }
+
+    dec->set_key(key);
+
+    Botan::secure_vector<uint8_t> iv = Botan::hex_decode_locked(ivBa.toStdString());
+    Botan::secure_vector<uint8_t> t  = Botan::hex_decode_locked(dataBa.toStdString());
+
+    dec->start(iv);
+    dec->finish(t);
+
+    QByteArray outBa;
+    for (const auto c : t) {
+        outBa.append(static_cast<char>(c));
+    }
+
+    return QDateTime::fromMSecsSinceEpoch(outBa.toLongLong(), QTimeZone::utc());
 }
 
 Form::dbid_t Form::toDbId(qulonglong id, bool *ok)

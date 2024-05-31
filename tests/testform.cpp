@@ -44,6 +44,9 @@ void FormTest::testEncryption()
 
     const QByteArray token = f.encrypt(now);
     QVERIFY(!token.isEmpty());
+
+    const QDateTime dt = f.decrypt(token);
+    QCOMPARE(now, dt);
 }
 
 QTEST_MAIN(FormTest)
