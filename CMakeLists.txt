@@ -17,6 +17,8 @@ find_package(Cutelyst4Qt6Forms REQUIRED)
 find_package(Cutelyst4Qt6Botan REQUIRED)
 find_package(FirfuoridaQt6 REQUIRED)
 find_package(SimpleMail2Qt6 REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_search_module(Botan REQUIRED IMPORTED_TARGET botan-2)
 
 # Auto generate moc files
 set(CMAKE_AUTOMOC ON)
