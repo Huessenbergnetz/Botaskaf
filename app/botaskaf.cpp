@@ -161,7 +161,8 @@ bool Botaskaf::init()
     lsp->setSupportedLocales(supportedLocales);
     lsp->setSessionKey(u"locale"_s);
 
-    new CSRFProtection(this);
+    auto csrf = new CSRFProtection(this); // NOLINT(cppcoreguidelines-owning-memory)
+    csrf->setIgnoredNamespaces({u"contactform"_s});
 
     new StatusMessage(this);
 
